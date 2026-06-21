@@ -1,0 +1,2243 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brand9 IELTS Reading Test System</title>
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --bg:#fff;
+  --soft:#f7f7f7;
+  --card:#fff;
+  --line:#d9d9d9;
+  --line-soft:#ededed;
+  --text:#1f1f1f;
+  --muted:#666;
+  --green:#3f865a;
+  --green-bg:#e4f3e8;
+  --bad:#b64545;
+  --bad-bg:#f5dddd;
+  --grey-bg:#f1f1f1;
+  --hl:#8b5443;
+  --hl2:#b64545;
+  --note:#dfeaff;
+  --articleFont:16px;
+  --questionFont:14px;
+  --lineHeight:1.78;
+  --fontFamily:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --leftWidth:52%;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--fontFamily)}
+button,input,select,textarea{font:inherit}
+button{border:1px solid #d6d6d6;background:#fff;border-radius:999px;padding:5px 10px;color:#111;cursor:pointer;font-size:12px;line-height:1.2}
+button.primary{background:#111;border-color:#111;color:#fff}
+button.ghost{background:#fff;color:#111}
+button:hover{filter:brightness(.98)}
+button:disabled,input:disabled,select:disabled{opacity:.7;cursor:not-allowed}
+.topbar{height:48px;display:none;align-items:center;justify-content:space-between;gap:14px;padding:0 14px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:30}
+.topbar.show{display:flex}
+.brand{display:none}
+.actions{display:flex;gap:7px;align-items:center;justify-content:flex-end;flex:0 0 auto}
+.timer{font-variant-numeric:tabular-nums;color:#222;font-size:12px;border:1px solid #d6d6d6;border-radius:999px;padding:5px 10px;background:#fff;cursor:pointer;user-select:none;min-width:66px;text-align:center}
+.timer.paused{min-width:106px;background:#f7f7f7}
+.lockHint{font-size:12px;color:#666;min-width:0;opacity:0;transition:opacity .18s ease;white-space:nowrap}
+.lockHint.show{opacity:1}
+.tabs{height:48px;display:flex;align-items:center;gap:8px;padding:0;margin:0;background:#fff;position:static;z-index:25;flex:1 1 auto;min-width:0;overflow-x:auto}
+.tab{border-radius:999px;padding:5px 11px;background:#fff;color:#111;white-space:nowrap}
+.tab.active{background:#111;color:#fff;border-color:#111}
+.importScreen,.importPanel,.recordsScreen,.reviewScreen{padding:26px;max-width:1120px;margin:0 auto}
+.workspaceTitle{font-size:24px;margin:0 0 8px;font-weight:700;letter-spacing:0;color:#111}
+.homeLead{color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 18px}
+.homeActions{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
+.hero h1{display:none}
+.hero p{color:var(--muted);line-height:1.65;margin:0 0 12px}
+.importGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.importBox{border:1px solid var(--line);border-radius:10px;background:#fff;padding:14px}
+.importBox h3,.recordsScreen h2{margin:0 0 8px;font-size:16px;font-weight:700}
+.importBox input[type=file]{width:100%;margin:12px 0}
+textarea{width:100%;min-height:160px;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;color:var(--text)}
+.schemaTemplateBox{border:1px solid var(--line);border-radius:10px;background:#fff;padding:14px;margin-top:14px}
+.schemaTemplateBox h3{font-size:15px;margin:0 0 6px}
+.schemaTemplateBox textarea{min-height:300px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;white-space:pre}
+.schemaTemplateActions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.workspaceSection{margin-top:16px}
+.workspaceHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px}
+.workspaceHead h2,.reviewScreen h2{font-size:16px;margin:0;font-weight:700}
+.paperGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.paperCard{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.paperCard h3{font-size:15px;margin:0 0 8px;line-height:1.35}
+.paperMeta{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:12px;color:var(--muted);line-height:1.35;margin-bottom:10px}
+.paperMeta b{color:#333;font-weight:650}
+.paperActions{display:flex;gap:7px;flex-wrap:wrap}
+.statusPill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:12px;background:#fff;color:#333}
+.emptyPapers{border:1px dashed #cfcfcf;border-radius:10px;padding:18px;color:var(--muted);font-size:13px;background:#fff}
+.app{display:none}
+.layout{display:grid;grid-template-columns:var(--leftWidth) 8px 1fr;height:calc(100vh - 48px - 54px)}
+.reader,.questions{overflow:auto;padding:18px;background:#fff}
+.divider{cursor:col-resize;background:linear-gradient(to right,transparent 3px,var(--line) 3px,var(--line) 5px,transparent 5px)}
+.passage{background:#fff;border:1px solid var(--line);border-radius:8px;padding:22px;margin-bottom:18px}
+.passage-head span{color:var(--muted);font-size:13px}
+h2{margin:6px 0 18px;font-size:22px;font-weight:700}
+.para{line-height:var(--lineHeight);font-size:var(--articleFont);margin:0 0 16px;scroll-margin-top:64px}
+.para-label{font-size:17px;margin-right:5px;color:#7e2631}
+.qgroup{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:14px;scroll-margin-top:64px}
+.qgroup h3{font-size:calc(var(--questionFont) + 1px);margin:0 0 12px;line-height:1.45;font-weight:700}
+.qrow{display:grid;grid-template-columns:34px 1fr 128px;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line-soft)}
+.qrow:first-of-type{border-top:0}
+.qnum{font-weight:800;color:#7e2631}
+.qtext,.multi label{font-size:var(--questionFont);line-height:1.45}
+input[type=text],select{width:100%;border:1px solid var(--line);border-radius:8px;background:white;padding:7px 8px;color:var(--text)}
+.inlineBlank{display:inline-block;width:auto;min-width:92px;max-width:180px;margin:0 3px;padding:5px 7px;vertical-align:baseline}
+.schemaIntro{font-size:13px;color:var(--muted);line-height:1.55;margin:0 0 10px}
+.optionBank{border:1px solid var(--line-soft);border-radius:8px;background:#fff;padding:9px 10px;margin:8px 0 12px;font-size:13px;line-height:1.55;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:3px 14px}
+.optionBank.compact{grid-template-columns:repeat(auto-fit,minmax(88px,1fr))}
+.schemaBlockTitle{font-weight:700;margin:10px 0 5px;font-size:13px}
+.schemaLine{font-size:var(--questionFont);line-height:1.72;margin:5px 0}
+.schemaLine .qnum{display:inline-block;min-width:26px}
+.schemaFlow{border:1px solid var(--line-soft);border-radius:8px;padding:10px;margin-top:8px}
+.schemaFlow .schemaLine{padding:5px 0;border-top:1px solid var(--line-soft)}
+.schemaFlow .schemaLine:first-child{border-top:0}
+.schemaTable{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+.schemaTable th,.schemaTable td{border:1px solid var(--line-soft);padding:7px;vertical-align:top}
+.schemaTable th{background:#fafafa}
+.multi label{display:block;padding:8px 0;border-top:1px solid var(--line-soft)}
+.multi label:first-of-type{border-top:0}
+.result{display:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 14px}
+.result.show{display:block}
+.result h2{font-size:18px;margin:0 0 10px}
+.scoreGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.scoreCard{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff}
+.scoreCard small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.scoreCard b{font-size:17px}
+.badge{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px 6px 3px 0;background:#fff;font-size:12px;color:var(--muted)}
+.feedback{font-size:12px;margin-left:8px;line-height:1.4}
+.correct{color:var(--green)} .wrong{color:var(--bad)} .unansweredText{color:#777}
+.tableWrap{overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
+th,td{border-bottom:1px solid var(--line-soft);padding:8px;text-align:left;vertical-align:top}
+th{background:#fafafa;font-weight:700;color:#333}
+tr:last-child td{border-bottom:0}
+.hl{background:var(--hl);color:#fff;border-radius:2px;padding:0 1px}
+.hl2{background:var(--hl2);color:#fff;border-radius:2px;padding:0 1px}
+.noteMark{background:var(--note);border-bottom:2px solid #7a94c9;border-radius:3px;cursor:help}
+.reviewAnchor{display:inline}
+.evidenceSourceDot{width:7px;height:7px;border-radius:50%;border:0;background:#8b5443;display:inline-block;margin-left:3px;padding:0;cursor:pointer;vertical-align:middle}
+.evidenceSourceDot.active{outline:2px solid rgba(139,84,67,.25)}
+.evidenceSourceDot.used{opacity:.35;cursor:default}
+.evidenceJumpDot{border:0;background:transparent;color:#7e2631;font-size:12px;line-height:1;padding:0 0 0 4px;cursor:pointer;vertical-align:middle}
+.qExplainBtn{font-size:12px;padding:4px 8px;background:#fff;color:#111;border:1px solid var(--line);border-radius:999px}
+.qExplainRow{display:none;background:#fff}
+.qExplainRow.show{display:table-row}
+.homeExamBtn{background:#fff;color:#111;border:1px solid #d6d6d6;border-radius:999px}
+div.qExplainBlock{padding:2px 0 6px 44px}
+.qExplainInline{margin-top:7px}
+span.qExplainBlock .qExplainBtn{margin-left:6px}
+@media(max-width:900px){div.qExplainBlock{padding-left:30px}}
+.q-explain{font-size:13px;line-height:1.55;color:#333;background:#fff;border:1px solid var(--line-soft);border-radius:8px;padding:10px}
+.q-explain p{margin:5px 0}
+.q-explain b{color:#333}
+.overviewFold{font-size:13px}
+.overviewFold>summary{cursor:pointer;font-weight:700;font-size:13px;color:#333;list-style:none;display:flex;align-items:center;gap:6px}
+.overviewFold>summary::-webkit-details-marker{display:none}
+.overviewFold>summary::before{content:"▸";color:#999;font-size:11px}
+.overviewFold[open]>summary::before{content:"▾"}
+.overviewBody{margin-top:10px}
+.statPassageGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:10px}
+.statPassageCard{border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff}
+.statPassageCard h4{font-size:14px;margin:0 0 6px}
+.recordsTrend{border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px;background:#fff}
+.recordsTrend:empty{display:none}
+.trendHead{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:6px}
+.trendStat{display:flex;flex-direction:column;gap:1px}
+.trendStat small{color:var(--muted);font-size:12px}
+.trendStat b{font-size:18px;color:#111;font-variant-numeric:tabular-nums}
+.trendChart{width:100%;max-width:680px}
+.trendDot:hover{r:5}
+.recordDelBtn{color:#AA2B3A;border-color:#e6c6cb}
+.recordDelBtn:hover{background:#f9eef0}
+::highlight(reviewFlash){background-color:#f7e2cf;color:#7e2631}
+.flash{animation:flash 1.2s ease 1}
+@keyframes flash{0%,100%{box-shadow:none}35%{box-shadow:0 0 0 5px rgba(139,84,67,.22);background:#f4e6e0}}
+.toolbar{position:absolute;display:none;gap:6px;background:#222;color:white;padding:5px;border-radius:999px;z-index:100;box-shadow:0 8px 18px rgba(0,0,0,.16)}
+.toolbar button{background:transparent;color:white;border-color:rgba(255,255,255,.3);padding:4px 8px;font-size:12px}
+.monitor{height:54px;display:none;align-items:center;gap:5px;padding:8px 14px;border-top:1px solid var(--line);background:#fff;position:fixed;left:0;right:0;bottom:0;z-index:35;overflow-x:auto}
+.dot{min-width:29px;height:29px;border:1px solid var(--line);border-radius:999px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);cursor:pointer}
+.dot.answered{background:var(--green-bg);border-color:#a6d1b5;color:#2d6c45;font-weight:800}
+.dot.current{outline:3px solid rgba(17,17,17,.14);border-color:#111;color:#111;font-weight:800}
+.dot.right{background:#cfead8;color:#23673c;border-color:#78b68b;font-weight:800}
+.dot.wrong{background:var(--bad-bg);color:#922e2e;border-color:#d09090;font-weight:800}
+.dot.unanswered{background:var(--grey-bg);color:#777;border-color:#cfcfcf}
+.settingsPanel,.reviewPanel{position:fixed;right:18px;top:58px;width:330px;max-height:calc(100vh - 86px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.10);z-index:60;padding:14px;display:none}
+.settingsPanel.show,.reviewPanel.show{display:block}
+.settingsPanel h3,.reviewPanel h3{margin:0 0 12px;font-size:16px}
+.settingRow{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:center;margin:12px 0;color:var(--muted);font-size:14px}
+.reviewPanel{right:365px;width:390px}
+.reviewPanelTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.reviewPanelTop h3{margin:0}
+.reviewItem{border:1px solid #ddd;background:#fff;border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer}
+.reviewItem small{color:var(--muted);display:block;margin-bottom:6px}
+.reviewItem p{margin:0;font-size:13px;line-height:1.45}
+.reviewJump{margin-top:7px}
+.subtle{font-size:12px;color:var(--muted);line-height:1.6}
+.hidden{display:none!important}
+.importPanel{display:none}
+.recordsScreen{display:none}
+.reviewScreen{display:none}
+.recordsTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.recordDetail{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;background:#fff}
+.reviewTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.reviewTitleBlock h2{font-size:20px;margin:0 0 5px}
+.reviewActions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.reviewColumns{display:grid;grid-template-columns:1fr;gap:14px}
+.miniSection{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.miniSection h3{font-size:15px;margin:0 0 9px}
+.explainSection{margin-top:14px}
+.explainSection h3{font-size:15px;margin:0 0 8px}
+.explainList{display:grid;gap:8px}
+.explainCard{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px}
+.explainHead{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.explainHead b{color:#7e2631}
+.explainHead span{font-size:12px;color:var(--muted);border:1px solid var(--line-soft);border-radius:999px;padding:3px 7px}
+.explainCard p{margin:6px 0 0;font-size:13px;line-height:1.55}
+.explainCard strong{color:#333}
+@media(max-width:900px){
+  .importGrid,.scoreGrid{grid-template-columns:1fr}
+  .layout{grid-template-columns:1fr;height:auto}
+  .divider{display:none}
+  .qrow{grid-template-columns:30px 1fr}
+  .qrow input,.qrow select{grid-column:2}
+  .reviewPanel,.settingsPanel{right:12px;left:12px;width:auto}
+}
+</style>
+</head>
+<body>
+<header class="topbar" id="examBar">
+  <nav class="tabs" id="tabs"></nav>
+  <div class="actions">
+    <span class="timer" id="timer" title="点击暂停 / 继续">60:00</span>
+    <button id="settingsBtn">设置</button>
+    <button class="primary" id="submitBtn">提交</button>
+    <button id="backHomeExam" class="homeExamBtn hidden">返回首页</button>
+    <button id="backImport" class="ghost hidden">导入材料</button>
+    <button id="reviewBtn" class="hidden">复盘库 <span id="reviewCount">0</span></button>
+    <span class="lockHint" id="lockHint"></span>
+  </div>
+</header>
+
+<section class="importScreen" id="importScreen">
+  <h1 class="workspaceTitle">Brand9 IELTS Reading Test System</h1>
+  <p class="homeLead">导入自己的 JSON 卷子后，会在这里生成考试入口。点击卷子进入机考模式。</p>
+  <p class="subtle">Open-source notice: this version only contains the test system code. It does not include Cambridge IELTS papers, PDFs, official passages, official questions, or copyrighted test materials.</p>
+  <div class="homeActions">
+    <button class="primary" id="openImport">导入新卷子</button>
+    <button id="openRecordsFromImport">做题统计</button>
+  </div>
+  <div class="workspaceSection">
+    <div class="workspaceHead">
+      <h2>卷子列表</h2>
+    </div>
+    <div id="paperList" class="paperGrid"></div>
+  </div>
+  <div class="workspaceSection">
+    <div class="workspaceHead">
+      <h2>做题记录</h2>
+    </div>
+    <div id="attemptList" class="paperGrid"></div>
+  </div>
+</section>
+
+<section class="importPanel" id="importPanel">
+  <div class="recordsTop">
+    <h2>导入新卷子</h2>
+    <button id="backHomeFromImport">返回首页</button>
+  </div>
+  <div class="hero">
+    <div class="importGrid">
+      <div class="importBox">
+        <h3>导入 JSON 文件</h3>
+        <p class="subtle">选择你自己的 JSON 材料包，导入后会保存成一张卷子卡片。</p>
+        <input type="file" id="jsonFile" accept=".json,application/json">
+        <button class="primary" id="loadJson">导入 JSON</button>
+      </div>
+      <div class="importBox">
+        <h3>粘贴 JSON</h3>
+        <textarea id="jsonPaste" placeholder='把 AI 生成的 JSON 粘贴到这里，然后点“导入粘贴 JSON”。'></textarea>
+        <button id="loadPastedJson">导入粘贴 JSON</button>
+        <p class="subtle">支持字段：title / passages / answers / questionWeights / difficultyAnalysis。</p>
+      </div>
+    </div>
+    <div class="schemaTemplateBox">
+      <h3>AI 生成材料包格式</h3>
+      <p class="subtle">复制下面这个结构发给 AI，让 AI 只填结构化 JSON。不要让 AI 写 questionsHtml；题目格式由系统渲染。</p>
+      <div class="schemaTemplateActions">
+        <button id="copySchemaTemplate">复制格式模板</button>
+        <button id="downloadSchemaTemplate">下载 JSON 模板</button>
+      </div>
+      <textarea id="schemaTemplateText" readonly spellcheck="false"></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="recordsScreen" id="recordsScreen">
+  <div class="recordsTop">
+    <h2>做题统计</h2>
+    <div>
+      <button id="backFromRecords">返回首页</button>
+      <button id="exportRecords">导出做题记录</button>
+      <button id="exportReviewMarks">导出待回看标记</button>
+      <button id="clearRecords" class="ghost">清空记录</button>
+    </div>
+  </div>
+  <div id="recordsTrend" class="recordsTrend"></div>
+  <div class="tableWrap"><table><thead><tr><th>日期</th><th>套题</th><th>Raw</th><th>正确率</th><th>Adjusted</th><th>Band</th><th>Difficulty</th><th>Wrong</th><th>Unanswered</th><th>待回看</th><th>定位</th><th>操作</th></tr></thead><tbody id="recordsBody"></tbody></table></div>
+  <div id="recordDetail" class="recordDetail hidden"></div>
+</section>
+
+<section class="reviewScreen" id="reviewScreen">
+  <div class="reviewTop">
+    <div class="reviewTitleBlock">
+      <h2 id="reviewPageTitle">Review</h2>
+      <p class="subtle" id="reviewPageMeta"></p>
+    </div>
+    <div class="reviewActions">
+      <button id="reviewBackHome">返回首页</button>
+      <button class="primary" id="reviewOpenExam">进入机考页查看原文</button>
+    </div>
+  </div>
+  <div id="reviewPageContent" class="reviewColumns"></div>
+</section>
+
+<section class="app" id="app">
+  <main class="layout" id="layout">
+    <section class="reader" id="reader"></section>
+    <div class="divider" id="divider"></div>
+    <section class="questions" id="questions"><div class="result" id="result"></div></section>
+  </main>
+</section>
+
+<div class="toolbar" id="toolbar"><button data-act="highlight">Highlight</button><button data-act="note">Note</button><button data-act="review" id="reviewToolBtn" title="加入待回看">＋</button><button data-act="remove" id="removeToolBtn">Remove</button></div>
+
+<aside class="settingsPanel" id="settingsPanel">
+  <h3>设置</h3>
+  <div class="settingRow"><span>文章字号</span><input type="range" id="articleSize" min="14" max="22" value="16"></div>
+  <div class="settingRow"><span>题目字号</span><input type="range" id="questionSize" min="12" max="18" value="14"></div>
+  <div class="settingRow"><span>行距</span><input type="range" id="lineHeight" min="1.4" max="2.2" step="0.05" value="1.78"></div>
+  <div class="settingRow"><span>字体</span><select id="fontSelect"><option value="sans">Sans-serif</option><option value="serif">Serif</option></select></div>
+  <button id="resetSettings">恢复默认</button>
+</aside>
+
+<aside class="reviewPanel" id="reviewPanel">
+  <div class="reviewPanelTop">
+    <h3>待回看标记</h3>
+    <button id="closeReviewPanel" class="ghost">关闭</button>
+  </div>
+  <p class="subtle">点「＋」不会高亮、不会弹窗，只会默默记录。提交后可点击句子跳回原文。</p>
+  <div id="reviewList"></div>
+</aside>
+
+<footer class="monitor" id="monitor"></footer>
+
+<script>
+const RECORDS_KEY = 'brand9_reading_mock_score_records_v1';
+const PAPERS_KEY = 'brand9_reading_mock_papers_v1';
+const OPEN_SOURCE_NOTICE = 'This open-source version only contains the test system code. It does not include Cambridge IELTS papers, PDFs, official passages, official questions, or copyrighted test materials.';
+const BUILTIN_PAPER_ID = '';
+const BUILTIN_PAPER_NO = '';
+const BUILTIN_PAPER_TITLE = 'No built-in paper';
+const BUILTIN_PAPER_SUBTITLE = '';
+const EMPTY_READING_DATA = {
+  title: 'No paper loaded',
+  sourceFiles: [],
+  passages: [],
+  answers: {},
+  answerExplanations: {},
+  explanations: {},
+  questionWeights: {},
+  difficultyAnalysis: { overall:'-', p1:'-', p2:'-', p3:'-', notes:[] },
+  answerCheck: { enabled:true, mode:'system-submit', description:'Import your own JSON paper to check answers locally.' },
+  formatNotes: [],
+  paperId: '',
+  paperNo: '',
+  subtitle: '',
+  source: 'open-source-empty'
+};
+const BUILTIN_R_MOCK_001_DATA = EMPTY_READING_DATA;
+const DEFAULT_WEIGHTS = {
+  "1":0.90,"2":0.90,"3":0.90,"4":0.90,
+  "5":0.75,"6":0.75,"7":0.75,"8":0.75,
+  "9":0.98,"10":0.98,"11":0.98,"12":0.98,"13":0.98,
+  "14":1.00,"15":1.00,"16":1.00,"17":1.00,"18":1.00,"19":1.00,
+  "20":0.90,"21":0.90,"22":0.90,"23":0.90,"24":0.90,
+  "25":1.25,"26":1.25,
+  "27":1.15,"28":1.15,"29":1.15,"30":1.15,"31":1.15,"32":1.15,
+  "33":1.075,"34":1.075,"35":1.075,"36":1.075,
+  "37":1.075,"38":1.075,"39":1.075,"40":1.075
+};
+const DEFAULT_DIFFICULTY = {
+  overall:'-',
+  p1:'-',
+  p2:'-',
+  p3:'-',
+  notes:[]
+};
+let DATA = EMPTY_READING_DATA;
+let currentPassage = 0;
+let selectedRange = null;
+let selectedArea = 'reader';
+let reviewMarks = [];
+let submitted = false;
+let savedCurrentRecord = false;
+let timerSeconds = 60*60;
+let timerPaused = false;
+let answerState = {};
+let gradeState = {};
+let currentQuestion = '';
+let toolbarPointerDown = false;
+let passageMarkupCache = {};
+let lastScoreSummary = null;
+let currentPaperId = null;
+let reviewPagePaperId = null;
+let pendingReviewJump = null;
+let pendingEvidenceSource = null;
+let evidenceSources = {};
+let questionEvidenceMap = {};
+let saveTick = 0;
+
+function $(id){return document.getElementById(id)}
+function norm(v){return (v||'').toString().trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g,' ')}
+function escapeHtml(s){return (s||'').toString().replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function fmtTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function round1(n){return Math.round((Number(n)||0)*10)/10}
+function qNums(){return Array.from({length:40},(_,i)=>String(i+1))}
+function qToPassageIndex(q){q=Number(q); return q<=13?0:q<=26?1:2}
+function rangeNums(key){if(String(key).includes('-')){const [a,b]=String(key).split('-').map(Number);return Array.from({length:b-a+1},(_,i)=>String(a+i))} return [String(key)]}
+function getWeights(){return {...DEFAULT_WEIGHTS,...(DATA.questionWeights||{})}}
+function getDifficulty(){return {...DEFAULT_DIFFICULTY,...(DATA.difficultyAnalysis||{})}}
+function showHint(text){const el=$('lockHint'); if(!el) return; el.textContent=text; el.classList.add('show'); clearTimeout(showHint.t); showHint.t=setTimeout(()=>el.classList.remove('show'),1800)}
+function requestExamFullscreen(){
+  if(!document.fullscreenEnabled) return false;
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen().catch(()=>{});
+  }
+  return true;
+}
+function setExamBarVisible(on){$('examBar')?.classList.toggle('show', !!on)}
+function makeId(prefix){return `${prefix}_${Date.now()}_${Math.floor(Math.random()*999999)}`}
+function getPapers(){try{return JSON.parse(localStorage.getItem(PAPERS_KEY)||'[]')}catch(e){return []}}
+function savePapers(list){localStorage.setItem(PAPERS_KEY, JSON.stringify(list))}
+function findPaper(id){return getPapers().find(p=>p.id===id)}
+function defaultDraft(){
+  return {
+    currentPassage:0,
+    timerSeconds:60*60,
+    timerPaused:false,
+    userAnswers:{},
+    multiAnswers:{},
+    reviewMarks:[],
+    reviewItems:[],
+    evidenceSources:{},
+    questionEvidenceMap:{},
+    submitted:false,
+    submittedAt:null,
+    result:null,
+    passageMarkupCache:{}
+  };
+}
+function normalizeDraft(draft){
+  const src=draft||{};
+  const marks=[...(src.reviewMarks||src.reviewItems||[])];
+  return {...defaultDraft(), ...src, userAnswers:{...(src.userAnswers||{})}, multiAnswers:{...(src.multiAnswers||{})}, reviewMarks:marks, reviewItems:marks, evidenceSources:{...(src.evidenceSources||{})}, questionEvidenceMap:{...(src.questionEvidenceMap||{})}, passageMarkupCache:{...(src.passageMarkupCache||{})}};
+}
+function splitAnswerState(){
+  const userAnswers={}, multiAnswers={};
+  Object.entries(answerState||{}).forEach(([key,val])=>{
+    if(Array.isArray(val)) multiAnswers[key]=val;
+    else userAnswers[key]=val;
+  });
+  return {userAnswers, multiAnswers};
+}
+function paperNoNumber(paperNo){
+  const m=String(paperNo||'').match(/^R-MOCK-(\d+)$/);
+  return m ? Number(m[1]) : 0;
+}
+function formatPaperNo(n){return `R-MOCK-${String(Math.max(1,n)).padStart(3,'0')}`}
+function hasBuiltinSignature(data){
+  return false;
+}
+
+
+function nextPaperNo(list=getPapers()){
+  const max=Math.max(0, ...list.map(p=>paperNoNumber(p.paperNo||p.paperId)).filter(Boolean));
+  return formatPaperNo(max+1);
+}
+function cleanImportedTitle(data){
+  const raw=String(data?.title||'Imported Reading Mock').trim();
+  return raw
+    .replace(/^Brand9 Reading Mock\s*[·|-]\s*/i,'')
+    .replace(/^Brand9 Reading Demo\s*[·|-]?\s*/i,'')
+    .replace(/\s*Light JSON$/i,'')
+    .replace(/\s*[·|-]\s*$/,'')
+    .trim() || 'Imported Reading Mock';
+}
+function mainPaperTitle(paper){
+  const no=paper?.paperNo || paper?.paperId || 'R-MOCK-000';
+  const title=String(paper?.shortTitle || cleanImportedTitle(paper?.data || {title:paper?.title}) || 'Imported Reading Mock');
+  return `${no}｜${title.replace(new RegExp(`^${no}\\s*[｜|]\\s*`),'')}`;
+}
+function attemptTitle(paper){
+  const no=paper?.paperNo || paper?.paperId || 'R-MOCK-000';
+  return `${no}｜第 ${Number(paper?.attemptNo)||1} 次作答记录`;
+}
+function createAttemptFromBase(base, attemptNo){
+  const now=new Date().toISOString();
+  return {
+    id:makeId('paper'),
+    paperId:base.paperId,
+    paperNo:base.paperNo,
+    attemptId:makeId('attempt'),
+    attemptNo,
+    title:mainPaperTitle(base),
+    shortTitle:base.shortTitle || cleanImportedTitle(base.data),
+    subtitle:base.subtitle || '',
+    source:base.source || 'imported',
+    createdAt:now,
+    updatedAt:now,
+    status:'not_started',
+    data:base.data,
+    draft:defaultDraft()
+  };
+}
+function createPaper(data, opts={}){
+  const now=new Date().toISOString();
+  const normalized=normalizeData({...data});
+  const isBuiltin=opts.paperId===BUILTIN_PAPER_ID;
+  const list=getPapers();
+  const paperNo=opts.paperNo || (isBuiltin ? BUILTIN_PAPER_NO : nextPaperNo(list));
+  const paperId=opts.paperId || paperNo;
+  const paper={
+    id:opts.id || makeId('paper'),
+    paperId,
+    paperNo,
+    attemptId:opts.attemptId || makeId('attempt'),
+    attemptNo:Number(opts.attemptNo)||1,
+    title:opts.title || (isBuiltin ? BUILTIN_PAPER_TITLE : `${paperNo}｜${cleanImportedTitle(normalized)}`),
+    shortTitle:opts.shortTitle || (isBuiltin ? '29 / 33 / 77' : cleanImportedTitle(normalized)),
+    subtitle:opts.subtitle || (isBuiltin ? BUILTIN_PAPER_SUBTITLE : ''),
+    source:opts.source || (isBuiltin ? 'builtin' : 'imported'),
+    createdAt:opts.createdAt || now,
+    updatedAt:opts.updatedAt || now,
+    status:opts.status || 'not_started',
+    data:normalized,
+    draft:normalizeDraft(opts.draft)
+  };
+  list.unshift(paper);
+  savePapers(list);
+  renderWorkspace();
+  return paper;
+}
+function safeNormalizePaperData(data){
+  try{return normalizeData(data || EMPTY_READING_DATA)}
+  catch(e){return normalizeData({...EMPTY_READING_DATA})}
+}
+function migratePaperStorage(){
+  let list=getPapers();
+  let changed=false;
+  const usedNos=new Set(list.map(p=>p.paperNo||p.paperId).filter(Boolean));
+  let nextNo=1;
+  function allocateNo(){
+    while(usedNos.has(formatPaperNo(nextNo))) nextNo++;
+    const no=formatPaperNo(nextNo++);
+    usedNos.add(no);
+    return no;
+  }
+  const cleaned=[];
+  list.forEach(original=>{
+    const raw={...original};
+    const data=safeNormalizePaperData(raw.data);
+    if(hasBuiltinSignature(data) || hasBuiltinSignature(raw)){
+      changed=true;
+      return;
+    }
+    const p={...raw, data, draft:normalizeDraft(raw.draft)};
+    if(!p.paperId || !p.paperNo){
+      const no=allocateNo();
+      p.paperId=no;
+      p.paperNo=no;
+      changed=true;
+    }else{
+      usedNos.add(p.paperNo||p.paperId);
+    }
+    if(!p.attemptId){p.attemptId=makeId('attempt'); changed=true;}
+    if(!p.createdAt){p.createdAt=new Date().toISOString(); changed=true;}
+    if(!p.updatedAt){p.updatedAt=p.createdAt; changed=true;}
+    if(!p.status){p.status=p.draft?.submitted ? 'submitted' : 'not_started'; changed=true;}
+    if(!p.source || p.source==='builtin'){p.source='imported'; changed=true;}
+    cleaned.push(p);
+  });
+  const counters={};
+  cleaned.slice().sort((a,b)=>String(a.createdAt||'').localeCompare(String(b.createdAt||''))).forEach(p=>{
+    const key=p.paperId || p.paperNo;
+    counters[key]=(counters[key]||0)+1;
+    if(!p.attemptNo){p.attemptNo=counters[key]; changed=true;}
+  });
+  if(changed) savePapers(cleaned);
+}
+
+function createPaperObjectForBuiltin(){
+  return null;
+}
+
+function redoPaper(paperId){
+  const list=getPapers();
+  const attempts=list.filter(p=>p.paperId===paperId);
+  const base=attempts.find(p=>p.data) || list.find(p=>p.id===paperId);
+  if(!base) return showHint('没有找到原卷子');
+  const nextNo=Math.max(0,...attempts.map(p=>Number(p.attemptNo)||0))+1;
+  const fresh=createAttemptFromBase(base, nextNo);
+  list.unshift(fresh);
+  savePapers(list);
+  startPaper(fresh.id);
+}
+function updateCurrentPaper(mutator){
+  if(!currentPaperId) return null;
+  const list=getPapers();
+  const idx=list.findIndex(p=>p.id===currentPaperId);
+  if(idx<0) return null;
+  mutator(list[idx]);
+  list[idx].updatedAt=new Date().toISOString();
+  savePapers(list);
+  return list[idx];
+}
+function saveDraft(){
+  if(!currentPaperId || $('app').style.display !== 'block') return;
+  saveCurrentMarkup();
+  const split=splitAnswerState();
+  updateCurrentPaper(paper=>{
+    paper.status = submitted ? 'submitted' : 'in_progress';
+    paper.draft = {
+      ...normalizeDraft(paper.draft),
+      currentPassage,
+      timerSeconds,
+      timerPaused,
+      userAnswers:split.userAnswers,
+      multiAnswers:split.multiAnswers,
+      reviewMarks,
+      reviewItems:reviewMarks,
+      evidenceSources,
+      questionEvidenceMap,
+      submitted,
+      submittedAt:submitted ? (paper.draft?.submittedAt || new Date().toISOString()) : null,
+      result:lastScoreSummary,
+      passageMarkupCache
+    };
+  });
+}
+function scoreText(paper, field){
+  const result=paper.draft?.result;
+  if(!result) return '-';
+  if(field==='raw') return `${result.rawScore} / 40`;
+  if(field==='adjusted') return `${result.adjustedScore} / 40`;
+  if(field==='band') return result.estimatedBand || '-';
+  return '-';
+}
+function statusText(status){
+  return status==='submitted' ? '已提交' : status==='in_progress' ? '进行中' : '未开始';
+}
+function paperGroupStatus(attempts){
+  if(attempts.some(p=>p.status==='in_progress')) return '进行中';
+  if(attempts.some(p=>p.status==='not_started')) return '未开始';
+  return attempts.some(p=>p.status==='submitted') ? '已完成' : '未开始';
+}
+function paperSortTime(paper){
+  return new Date(paper?.draft?.submittedAt || paper?.updatedAt || paper?.createdAt || 0).getTime() || 0;
+}
+function latestAttempt(attempts, predicate=()=>true){
+  return attempts.filter(predicate).sort((a,b)=>paperSortTime(b)-paperSortTime(a))[0] || null;
+}
+function groupPapers(list){
+  const map=new Map();
+  list.forEach(p=>{
+    const key=p.paperId || p.paperNo || p.id;
+    if(!map.has(key)) map.set(key, []);
+    map.get(key).push(p);
+  });
+  return Array.from(map.entries()).map(([paperId, attempts])=>({paperId, attempts})).sort((a,b)=>{
+    const at=Math.max(...a.attempts.map(paperSortTime));
+    const bt=Math.max(...b.attempts.map(paperSortTime));
+    return bt-at;
+  });
+}
+function scoreSummaryLine(paper){
+  const result=paper?.draft?.result;
+  if(!result) return '';
+  return `<span>最近一次</span><b>${result.rawScore} / 40，Band ${escapeHtml(result.estimatedBand || '-')}</b>`;
+}
+function showWorkspace(){
+  saveDraft();
+  currentPaperId=null;
+  $('app').style.display='none';
+  $('importPanel').style.display='none';
+  $('recordsScreen').style.display='none';
+  $('reviewScreen').style.display='none';
+  $('importScreen').style.display='block';
+  setExamBarVisible(false);
+  $('monitor').style.display='none';
+  $('reviewPanel').classList.remove('show');
+  $('settingsPanel').classList.remove('show');
+  $('lockHint').classList.remove('show');
+  $('lockHint').textContent='';
+  hideToolbar();
+  renderWorkspace();
+}
+function showImportPanel(){
+  saveDraft();
+  currentPaperId=null;
+  $('app').style.display='none';
+  $('importScreen').style.display='none';
+  $('recordsScreen').style.display='none';
+  $('reviewScreen').style.display='none';
+  $('importPanel').style.display='block';
+  setExamBarVisible(false);
+  $('monitor').style.display='none';
+  $('reviewPanel').classList.remove('show');
+  $('settingsPanel').classList.remove('show');
+  hideToolbar();
+}
+function renderWorkspace(){
+  migratePaperStorage();
+  const list=getPapers();
+  const box=$('paperList');
+  const attemptBox=$('attemptList');
+  if(!box) return;
+  if(!list.length){
+    box.innerHTML='<div class="emptyPapers">还没有卷子。开源版不内嵌任何套题，请点击“导入新卷子”导入你自己的 JSON 材料包。</div>';
+    if(attemptBox) attemptBox.innerHTML='<div class="emptyPapers">还没有提交过的作答记录。</div>';
+    return;
+  }
+  const groups=groupPapers(list);
+  box.innerHTML=groups.map(group=>{
+    const attempts=group.attempts;
+    const active=latestAttempt(attempts, p=>p.status!=='submitted') || latestAttempt(attempts);
+    const latestSubmitted=latestAttempt(attempts, p=>p.status==='submitted');
+    const reviewCount=(latestSubmitted?.draft?.reviewMarks || latestSubmitted?.draft?.reviewItems || active?.draft?.reviewMarks || active?.draft?.reviewItems || []).length;
+    const status=paperGroupStatus(attempts);
+    const startText=active?.status==='in_progress' ? '继续' : active?.status==='submitted' ? '查看复盘' : '开始';
+    const startAct=active?.status==='submitted' ? 'review' : 'start';
+    return `<article class="paperCard" data-id="${active.id}" data-paper-id="${escapeHtml(group.paperId)}">
+      <h3>${escapeHtml(mainPaperTitle(active))}</h3>
+      ${active.subtitle ? `<p class="subtle">${escapeHtml(active.subtitle)}</p>` : ''}
+      <div class="paperMeta">
+        <span>编号</span><b>${escapeHtml(active.paperNo || group.paperId)}</b>
+        <span>状态</span><b><span class="statusPill">${status}</span></b>
+        ${latestSubmitted ? scoreSummaryLine(latestSubmitted) : ''}
+        <span>Review Marks</span><b>${reviewCount}</b>
+      </div>
+      <div class="paperActions">
+        <button class="primary" data-act="${startAct}">${startText}</button>
+        ${latestSubmitted && startAct!=='review' ? '<button data-act="review-latest">查看复盘</button>' : ''}
+        ${status==='已完成' ? '<button data-act="redo">重做这套题</button>' : ''}
+        <button class="ghost" data-act="delete">删除</button>
+      </div>
+    </article>`;
+  }).join('');
+  const submitted=list.filter(p=>p.status==='submitted').sort((a,b)=>paperSortTime(b)-paperSortTime(a));
+  if(attemptBox){
+    attemptBox.innerHTML=submitted.length ? submitted.map(p=>{
+    const reviewCount=(p.draft?.reviewMarks||p.draft?.reviewItems||[]).length;
+    const scoreRows = p.draft?.result ? `
+        <span>Raw</span><b>${scoreText(p,'raw')}</b>
+        <span>Adjusted</span><b>${scoreText(p,'adjusted')}</b>
+        <span>Band</span><b>${scoreText(p,'band')}</b>` : '';
+    return `<article class="paperCard" data-id="${p.id}">
+      <h3>${escapeHtml(attemptTitle(p))}</h3>
+      <div class="paperMeta">
+        <span>提交</span><b>${new Date(p.draft?.submittedAt || p.updatedAt || p.createdAt).toLocaleString()}</b>
+        <span>编号</span><b>${escapeHtml(p.paperNo || p.paperId || '')}</b>
+        ${scoreRows}
+        <span>Review Marks</span><b>${reviewCount}</b>
+      </div>
+      <div class="paperActions">
+        <button class="primary" data-act="review">查看复盘</button>
+        <button data-act="redo">重做这套题</button>
+        <button class="ghost" data-act="delete">删除</button>
+      </div>
+    </article>`;
+    }).join('') : '<div class="emptyPapers">还没有提交过的作答记录。</div>';
+  }
+  document.querySelectorAll('#paperList button[data-act], #attemptList button[data-act]').forEach(btn=>btn.onclick=(e)=>{
+    const card=e.target.closest('.paperCard');
+    const id=card.dataset.id;
+    const paperId=card.dataset.paperId || findPaper(id)?.paperId;
+    const act=e.target.dataset.act;
+    if(act==='start') startPaper(id);
+    if(act==='review') showReviewPage(id);
+    if(act==='review-latest'){
+      const latest=latestAttempt(getPapers().filter(p=>p.paperId===paperId), p=>p.status==='submitted');
+      if(latest) showReviewPage(latest.id);
+    }
+    if(act==='redo') redoPaper(paperId);
+    if(act==='delete') deletePaper(id);
+  });
+}
+function deletePaper(id){
+  const paper=findPaper(id);
+  if(!paper) return;
+  if(!confirm(`删除这条记录？\n${paper.status==='submitted' ? attemptTitle(paper) : mainPaperTitle(paper)}`)) return;
+  savePapers(getPapers().filter(p=>p.id!==id));
+  renderWorkspace();
+}
+
+setInterval(()=>{
+  if($('app').style.display !== 'block') return;
+  if(!timerPaused) timerSeconds=Math.max(0,timerSeconds-1);
+  $('timer').textContent = timerPaused ? `Paused ${fmtTime(timerSeconds)}` : fmtTime(timerSeconds);
+  $('timer').classList.toggle('paused', timerPaused);
+  saveTick++;
+  if(saveTick>=5){saveTick=0; saveDraft();}
+},1000);
+$('timer').onclick=()=>{ if($('app').style.display==='block'){ timerPaused=!timerPaused; $('timer').textContent=timerPaused ? `Paused ${fmtTime(timerSeconds)}` : fmtTime(timerSeconds); $('timer').classList.toggle('paused', timerPaused); saveDraft(); }};
+
+function normalizeData(data){
+  if(!data || !Array.isArray(data.passages)) throw new Error('JSON 需要包含 passages 数组');
+  data.answers = data.answers || {};
+  data.questionWeights = {...DEFAULT_WEIGHTS,...(data.questionWeights||{})};
+  data.difficultyAnalysis = {...DEFAULT_DIFFICULTY,...(data.difficultyAnalysis||{})};
+  return data;
+}
+function startApp(data){
+  DATA = normalizeData(data);
+  $('importScreen').style.display='none';
+  $('importPanel').style.display='none';
+  $('recordsScreen').style.display='none';
+  $('reviewScreen').style.display='none';
+  $('app').style.display='block';
+  $('monitor').style.display='flex';
+  setExamBarVisible(true);
+  // 机考模式：做题时顶部只保留 Passage、计时器、设置、提交。
+  $('backImport').classList.add('hidden');
+  $('submitBtn').classList.remove('hidden');
+  $('backHomeExam').classList.add('hidden');
+  submitted=false; savedCurrentRecord=false; reviewMarks=[]; evidenceSources={}; questionEvidenceMap={}; pendingEvidenceSource=null; currentPassage=0; timerSeconds=60*60; timerPaused=false;
+  hideToolbar();
+  answerState={}; gradeState={}; currentQuestion=''; passageMarkupCache={}; lastScoreSummary=null;
+  $('reviewCount').textContent='0'; $('reviewPanel').classList.remove('show'); $('settingsPanel').classList.remove('show');
+  renderTabs(); renderMonitor(); renderPassage(0); renderReview(); updateAnswered();
+}
+function startPaper(id, reviewJump=null){
+  const paper=findPaper(id);
+  if(!paper) return showHint('没有找到这套卷子');
+  currentPaperId=id;
+  const draft=normalizeDraft(paper.draft);
+  DATA = normalizeData(paper.data);
+  $('importScreen').style.display='none';
+  $('importPanel').style.display='none';
+  $('recordsScreen').style.display='none';
+  $('reviewScreen').style.display='none';
+  $('app').style.display='block';
+  $('monitor').style.display='flex';
+  setExamBarVisible(true);
+  $('backImport').classList.add('hidden');
+  $('reviewBtn').classList.add('hidden');
+  $('submitBtn').classList.toggle('hidden', !!draft.submitted);
+  $('backHomeExam').classList.toggle('hidden', !draft.submitted);
+  submitted=!!draft.submitted;
+  savedCurrentRecord=!!draft.submitted;
+  reviewMarks=draft.reviewMarks || draft.reviewItems || [];
+  evidenceSources=draft.evidenceSources || {};
+  questionEvidenceMap=draft.questionEvidenceMap || {};
+  pendingEvidenceSource=null;
+  currentPassage=Number(draft.currentPassage||0);
+  timerSeconds=Number.isFinite(Number(draft.timerSeconds)) ? Number(draft.timerSeconds) : 60*60;
+  timerPaused=!!draft.timerPaused;
+  answerState={...draft.userAnswers, ...draft.multiAnswers};
+  gradeState={};
+  currentQuestion='';
+  passageMarkupCache=draft.passageMarkupCache || {};
+  lastScoreSummary=null;
+  if(submitted){
+    lastScoreSummary=buildGrade();
+    if(draft.result) lastScoreSummary={...lastScoreSummary, ...draft.result};
+  }
+  $('reviewCount').textContent=reviewMarks.length;
+  $('reviewPanel').classList.remove('show');
+  $('settingsPanel').classList.remove('show');
+  hideToolbar();
+  requestExamFullscreen();
+  renderTabs();
+  renderMonitor();
+  renderPassage(currentPassage);
+  renderReview();
+  updateAnswered();
+  updateCurrentPaper(p=>{ if(p.status==='not_started') p.status='in_progress'; });
+  saveDraft();
+  pendingReviewJump=reviewJump;
+  if(reviewJump){
+    setTimeout(()=>jumpToReviewItem(reviewJump),160);
+  }
+}
+function stripFeedbackFromNode(root){
+  if(!root) return;
+  root.querySelectorAll('.feedback').forEach(el=>el.remove());
+}
+function hideToolbar(){
+  const bar=$('toolbar');
+  if(bar) bar.style.display='none';
+  selectedRange=null;
+  selectedArea='reader';
+}
+function saveCurrentMarkup(){
+  if($('app').style.display !== 'block' || !$('reader').innerHTML.trim()) return;
+  const qClone = $('questions').cloneNode(true);
+  qClone.querySelector('#result')?.remove();
+  // 注入的“解析”按钮/解析区不进缓存：切换 Passage 时由 applySubmittedFeedbackForCurrentPassage 重新生成，保证事件绑定有效。
+  qClone.querySelectorAll('.qExplainBlock').forEach(n=>n.remove());
+  // 只缓存题目高亮/Note 和输入结构，不把提交后的答案反馈缓存进“做题中”页面，避免答案泄露。
+  if(!submitted) stripFeedbackFromNode(qClone);
+  passageMarkupCache[currentPassage] = {reader:$('reader').innerHTML, questions:qClone.innerHTML};
+}
+function renderTabs(){
+  $('tabs').innerHTML = DATA.passages.map((p,i)=>`<button class="tab ${i===currentPassage?'active':''}" data-i="${i}">Passage ${i+1}</button>`).join('');
+  document.querySelectorAll('.tab').forEach(btn=>btn.onclick=()=>renderPassage(Number(btn.dataset.i)));
+}
+function renderPassage(i){
+  saveCurrentMarkup();
+  currentPassage=i; renderTabs();
+  const p=DATA.passages[i];
+  const cached=passageMarkupCache[i];
+  $('reader').innerHTML = cached?.reader || `<article class="passage" id="${p.id||'p'+(i+1)}">${p.articleHtml || articleFromText(p)}</article>`;
+  $('questions').innerHTML = resultHtml() + (cached?.questions || (p.questionsHtml || questionsFromData(p.questions||[])));
+  if(!submitted) stripFeedbackFromNode($('questions'));
+  bindAnswerEvents();
+  bindEvidenceDotEvents();
+  restoreAnswersForCurrentPassage();
+  if(submitted) applySubmittedFeedbackForCurrentPassage();
+  renderQuestionEvidenceMarkers();
+  updateAnswered();
+  saveDraft();
+}
+function articleFromText(p){
+  const paras = p.paragraphs || [];
+  let out = `<div class="passage-head"><span>${escapeHtml(p.subtitle||'Reading Passage')}</span><h2>${escapeHtml(p.title||'Untitled')}</h2></div>`;
+  out += paras.map((x,idx)=>`<p class="para" id="${escapeHtml((p.id||'p')+'-'+(x.label||idx+1))}" data-passage="${p.id||''}" data-label="${escapeHtml(x.label||idx+1)}">${x.label?`<b class="para-label">${escapeHtml(x.label)}</b> `:''}${escapeHtml(x.text||x)}</p>`).join('');
+  return out;
+}
+function normalizeQuestionType(type){
+  return String(type||'completion').trim().toLowerCase().replace(/[\s_]+/g,'-');
+}
+function itemText(item){return item?.text ?? item?.prompt ?? item?.statement ?? item?.label ?? ''}
+function itemNum(item){return item?.num ?? item?.questionNo ?? item?.q ?? item?.number ?? ''}
+function optionText(opt){
+  if(opt == null) return '';
+  if(typeof opt === 'string' || typeof opt === 'number') return String(opt);
+  const key=opt.key ?? opt.value ?? opt.label ?? '';
+  const txt=opt.text ?? opt.content ?? opt.title ?? '';
+  return key && txt ? `${key} ${txt}` : String(key || txt);
+}
+function optionValue(opt){
+  if(opt == null) return '';
+  if(typeof opt === 'string' || typeof opt === 'number'){
+    const s=String(opt);
+    if(/^(TRUE|FALSE|YES|NO|NOT GIVEN)$/i.test(s)) return s.toUpperCase();
+    const m=s.match(/^([A-Za-z]+|[ivxlcdmIVXLCDM]+)[).\s-]+(.+)$/);
+    return m ? m[1] : s;
+  }
+  return String(opt.value ?? opt.key ?? opt.label ?? optionText(opt));
+}
+function optionBankHtml(options, compact=false){
+  if(!options || !options.length) return '';
+  return `<div class="optionBank ${compact?'compact':''}">${options.map(opt=>`<div>${escapeHtml(optionText(opt))}</div>`).join('')}</div>`;
+}
+function groupItems(group){
+  if(group?.items?.length) return group.items;
+  if(group && (group.num != null || group.questionNo != null || group.prompt || group.text || group.statement)) return [group];
+  return [];
+}
+function selectHtml(q, options, placeholder=''){
+  return `<select data-q="${escapeHtml(q)}"><option value="">${escapeHtml(placeholder)}</option>${(options||[]).map(opt=>`<option value="${escapeHtml(optionValue(opt))}">${escapeHtml(optionText(opt))}</option>`).join('')}</select>`;
+}
+function inputHtml(q, cls=''){
+  return `<input class="${cls}" data-q="${escapeHtml(q)}" type="text" autocomplete="off">`;
+}
+function fixedOptionsForType(type, group){
+  const t=normalizeQuestionType(type);
+  if(group?.options?.length) return group.options;
+  if(['tfng','true-false-not-given','true-false-ng'].includes(t)) return ['TRUE','FALSE','NOT GIVEN'];
+  if(['ynng','yes-no-not-given','yes-no-ng'].includes(t)) return ['YES','NO','NOT GIVEN'];
+  return [];
+}
+function renderPromptWithBlanks(text){
+  return escapeHtml(text||'').replace(/\[\[(\d+(?:-\d+)?)\]\]/g, (_,q)=>inputHtml(q,'inlineBlank'));
+}
+function questionNumbersFromGroup(group){
+  const out=[];
+  groupItems(group).forEach(item=>rangeNums(itemNum(item)).forEach(q=>out.push(q)));
+  (group.blocks||[]).forEach(block=>{
+    const text=block.text || '';
+    Array.from(String(text).matchAll(/\[\[(\d+(?:-\d+)?)\]\]/g)).forEach(m=>rangeNums(m[1]).forEach(q=>out.push(q)));
+  });
+  (group.rows||[]).flat().forEach(cell=>{
+    Array.from(String(cell?.text ?? cell ?? '').matchAll(/\[\[(\d+(?:-\d+)?)\]\]/g)).forEach(m=>rangeNums(m[1]).forEach(q=>out.push(q)));
+  });
+  return Array.from(new Set(out));
+}
+function renderChoiceItem(item, group, type){
+  const q=itemNum(item);
+  const options=item.options || group.options || fixedOptionsForType(type, group);
+  const selectCount=Number(item.select ?? group.select ?? 1);
+  const prompt=itemText(item);
+  if(selectCount>1 || String(q).includes('-')){
+    const key=String(q || (item.nums||[]).join('-'));
+    return `<div class="qgroupInner">
+      <div class="schemaLine"><b>${escapeHtml(prompt || `Questions ${key}`)}</b></div>
+      <div class="multi" data-q="${escapeHtml(key)}" data-limit="${selectCount}">
+        ${(options||[]).map(opt=>`<label><input type="checkbox" value="${escapeHtml(optionValue(opt))}"> ${escapeHtml(optionText(opt))}</label>`).join('')}
+      </div>
+    </div>`;
+  }
+  return `<label class="qrow"><span class="qnum">${escapeHtml(q)}</span><span class="qtext">${escapeHtml(prompt)}</span>${selectHtml(q, options)}</label>`;
+}
+function renderMatchingItem(item, group, type){
+  const q=itemNum(item);
+  const options=item.options || group.options || fixedOptionsForType(type, group);
+  return `<label class="qrow"><span class="qnum">${escapeHtml(q)}</span><span class="qtext">${escapeHtml(itemText(item))}</span>${selectHtml(q, options)}</label>`;
+}
+function renderCompletionBlocks(group){
+  if(group.rows?.length){
+    return `<table class="schemaTable"><tbody>${group.rows.map(row=>{
+      const cells=Array.isArray(row) ? row : (row.cells || []);
+      return `<tr>${cells.map(cell=>{
+      const content=typeof cell === 'object' ? (cell.text ?? cell.value ?? '') : cell;
+      const tag=cell?.header ? 'th' : 'td';
+      return `<${tag}>${renderPromptWithBlanks(content)}</${tag}>`;
+    }).join('')}</tr>`;
+    }).join('')}</tbody></table>`;
+  }
+  const blocks=group.blocks?.length ? group.blocks : groupItems(group).map(item=>({kind:'line', text:item.text || `[[${itemNum(item)}]] ${itemText(item)}`}));
+  const flowClass=['flow','flowchart','flow-chart'].includes(normalizeQuestionType(group.type)) || group.layout==='flow' ? ' schemaFlow' : '';
+  return `<div class="${flowClass.trim()}">${blocks.map(block=>{
+    const kind=String(block.kind||'line').toLowerCase();
+    const text=renderPromptWithBlanks(block.text || '');
+    if(kind==='heading' || kind==='title') return `<div class="schemaBlockTitle">${text}</div>`;
+    if(kind==='note') return `<p class="schemaIntro">${text}</p>`;
+    return `<div class="schemaLine">${text}</div>`;
+  }).join('')}</div>`;
+}
+function renderQuestionGroup(group){
+  const type=normalizeQuestionType(group.type);
+  const title=group.title || group.heading || 'Questions';
+  const intro=group.instruction || group.instructions || group.description || '';
+  const optionBankTypes=['matching-headings','headings','matching-information','paragraph-matching','matching-features','matching-names','matching-sentence-endings'];
+  const choiceTypes=['choice','single-choice','multiple-choice','mcq'];
+  const fixedSelectTypes=['tfng','true-false-not-given','true-false-ng','ynng','yes-no-not-given','yes-no-ng'];
+  let body='';
+  if(choiceTypes.includes(type)){
+    body=groupItems(group).map(item=>renderChoiceItem(item, group, type)).join('');
+  }else if(optionBankTypes.includes(type) || fixedSelectTypes.includes(type) || group.options?.length){
+    body=optionBankHtml(group.options || fixedOptionsForType(type, group), fixedSelectTypes.includes(type)) + groupItems(group).map(item=>renderMatchingItem(item, group, type)).join('');
+  }else{
+    body=renderCompletionBlocks(group);
+  }
+  return `<section class="qgroup" data-qtype="${escapeHtml(type)}"><h3>${escapeHtml(title)}</h3>${intro?`<p class="schemaIntro">${escapeHtml(intro)}</p>`:''}${body}</section>`;
+}
+function questionsFromData(qs){
+  return (qs||[]).map(group=>{
+    if(group.html) return group.html;
+    if(group.questionsHtml) return group.questionsHtml;
+    return renderQuestionGroup(group);
+  }).join('');
+}
+function bindAnswerEvents(){
+  document.querySelectorAll('input[data-q], select[data-q]').forEach(el=>{
+    el.onfocus=()=>markCurrent(el.dataset.q);
+    el.onclick=()=>markCurrent(el.dataset.q);
+    el.oninput=()=>{answerState[el.dataset.q]=el.value; markCurrent(el.dataset.q); updateAnswered(); saveDraft();};
+    el.onchange=()=>{answerState[el.dataset.q]=el.value; markCurrent(el.dataset.q); updateAnswered(); saveDraft();};
+  });
+  document.querySelectorAll('.multi input').forEach(el=>{
+    el.onchange=(e)=>{
+      const box=e.target.closest('.multi');
+      const limit=Number(box.dataset.limit||99);
+      if(box.querySelectorAll('input:checked').length>limit){ e.target.checked=false; showHint(`最多选择 ${limit} 项`); }
+      answerState[box.dataset.q]=Array.from(box.querySelectorAll('input:checked')).map(x=>x.value);
+      markCurrent(rangeNums(box.dataset.q)[0]);
+      updateAnswered();
+      saveDraft();
+    };
+  });
+  document.querySelectorAll('.qrow,.qgroup').forEach(el=>el.addEventListener('click',()=>{
+    const q = el.querySelector('[data-q]')?.dataset.q || el.querySelector('.multi')?.dataset.q;
+    if(q){
+      const single=String(q).includes('-') ? rangeNums(q)[0] : q;
+      if(pendingEvidenceSource) bindEvidenceToQuestion(single);
+      markCurrent(single);
+    }
+  }));
+}
+function restoreAnswersForCurrentPassage(){
+  document.querySelectorAll('input[data-q], select[data-q]').forEach(el=>{
+    el.value = answerState[el.dataset.q] || '';
+    el.disabled = submitted;
+  });
+  document.querySelectorAll('.multi').forEach(box=>{
+    const vals = answerState[box.dataset.q] || [];
+    box.querySelectorAll('input').forEach(input=>{input.checked = vals.includes(input.value); input.disabled=submitted;});
+  });
+}
+function isAnswered(q){
+  q=String(q);
+  if(answerState[q] && norm(answerState[q]).length>0) return true;
+  const groupKey = Object.keys(DATA.answers||{}).find(k=>String(k).includes('-') && rangeNums(k).includes(q));
+  if(groupKey) return Array.isArray(answerState[groupKey]) && answerState[groupKey].length>0;
+  return false;
+}
+function renderMonitor(){
+  $('monitor').innerHTML = qNums().map(q=>`<button class="dot" data-q="${q}">${q}</button>`).join('');
+  document.querySelectorAll('.dot').forEach(d=>d.onclick=()=>jumpToQuestion(d.dataset.q));
+}
+function updateAnswered(){
+  document.querySelectorAll('.dot').forEach(d=>{
+    const q=d.dataset.q;
+    d.classList.remove('answered','right','wrong','unanswered');
+    if(submitted && gradeState[q]) d.classList.add(gradeState[q].status);
+    else if(isAnswered(q)) d.classList.add('answered');
+    d.classList.toggle('current', q===String(currentQuestion));
+  });
+}
+function markCurrent(q){
+  currentQuestion = String(q).split('-')[0];
+  updateAnswered();
+}
+function jumpToQuestion(q){
+  const passIndex = qToPassageIndex(q);
+  if(passIndex !== currentPassage && DATA.passages[passIndex]) renderPassage(passIndex);
+  setTimeout(()=>{
+    const direct = document.querySelector(`[data-q="${q}"]`);
+    const multi = Array.from(document.querySelectorAll('.multi')).find(m=>m.dataset.q && rangeNums(m.dataset.q).includes(String(q)));
+    const el = direct || multi;
+    (el?.closest('.qrow,.qgroup')||el)?.scrollIntoView({behavior:'smooth',block:'center'});
+    markCurrent(q);
+  },80);
+}
+
+function closestElementFromRange(range){
+  if(!range) return null;
+  const node = range.commonAncestorContainer;
+  return node.nodeType === 1 ? node : node.parentElement;
+}
+function activeMarkRoot(){
+  return selectedArea === 'reader' ? $('reader') : $('questions');
+}
+function rangeIntersectsElement(range, el){
+  if(!range || !el) return false;
+  try { return range.intersectsNode(el); }
+  catch(e) {
+    const node = range.commonAncestorContainer;
+    return el.contains(node) || (node.nodeType === 1 && node.contains(el));
+  }
+}
+function highlightedMarksInSelection(){
+  if(!selectedRange) return [];
+  const root = activeMarkRoot();
+  if(!root) return [];
+  const marks = Array.from(root.querySelectorAll('.hl,.hl2')).filter(el => rangeIntersectsElement(selectedRange, el));
+  const container = closestElementFromRange(selectedRange);
+  const closest = container?.closest?.('.hl,.hl2');
+  if(closest && root.contains(closest) && !marks.includes(closest)) marks.unshift(closest);
+  return marks;
+}
+function unwrapElement(el){
+  const parent = el?.parentNode;
+  if(!parent) return;
+  while(el.firstChild) parent.insertBefore(el.firstChild, el);
+  parent.removeChild(el);
+  parent.normalize();
+}
+function applyHighlight(){
+  const marks = highlightedMarksInSelection();
+  if(marks.length){
+    marks.forEach(el=>{ el.classList.remove('hl'); el.classList.add('hl2'); });
+    window.getSelection().removeAllRanges();
+    hideToolbar();
+    saveCurrentMarkup();
+    saveDraft();
+    return null;
+  }
+  const span=wrapSelection('hl');
+  if(span && selectedArea === 'reader') addEvidenceDotForHighlight(span);
+  return span;
+}
+function removeHighlight(){
+  const marks = highlightedMarksInSelection();
+  if(!marks.length){ hideToolbar(); return; }
+  marks.forEach(el=>{ removeEvidenceForHighlight(el.id); unwrapElement(el); });
+  window.getSelection().removeAllRanges();
+  hideToolbar();
+  saveCurrentMarkup();
+  saveDraft();
+}
+
+// 文章和题目都允许 Highlight / Note；＋只在文章区显示，且无感记录。
+document.addEventListener('mouseup', (e) => {
+  if(e.target.closest('#toolbar')) return;
+  const sel = window.getSelection();
+  if(!sel || sel.rangeCount===0 || sel.isCollapsed || sel.toString().trim().length < 2){
+    hideToolbar();
+    return;
+  }
+  const range = sel.getRangeAt(0);
+  const container = closestElementFromRange(range);
+  const inReader = container?.closest && container.closest('.reader .para');
+  const inQuestion = container?.closest && container.closest('.questions .qgroup');
+  if(!inReader && !inQuestion){
+    hideToolbar();
+    return;
+  }
+  selectedRange = range.cloneRange();
+  selectedArea = inReader ? 'reader' : 'question';
+  $('reviewToolBtn').style.display = inReader ? 'inline-block' : 'none';
+  $('removeToolBtn').style.display = highlightedMarksInSelection().length ? 'inline-block' : 'none';
+  const rect = range.getBoundingClientRect();
+  const bar = $('toolbar');
+  bar.style.display = 'flex';
+  bar.style.left = `${window.scrollX + rect.left}px`;
+  bar.style.top = `${window.scrollY + rect.top - 42}px`;
+});
+document.addEventListener('selectionchange', () => {
+  if(toolbarPointerDown) return;
+  const sel = window.getSelection();
+  if(!sel || sel.rangeCount===0 || sel.isCollapsed || sel.toString().trim().length < 2){
+    hideToolbar();
+  }
+});
+document.addEventListener('mousedown', (e)=>{
+  if(!e.target.closest('#toolbar')) hideToolbar();
+});
+function wrapSelection(cls, title=''){
+  if(!selectedRange) return null;
+  const span = document.createElement('span');
+  span.className = cls;
+  span.id = (cls==='hl' ? 'hl_' : 'sel_') + Date.now() + '_' + Math.floor(Math.random()*999);
+  if(title) span.title=title;
+  try { selectedRange.surroundContents(span); }
+  catch(e) { span.textContent = selectedRange.toString(); selectedRange.deleteContents(); selectedRange.insertNode(span); }
+  window.getSelection().removeAllRanges(); $('toolbar').style.display='none';
+  saveCurrentMarkup();
+  saveDraft();
+  return span;
+}
+
+$('toolbar').addEventListener('mousedown', ()=>{toolbarPointerDown=true;});
+document.addEventListener('mouseup', ()=>{setTimeout(()=>{toolbarPointerDown=false;},0);});
+function paragraphPlainText(para){
+  return (para?.innerText || para?.textContent || '').replace(/\s+/g,' ').trim();
+}
+function evidenceSourceFromHighlight(span){
+  const para=span?.closest?.('.para');
+  const p=DATA.passages[currentPassage] || {};
+  return {
+    highlightId:span.id,
+    sourceDotId:'',
+    passageIndex:currentPassage,
+    passageTitle:p.title || `Passage ${currentPassage+1}`,
+    paragraphLabel:para?.dataset.label || '',
+    text:(span.textContent || '').replace(/\s+/g,' ').trim(),
+    used:false,
+    createdAt:Date.now()
+  };
+}
+function addEvidenceDotForHighlight(span){
+  if(!span || !span.id || span.nextElementSibling?.classList?.contains('evidenceSourceDot')) return;
+  const dot=document.createElement('button');
+  dot.type='button';
+  dot.id='dot_' + span.id.replace(/^hl_/,'');
+  dot.className='evidenceSourceDot';
+  dot.dataset.highlightId=span.id;
+  dot.title='点击后绑定题目';
+  span.after(dot);
+  const source={...evidenceSourceFromHighlight(span), sourceDotId:dot.id};
+  evidenceSources[span.id]=source;
+  bindEvidenceDotEvents();
+  saveCurrentMarkup();
+  saveDraft();
+}
+function removeEvidenceForHighlight(highlightId){
+  if(!highlightId) return;
+  const source=evidenceSources[highlightId];
+  const dotId=source?.sourceDotId;
+  if(dotId) document.getElementById(dotId)?.remove();
+  delete evidenceSources[highlightId];
+  Object.keys(questionEvidenceMap||{}).forEach(q=>{
+    if(questionEvidenceMap[q]?.highlightId===highlightId) delete questionEvidenceMap[q];
+  });
+  if(pendingEvidenceSource?.highlightId===highlightId) pendingEvidenceSource=null;
+}
+function bindEvidenceDotEvents(){
+  document.querySelectorAll('.evidenceSourceDot').forEach(dot=>{
+    const source=evidenceSources[dot.dataset.highlightId];
+    dot.classList.toggle('used', !!source?.used);
+    dot.classList.toggle('active', pendingEvidenceSource?.highlightId===dot.dataset.highlightId);
+    dot.onclick=(e)=>{
+      e.preventDefault(); e.stopPropagation();
+      const src=evidenceSources[dot.dataset.highlightId];
+      if(!src || src.used) return;
+      pendingEvidenceSource=src;
+      document.querySelectorAll('.evidenceSourceDot').forEach(d=>d.classList.remove('active'));
+      dot.classList.add('active');
+      showHint('点击题号或题目绑定定位');
+    };
+  });
+}
+function bindEvidenceToQuestion(q){
+  if(!pendingEvidenceSource) return false;
+  const source=evidenceSources[pendingEvidenceSource.highlightId];
+  if(!source || source.used) {pendingEvidenceSource=null; return false;}
+  const item={
+    ...source,
+    questionNumber:String(q),
+    createdAt:Date.now()
+  };
+  questionEvidenceMap[String(q)]=item;
+  source.used=true;
+  evidenceSources[source.highlightId]=source;
+  pendingEvidenceSource=null;
+  bindEvidenceDotEvents();
+  renderQuestionEvidenceMarkers();
+  saveDraft();
+  return true;
+}
+function renderQuestionEvidenceMarkers(){
+  document.querySelectorAll('.evidenceJumpDot').forEach(x=>x.remove());
+  document.querySelectorAll('.qrow').forEach(row=>{
+    const q=row.querySelector('[data-q]')?.dataset.q;
+    if(!q || !questionEvidenceMap[q]) return;
+    const qnum=row.querySelector('.qnum');
+    if(!qnum) return;
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='evidenceJumpDot';
+    btn.dataset.evidenceQ=q;
+    btn.title='查看我的定位';
+    btn.textContent='📍';
+    qnum.appendChild(btn);
+  });
+  document.querySelectorAll('.evidenceJumpDot').forEach(btn=>btn.onclick=(e)=>{
+    e.preventDefault(); e.stopPropagation();
+    jumpToEvidence(btn.dataset.evidenceQ);
+  });
+}
+function findEvidenceTarget(item){
+  if(!item) return null;
+  if(item.highlightId){
+    const byId=document.getElementById(item.highlightId);
+    if(byId) return byId;
+  }
+  const paras=Array.from($('reader')?.querySelectorAll('.para')||[]);
+  if(item.paragraphLabel){
+    const byLabel=paras.find(p=>(p.dataset.label||'')===item.paragraphLabel);
+    if(byLabel && item.text && paragraphPlainText(byLabel).includes(item.text)) return byLabel;
+    if(byLabel) return byLabel;
+  }
+  if(item.text){
+    const needle=norm(item.text).slice(0,50);
+    return paras.find(p=>norm(paragraphPlainText(p)).includes(needle)) || null;
+  }
+  return null;
+}
+function jumpToEvidence(q){
+  const item=questionEvidenceMap[String(q)] || q;
+  const pi=Number(item?.passageIndex||0);
+  if(DATA.passages[pi] && pi!==currentPassage) renderPassage(pi);
+  setTimeout(()=>{
+    const target=findEvidenceTarget(item);
+    if(!target){showHint('暂时没有定位到原文高亮'); return;}
+    target.scrollIntoView({behavior:'smooth',block:'center'});
+    target.classList.add('flash');
+    setTimeout(()=>target.classList.remove('flash'),1500);
+  },130);
+}
+function reviewItemFromSelection(){
+  if(!selectedRange || selectedArea !== 'reader') return null;
+  const text=selectedRange.toString().replace(/\s+/g,' ').trim();
+  if(!text) return null;
+  const container=closestElementFromRange(selectedRange);
+  const para=container?.closest?.('.para');
+  const paragraphText=paragraphPlainText(para);
+  const idx=paragraphText.indexOf(text);
+  const p=DATA.passages[currentPassage] || {};
+  return {
+    id:makeId('review'),
+    text,
+    passageIndex:currentPassage,
+    passageId:para?.dataset.passage || p.id || `p${currentPassage+1}`,
+    paragraphId:para?.id || '',
+    paragraphLabel:para?.dataset.label || '',
+    paragraphText,
+    textStartHint:idx>0 ? paragraphText.slice(Math.max(0,idx-20),idx) : '',
+    textEndHint:idx>=0 ? paragraphText.slice(idx+text.length,idx+text.length+20) : '',
+    createdAt:new Date().toISOString()
+  };
+}
+$('toolbar').addEventListener('click', e=>{
+  const act=e.target.dataset.act; if(!act) return;
+  if(act==='highlight') applyHighlight();
+  if(act==='remove') removeHighlight();
+  if(act==='note') {
+    const note=prompt('Note:');
+    if(note !== null) wrapSelection('noteMark', note || 'note');
+  }
+  if(act==='review') {
+    if(selectedArea !== 'reader') { hideToolbar(); return; }
+    const item=reviewItemFromSelection();
+    if(!item) return;
+    reviewMarks.push(item);
+    $('reviewCount').textContent=reviewMarks.length;
+    renderReview();
+    hideToolbar();
+    window.getSelection().removeAllRanges();
+    saveDraft();
+  }
+});
+function renderReview(){
+  const box=$('reviewList');
+  if(!reviewMarks.length) {box.innerHTML='<p class="subtle">还没有待回看标记。</p>';return;}
+  box.innerHTML=reviewMarks.map((it,idx)=>`<div class="reviewItem" data-id="${it.id}"><small>${idx+1} · Passage ${(Number(it.passageIndex)||0)+1} · ${escapeHtml(it.paragraphLabel||it.label||'')}</small><p>${escapeHtml(it.text)}</p><button class="reviewJump" data-jump="${it.id}">跳转</button></div>`).join('');
+  box.querySelectorAll('[data-jump]').forEach(btn=>btn.onclick=(e)=>{
+    e.stopPropagation();
+    const item=reviewMarks.find(x=>x.id===btn.dataset.jump);
+    if(item) jumpToReviewItem(item);
+  });
+  box.querySelectorAll('.reviewItem').forEach(item=>item.onclick=()=>{
+    const review=reviewMarks.find(x=>x.id===item.dataset.id);
+    if(review) jumpToReviewItem(review);
+  });
+}
+function findReviewTarget(reviewItem){
+  if(!reviewItem) return null;
+  if(reviewItem.paragraphId){
+    const byId=$(reviewItem.paragraphId);
+    if(byId) return byId;
+  }
+  const paras=Array.from($('reader')?.querySelectorAll('.para')||[]);
+  if(reviewItem.paragraphLabel){
+    const byLabel=paras.find(p=>(p.dataset.label||'')===reviewItem.paragraphLabel);
+    if(byLabel) return byLabel;
+  }
+  if(reviewItem.paragraphText){
+    const needle=norm(reviewItem.paragraphText).slice(0,80);
+    const byPara=paras.find(p=>norm(paragraphPlainText(p)).includes(needle));
+    if(byPara) return byPara;
+  }
+  if(reviewItem.text){
+    const needle=norm(reviewItem.text).slice(0,50);
+    const byText=paras.find(p=>norm(paragraphPlainText(p)).includes(needle));
+    if(byText) return byText;
+  }
+  return null;
+}
+// 在段落内定位用户当初选中的那句话，返回精确 Range（容忍空白/大小写差异），不修改 DOM。
+function findSentenceRange(root, rawText){
+  const needle=(rawText||'').replace(/\s+/g,' ').trim().toLowerCase();
+  if(!root || !needle) return null;
+  const walker=document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+  let norm='', prevSpace=true; const map=[]; let node;
+  while(node=walker.nextNode()){
+    const v=node.nodeValue;
+    for(let i=0;i<v.length;i++){
+      const c=v[i];
+      if(/\s/.test(c)){
+        if(prevSpace) continue;
+        norm+=' '; map.push({node,offset:i}); prevSpace=true;
+      }else{
+        norm+=c.toLowerCase(); map.push({node,offset:i}); prevSpace=false;
+      }
+    }
+  }
+  const idx=norm.indexOf(needle);
+  if(idx<0) return null;
+  const start=map[idx], end=map[idx+needle.length-1];
+  if(!start || !end) return null;
+  try{
+    const range=document.createRange();
+    range.setStart(start.node, start.offset);
+    range.setEnd(end.node, end.offset+1);
+    return range;
+  }catch(e){ return null; }
+}
+// 找到离节点最近的可滚动容器（双栏时是 .reader，单栏时是窗口）。
+function getScrollParent(node){
+  let el=node instanceof Element ? node : node?.parentElement;
+  while(el && el!==document.body && el!==document.documentElement){
+    const oy=getComputedStyle(el).overflowY;
+    if((oy==='auto'||oy==='scroll'||oy==='overlay') && el.scrollHeight>el.clientHeight+2) return el;
+    el=el.parentElement;
+  }
+  return document.scrollingElement||document.documentElement;
+}
+// 滚动到该句并短暂高亮（Custom Highlight API，不动 DOM；不支持时返回 false 由调用方退回段落闪烁）。
+function flashRange(range){
+  if(!range) return false;
+  let flashed=false;
+  if(window.Highlight && window.CSS && CSS.highlights){
+    try{
+      CSS.highlights.set('reviewFlash', new Highlight(range.cloneRange()));
+      setTimeout(()=>{try{CSS.highlights.delete('reviewFlash')}catch(e){}}, 2200);
+      flashed=true;
+    }catch(e){}
+  }
+  const rect=range.getBoundingClientRect();
+  if(rect && (rect.height || rect.width || rect.top)){
+    const scroller=getScrollParent(range.startContainer);
+    const isWin=(scroller===document.scrollingElement||scroller===document.documentElement||scroller===document.body);
+    const base=isWin?0:scroller.getBoundingClientRect().top;
+    const cur=isWin?(window.scrollY||window.pageYOffset):scroller.scrollTop;
+    const viewH=isWin?window.innerHeight:scroller.clientHeight;
+    const top=Math.max(0, cur + (rect.top - base) - viewH/2 + rect.height/2);
+    // 同步直接定位，确保一定滚到位（不依赖平滑滚动，兼容减少动态效果设置）。
+    try{ if(isWin) window.scrollTo(0, top); else scroller.scrollTop=top; }catch(e){}
+  }
+  return flashed;
+}
+function jumpToReviewItem(reviewItem){
+  if(!reviewItem) return;
+  const pi=Number(reviewItem.passageIndex||0);
+  if(DATA.passages[pi] && pi!==currentPassage) renderPassage(pi);
+  setTimeout(()=>{
+    const target=findReviewTarget(reviewItem);
+    if(!target){showHint('没有定位到原文段落，但待回看标记已保存。'); return;}
+    const range=reviewItem.text ? findSentenceRange(target, reviewItem.text) : null;
+    if(range && flashRange(range)) return;
+    if(range) range.startContainer.parentElement?.scrollIntoView({behavior:'smooth',block:'center'});
+    else target.scrollIntoView({behavior:'smooth',block:'center'});
+    target.classList.add('flash');
+    setTimeout(()=>target.classList.remove('flash'),1500);
+  },120);
+}
+function correctAnswersForKey(k){return (DATA.answers[k]||[]).map(x=>String(x))}
+function isCorrectSingle(q){
+  const right = correctAnswersForKey(q).map(norm);
+  return right.includes(norm(answerState[q]||''));
+}
+function buildGrade(){
+  const weights=getWeights();
+  gradeState={};
+  let rawScore=0, adjustedScore=0, correct=0, wrong=0, unanswered=0;
+  const issueRows=[];
+  Object.keys(DATA.answers||{}).forEach(k=>{
+    if(String(k).includes('-')){
+      const nums=rangeNums(k), right=correctAnswersForKey(k), selected=answerState[k]||[];
+      const selectedUpper=selected.map(x=>String(x));
+      const rightUpper=right.map(x=>String(x));
+      const correctSelected = selectedUpper.filter(x=>rightUpper.includes(x));
+      const fullCorrect = correctSelected.length===rightUpper.length && selectedUpper.length===rightUpper.length;
+      const selectedLabel = selectedUpper.join(', ') || '未作答';
+      const statusList=[];
+      nums.forEach((q,idx)=>{
+        let status;
+        if(idx < correctSelected.length) status='right';
+        else if(selectedUpper.length===0 || selectedUpper.length<rightUpper.length && selectedUpper.every(x=>rightUpper.includes(x))) status='unanswered';
+        else status='wrong';
+        gradeState[q]={status, your:selectedLabel, correct:rightUpper.join(' / '), weight:Number(weights[q]||1), group:k};
+        statusList.push(status);
+        if(status==='right'){rawScore++; correct++; adjustedScore += Number(weights[q]||1)}
+        else if(status==='unanswered'){unanswered++; issueRows.push({question:q,your:'未作答',correct:rightUpper.join(' / '),weight:Number(weights[q]||1),status});}
+        else {wrong++; issueRows.push({question:q,your:selectedLabel,correct:rightUpper.join(' / '),weight:Number(weights[q]||1),status});}
+      });
+      gradeState[k]={status:fullCorrect?'right':(selectedUpper.length?'wrong':'unanswered'), your:selectedLabel, correct:rightUpper.join(' / '), group:k};
+    }else{
+      const q=String(k), your=answerState[q]||'', right=correctAnswersForKey(q), answered=norm(your).length>0, ok=answered && right.map(norm).includes(norm(your));
+      const status=ok?'right':(answered?'wrong':'unanswered');
+      gradeState[q]={status,your:your||'未作答',correct:right.join(' / '),weight:Number(weights[q]||1)};
+      if(ok){rawScore++; correct++; adjustedScore += Number(weights[q]||1)}
+      else if(!answered){unanswered++; issueRows.push({question:q,your:'未作答',correct:right.join(' / '),weight:Number(weights[q]||1),status});}
+      else{wrong++; issueRows.push({question:q,your,correct:right.join(' / '),weight:Number(weights[q]||1),status});}
+    }
+  });
+  const breakdown = passageBreakdown(weights, issueRows);
+  const weightedTotal = qNums().reduce((sum,q)=>sum+Number(weights[q]||1),0);
+  return {rawScore, adjustedScore:round1(adjustedScore), weightedTotal:round1(weightedTotal), estimatedBand:bandFromScore(adjustedScore), correct, wrong, unanswered, issueRows, breakdown, difficulty:getDifficulty().overall};
+}
+function passageBreakdown(weights, issueRows=[]){
+  const ranges={p1:[1,13],p2:[14,26],p3:[27,40]};
+  const out={};
+  Object.entries(ranges).forEach(([key,[a,b]],idx)=>{
+    let raw=0,total=b-a+1,weighted=0,weightedTotal=0;
+    for(let n=a;n<=b;n++){const q=String(n); const w=Number(weights[q]||1); weightedTotal+=w; if(gradeState[q]?.status==='right'){raw++; weighted+=w;}}
+    out[key]={
+      passageIndex:idx,
+      passageTitle:DATA.passages[idx]?.title || `Passage ${idx+1}`,
+      questionRange:`${a}-${b}`,
+      raw,total,weighted:round1(weighted),weightedTotal:round1(weightedTotal),
+      wrongQuestions:issueRows.filter(r=>Number(r.question)>=a && Number(r.question)<=b && r.status==='wrong').map(r=>String(r.question)),
+      unansweredQuestions:issueRows.filter(r=>Number(r.question)>=a && Number(r.question)<=b && r.status==='unanswered').map(r=>String(r.question)),
+      evidenceCount:Object.values(questionEvidenceMap||{}).filter(x=>Number(x.passageIndex)===idx).length,
+      reviewMarkCount:reviewMarks.filter(x=>Number(x.passageIndex)===idx).length
+    };
+  });
+  return out;
+}
+function bandFromScore(score){
+  const s=Math.round(Number(score)||0);
+  if(s>=39) return '9.0'; if(s>=37) return '8.5'; if(s>=35) return '8.0'; if(s>=33) return '7.5'; if(s>=30) return '7.0'; if(s>=27) return '6.5'; if(s>=23) return '6.0'; if(s>=19) return '5.5'; if(s>=15) return '5.0'; if(s>=13) return '4.5'; if(s>=10) return '4.0'; if(s>=7) return '3.5'; if(s>=5) return '3.0'; if(s>=3) return '2.5'; if(s>=1) return '2.0'; return '0';
+}
+function resultHtml(){
+  if(!(submitted&&lastScoreSummary)) return `<div class="result" id="result"></div>`;
+  return `<div class="result show" id="result"><details class="overviewFold"><summary>本套卷总览</summary><div class="overviewBody">${scorePanelHtml(lastScoreSummary)}</div></details></div>`;
+}
+function safeTextValue(v){
+  if(Array.isArray(v)) return v.join(', ');
+  if(v && typeof v === 'object') return JSON.stringify(v);
+  return v == null ? '' : String(v);
+}
+function explanationForQuestion(q, data = DATA) {
+  const key = String(q);
+  const explanations = data?.answerExplanations || data?.explanations || {};
+  let item = explanations[key];
+  if(item == null){
+    const rangeKey = Object.keys(explanations).find(k => String(k).includes('-') && rangeNums(k).includes(key));
+    if(rangeKey) item = explanations[rangeKey];
+  }
+  if(item == null){
+    const found=(data?.passages||[]).flatMap(p=>p.questions||[]).flatMap(g=>g.items||[]).find(x=>String(x.num)===key);
+    if(found) item=found;
+  }
+  if(item == null) return null;
+  if(typeof item === 'string') return { evidence: '', explanation: item, answer: '' };
+  if(typeof item === 'object'){
+    return {
+      answer: safeTextValue(item.answer || item.correct || ''),
+      location: safeTextValue(item.location || item.loc || item['定位'] || ''),
+      evidence: safeTextValue(item.evidence || item.source || ''),
+      synonyms: Array.isArray(item.synonyms) ? item.synonyms.map(safeTextValue) : (item.synonyms ? [safeTextValue(item.synonyms)] : []),
+      explanation: safeTextValue(item.explanation || item.analysis || item.reason || item.text || '')
+    };
+  }
+  return { evidence: '', explanation: safeTextValue(item), answer: '' };
+}
+function explanationDetailHtml(row, data = DATA){
+  const q=String(row.question);
+  const exp=explanationForQuestion(q, data) || {};
+  const mine=questionEvidenceMap[q];
+  const synonyms=(exp.synonyms||[]).length ? `<p><b>同义替换：</b>${escapeHtml(exp.synonyms.join('；'))}</p>` : '';
+  const location=exp.location ? `<p><b>定位：</b>${escapeHtml(exp.location)}</p>` : '';
+  const evidence=exp.evidence ? `<p><b>原文证据：</b>${escapeHtml(exp.evidence)}</p>` : '';
+  const myEvidence=mine ? `<p><b>我的定位：</b>${escapeHtml(mine.passageTitle || ('Passage '+(Number(mine.passageIndex||0)+1)))} ${mine.paragraphLabel ? ' · '+escapeHtml(mine.paragraphLabel) : ''} · ${escapeHtml(mine.text||'')}</p><p><button class="qExplainBtn" data-jump-evidence="${escapeHtml(q)}">跳回我的定位</button></p>` : '<p><b>我的定位：</b>未绑定</p>';
+  const explanation=exp.explanation || (exp.evidence ? '请对照上方原文证据与正确答案。本题解析字段未单独提供。' : '这道题暂时没有解析数据。');
+  return `<div class="q-explain">
+    <p><b>正确答案：</b>${escapeHtml(row.correct || exp.answer || '')}</p>
+    <p><b>你的答案：</b>${escapeHtml(row.your || '未作答')}</p>
+    ${location}
+    ${evidence}
+    ${synonyms}
+    <p><b>解析：</b>${escapeHtml(explanation)}</p>
+    ${myEvidence}
+  </div>`;
+}
+function issueRowsTableHtml(issueRows, data = DATA){
+  if(!issueRows || !issueRows.length) return '<tr><td colspan="6">没有错题或未答题。</td></tr>';
+  return issueRows.map(r=>{
+    const q=String(r.question);
+    const hasEvidence=!!questionEvidenceMap[q];
+    return `<tr>
+      <td>Q${escapeHtml(q)} ${hasEvidence?`<button class="evidenceJumpDot" data-evidence-q="${escapeHtml(q)}" title="查看我的定位">📍</button>`:''}</td>
+      <td>${escapeHtml(r.your || '未作答')}</td>
+      <td>${escapeHtml(r.correct || '')}</td>
+      <td>${round1(r.weight)}</td>
+      <td>${hasEvidence?'已绑定':'-'}</td>
+      <td><button class="qExplainBtn" data-toggle-explain="${escapeHtml(q)}">解析</button></td>
+    </tr>
+    <tr class="qExplainRow" data-explain-row="${escapeHtml(q)}"><td colspan="6">${explanationDetailHtml(r, data)}</td></tr>`;
+  }).join('');
+}
+function bindExplainToggles(root=document){
+  root.querySelectorAll('[data-toggle-explain]').forEach(btn=>btn.onclick=(e)=>{
+    e.preventDefault();
+    const q=btn.dataset.toggleExplain;
+    const row=root.querySelector(`[data-explain-row="${CSS.escape(q)}"]`);
+    row?.classList.toggle('show');
+  });
+  root.querySelectorAll('[data-jump-evidence],[data-evidence-q]').forEach(btn=>btn.onclick=(e)=>{
+    e.preventDefault(); e.stopPropagation();
+    jumpToEvidence(btn.dataset.jumpEvidence || btn.dataset.evidenceQ);
+  });
+}
+function scorePanelHtml(s){
+  const diff=getDifficulty();
+  const rows=issueRowsTableHtml(s.issueRows, DATA);
+  const notes=(diff.notes||[]).map(n=>`<li>${escapeHtml(n)}</li>`).join('');
+  return `<h2>成绩面板</h2>
+    <div class="scoreGrid">
+      <div class="scoreCard"><small>Raw Score</small><b>${s.rawScore} / 40</b></div>
+      <div class="scoreCard"><small>Adjusted Score</small><b>${s.adjustedScore} / 40</b></div>
+      <div class="scoreCard"><small>Estimated Band</small><b>${s.estimatedBand}</b></div>
+    </div>
+    <p><span class="badge">Correct: ${s.correct}</span><span class="badge">Wrong: ${s.wrong}</span><span class="badge">Unanswered: ${s.unanswered}</span><span class="badge">Review Marks: ${reviewMarks.length}</span><span class="badge">定位: ${Object.keys(questionEvidenceMap||{}).length}</span><span class="badge">Difficulty: ${escapeHtml(s.difficulty)}</span></p>
+    <p class="subtle">Raw Score 是官方题数分；Adjusted Score 是 Brand9 根据本套题难度加权后的内部能力估分，不等同于官方 IELTS 原始换算。</p>
+    <div class="tableWrap"><table><thead><tr><th>Passage</th><th>Raw</th><th>Weighted</th></tr></thead><tbody>
+      <tr><td>${escapeHtml(s.breakdown.p1.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p1.questionRange}</span></td><td>${s.breakdown.p1.raw} / ${s.breakdown.p1.total}</td><td>${s.breakdown.p1.weighted} / ${s.breakdown.p1.weightedTotal}</td></tr>
+      <tr><td>${escapeHtml(s.breakdown.p2.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p2.questionRange}</span></td><td>${s.breakdown.p2.raw} / ${s.breakdown.p2.total}</td><td>${s.breakdown.p2.weighted} / ${s.breakdown.p2.weightedTotal}</td></tr>
+      <tr><td>${escapeHtml(s.breakdown.p3.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p3.questionRange}</span></td><td>${s.breakdown.p3.raw} / ${s.breakdown.p3.total}</td><td>${s.breakdown.p3.weighted} / ${s.breakdown.p3.weightedTotal}</td></tr>
+    </tbody></table></div>
+    <h3 id="wrongTableTitle" style="font-size:15px;margin:14px 0 8px">Wrong / Unanswered Questions</h3>
+    <div class="tableWrap" id="wrongTableWrap"><table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Weight</th><th>定位</th><th>解析</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="subtle">难度说明：</p><ul class="subtle">${notes}</ul>
+    <p><button id="openReviewAfterSubmit">查看待回看标记</button> <button id="openWrongTableAfterSubmit">查看错题表</button></p>`;
+}
+function applySubmittedFeedbackForCurrentPassage(){
+  document.querySelectorAll('input[data-q], select[data-q]').forEach(el=>markField(el.dataset.q));
+  document.querySelectorAll('.multi').forEach(box=>markMulti(box));
+  bindPostSubmitButtons();
+}
+// 提交后给每道题就地挂一个「解析」小胶囊 + 默认收起的解析区，点开只展开当前题，不跳顶部、不弹窗。
+function attachInlineExplain(el, q, g){
+  if(!el) return;
+  const key=String(q);
+  const row=el.closest('.qrow');
+  const anchor=row||el;
+  const next=anchor.nextElementSibling;
+  if(next && next.classList && next.classList.contains('qExplainBlock') && next.dataset.explainBlock===key) return; // 幂等：避免切换 Passage 复用缓存时重复注入
+  const block=document.createElement(row?'div':'span');
+  block.className='qExplainBlock';
+  block.dataset.explainBlock=key;
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='qExplainBtn';
+  btn.textContent='解析';
+  const panel=document.createElement('div');
+  panel.className='qExplainInline';
+  panel.hidden=true;
+  btn.onclick=(e)=>{
+    e.preventDefault(); e.stopPropagation();
+    if(!panel.dataset.filled){
+      panel.innerHTML=explanationDetailHtml({question:key, your:(g&&g.your)||'', correct:(g&&g.correct)||''}, DATA);
+      panel.dataset.filled='1';
+      bindExplainToggles(panel);
+    }
+    panel.hidden=!panel.hidden;
+  };
+  block.appendChild(btn);
+  block.appendChild(panel);
+  anchor.insertAdjacentElement('afterend', block);
+}
+function markField(q){
+  const el=document.querySelector(`[data-q="${q}"]`); if(!el || !gradeState[q]) return;
+  let fb=el.parentElement.querySelector(`.feedback[data-fb-q="${CSS.escape(String(q))}"]`);
+  if(!fb){
+    fb=document.createElement('span');
+    fb.className='feedback';
+    fb.dataset.fbQ=String(q);
+    el.insertAdjacentElement('afterend', fb);
+  }
+  const g=gradeState[q];
+  fb.textContent=g.status==='right'?'✓':(g.status==='unanswered'?`未作答 · ${g.correct}`:`✗ ${g.correct}`);
+  fb.className='feedback '+(g.status==='right'?'correct':g.status==='unanswered'?'unansweredText':'wrong');
+  attachInlineExplain(el, q, g);
+}
+function markMulti(box){
+  const k=box.dataset.q; if(!gradeState[k]) return;
+  let fb=box.querySelector('.feedback'); if(!fb){fb=document.createElement('div');fb.className='feedback';box.appendChild(fb)}
+  const g=gradeState[k];
+  const nums=rangeNums(k); const got=nums.filter(q=>gradeState[q]?.status==='right').length;
+  fb.textContent=`你选：${g.your}; 答案：${g.correct}; 本组得分：${got}/${nums.length}`;
+  fb.className='feedback '+(g.status==='right'?'correct':g.status==='unanswered'?'unansweredText':'wrong');
+  attachInlineExplain(box, k, g);
+}
+function bindPostSubmitButtons(){
+  $('openReviewAfterSubmit')?.addEventListener('click',()=>{$('reviewPanel').classList.add('show');renderReview();});
+  $('openWrongTableAfterSubmit')?.addEventListener('click',()=>$('wrongTableTitle')?.scrollIntoView({behavior:'smooth',block:'start'}));
+  bindExplainToggles($('result') || document);
+}
+function submitTest(){
+  if(submitted){showHint('已经提交过了');return;}
+  saveCurrentMarkup();
+  submitted=true;
+  lastScoreSummary=buildGrade();
+  saveScoreRecord(lastScoreSummary);
+  $('submitBtn').classList.add('hidden');
+  $('backHomeExam').classList.remove('hidden');
+  saveDraft();
+  renderPassage(currentPassage);
+  updateAnswered();
+  $('questions').scrollTo({top:0,behavior:'smooth'});
+  showHint('已提交，待回看标记已释放');
+}
+function saveScoreRecord(s){
+  if(savedCurrentRecord) return;
+  const paper=findPaper(currentPaperId);
+  const passages=['p1','p2','p3'].map(k=>s.breakdown[k]).filter(Boolean);
+  const evidenceMap=Object.fromEntries(Object.entries(questionEvidenceMap||{}).map(([q,item])=>[q,{...item, passageTitle:item.passageTitle || DATA.passages[Number(item.passageIndex)||0]?.title || ''}]));
+  const rec={
+    id:'rec_'+Date.now()+'_'+Math.floor(Math.random()*9999),
+    date:new Date().toISOString(),
+    title:paper ? attemptTitle(paper) : (DATA.title||'Untitled Reading Mock'),
+    testTitle:paper ? mainPaperTitle(paper) : (DATA.title||'Untitled Reading Mock'),
+    paperId:paper?.paperId || DATA.paperId || '',
+    paperNo:paper?.paperNo || DATA.paperNo || '',
+    attemptId:paper?.attemptId || '',
+    attemptNo:paper?.attemptNo || 1,
+    rawScore:s.rawScore,
+    adjustedScore:s.adjustedScore,
+    estimatedBand:s.estimatedBand,
+    correct:s.correct,
+    wrong:s.wrong,
+    unanswered:s.unanswered,
+    wrongQuestions:s.issueRows.map(r=>r.question),
+    reviewMarkCount:reviewMarks.length,
+    evidenceCount:Object.keys(questionEvidenceMap||{}).length,
+    passages,
+    evidenceMap,
+    difficulty:s.difficulty,
+    passageBreakdown:s.breakdown
+  };
+  const list=getRecords(); list.unshift(rec); localStorage.setItem(RECORDS_KEY,JSON.stringify(list)); savedCurrentRecord=true;
+}
+function getRecords(){try{return JSON.parse(localStorage.getItem(RECORDS_KEY)||'[]')}catch(e){return []}}
+const STRUCTURED_JSON_TEMPLATE = {
+  "_schemaVersion": "brand9-reading-structured-v1",
+  "_aiInstructions": [
+    "只输出一个完整 JSON 对象，不要输出 Markdown 代码块。",
+    "不要写 questionsHtml，也不要写网页 HTML；题目排版交给系统渲染。",
+    "文章用 passages[].paragraphs 保存，题目用 passages[].questions 保存。",
+    "填空位置统一写成 [[题号]]，例如 [[9]]。",
+    "多选或组合题答案 key 用范围，例如 \"9-10\": [\"A\", \"C\"]。",
+    "每道题都要在 answers 和 explanations 里给出答案与解析。"
+  ],
+  "_supportedQuestionTypes": {
+    "tfng": "TRUE / FALSE / NOT GIVEN，下拉选项系统自动生成。",
+    "ynng": "YES / NO / NOT GIVEN，下拉选项系统自动生成。",
+    "completion": "摘要/句子/笔记填空，用 blocks 和 [[题号]]。",
+    "table": "表格填空，用 rows，单元格里写 [[题号]]。",
+    "flow": "流程图填空，用 blocks，单行写 [[题号]]。",
+    "choice": "单选或多选。单选 num 为单题号；多选 num 用 9-10，select 写选择数量。",
+    "matching-headings": "段落标题匹配，options 是 i/ii/iii 选项库。",
+    "matching-information": "段落信息匹配，options 是 A/B/C 段落字母。",
+    "matching-features": "人物/特征匹配，options 是 A/B/C 人名或对象。",
+    "matching-sentence-endings": "句子结尾匹配，options 是 A/B/C 结尾。"
+  },
+  "title": "Imported Reading Paper Title",
+  "passages": [
+    {
+      "id": "p1",
+      "title": "Passage 1 Title",
+      "subtitle": "Reading Passage 1 · Questions 1-13",
+      "paragraphs": [
+        {"label": "A", "text": "Paragraph A text here."},
+        {"label": "B", "text": "Paragraph B text here."}
+      ],
+      "questions": [
+        {
+          "type": "tfng",
+          "title": "Questions 1-4: TRUE / FALSE / NOT GIVEN",
+          "instruction": "Do the following statements agree with the information given in Reading Passage 1?",
+          "items": [
+            {"num": 1, "text": "Statement for question 1."},
+            {"num": 2, "text": "Statement for question 2."}
+          ]
+        },
+        {
+          "type": "completion",
+          "title": "Questions 5-8: Complete the notes below. ONE WORD ONLY.",
+          "blocks": [
+            {"kind": "heading", "text": "Preparing the project"},
+            {"kind": "line", "text": "The engineer noticed a kind of [[5]]."},
+            {"kind": "line", "text": "The team expected to find [[6]]."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "title": "Passage 2 Title",
+      "subtitle": "Reading Passage 2 · Questions 14-26",
+      "paragraphs": [
+        {"label": "A", "text": "Paragraph A text here."},
+        {"label": "B", "text": "Paragraph B text here."}
+      ],
+      "questions": [
+        {
+          "type": "matching-headings",
+          "title": "Questions 14-18: Choose the correct heading for each paragraph.",
+          "options": ["i First heading", "ii Second heading", "iii Third heading"],
+          "items": [
+            {"num": 14, "text": "Paragraph A"},
+            {"num": 15, "text": "Paragraph B"}
+          ]
+        },
+        {
+          "type": "choice",
+          "title": "Questions 19-20: Choose TWO letters.",
+          "num": "19-20",
+          "prompt": "Which TWO features are mentioned?",
+          "select": 2,
+          "options": ["A option text", "B option text", "C option text", "D option text"]
+        },
+        {
+          "type": "table",
+          "title": "Questions 21-23: Complete the table.",
+          "rows": [
+            [{"header": true, "text": "Category"}, {"header": true, "text": "Answer"}],
+            [{"text": "Material"}, {"text": "[[21]]"}],
+            [{"text": "Purpose"}, {"text": "[[22]]"}]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "title": "Passage 3 Title",
+      "subtitle": "Reading Passage 3 · Questions 27-40",
+      "paragraphs": [
+        {"label": "A", "text": "Paragraph A text here."},
+        {"label": "B", "text": "Paragraph B text here."}
+      ],
+      "questions": [
+        {
+          "type": "matching-information",
+          "title": "Questions 27-31: Which paragraph contains the following information?",
+          "options": ["A", "B", "C", "D", "E", "F"],
+          "items": [
+            {"num": 27, "text": "Information statement."},
+            {"num": 28, "text": "Another information statement."}
+          ]
+        },
+        {
+          "type": "ynng",
+          "title": "Questions 32-36: YES / NO / NOT GIVEN",
+          "items": [
+            {"num": 32, "text": "Writer claim statement."},
+            {"num": 33, "text": "Another writer claim statement."}
+          ]
+        },
+        {
+          "type": "flow",
+          "title": "Questions 37-40: Complete the flow-chart. NO MORE THAN TWO WORDS.",
+          "blocks": [
+            {"kind": "heading", "text": "The process"},
+            {"kind": "line", "text": "Start with [[37]]."},
+            {"kind": "line", "text": "Then identify [[38]]."},
+            {"kind": "line", "text": "Finally process [[39]]."}
+          ]
+        }
+      ]
+    }
+  ],
+  "answers": {
+    "1": ["TRUE"],
+    "2": ["NOT GIVEN"],
+    "5": ["sample answer"],
+    "14": ["i"],
+    "19-20": ["A", "C"],
+    "21": ["sample answer"],
+    "27": ["A"],
+    "32": ["YES"],
+    "37": ["sample answer"]
+  },
+  "explanations": {
+    "1": {
+      "answer": "TRUE",
+      "location": "Passage 1, Paragraph A",
+      "evidence": "Evidence sentence from your own passage here.",
+      "synonyms": ["statement wording = passage wording"],
+      "explanation": "Explain why the answer is TRUE."
+    },
+    "19-20": {
+      "answer": "A, C",
+      "location": "Passage 2, Paragraph B",
+      "evidence": "Evidence from your own passage for both options.",
+      "synonyms": ["option A wording = evidence wording", "option C wording = evidence wording"],
+      "explanation": "Explain why A and C are correct and the other options are wrong."
+    }
+  },
+  "questionWeights": {
+    "1": 1,
+    "2": 1,
+    "5": 1
+  },
+  "difficultyAnalysis": {
+    "overall": "Medium-Hard",
+    "p1": "Easy-Medium",
+    "p2": "Medium",
+    "p3": "Hard",
+    "notes": ["Brief difficulty note for this paper."]
+  }
+};
+function schemaTemplateText(){
+  return JSON.stringify(STRUCTURED_JSON_TEMPLATE, null, 2);
+}
+function initSchemaTemplateBox(){
+  const box=$('schemaTemplateText');
+  if(!box) return;
+  box.value=schemaTemplateText();
+}
+async function copySchemaTemplate(){
+  const text=schemaTemplateText();
+  try{
+    await navigator.clipboard.writeText(text);
+    showHint('格式模板已复制');
+  }catch(e){
+    const box=$('schemaTemplateText');
+    if(box){box.focus(); box.select();}
+    showHint('已选中模板，可手动复制');
+  }
+}
+function downloadSchemaTemplate(){
+  downloadFile('brand9-reading-structured-json-template.json', schemaTemplateText(), 'application/json;charset=utf-8');
+}
+function showRecordsScreen(){
+  saveCurrentMarkup();
+  $('app').style.display='none'; $('importScreen').style.display='none'; $('importPanel').style.display='none'; $('reviewScreen').style.display='none'; $('recordsScreen').style.display='block'; setExamBarVisible(false);
+  $('monitor').style.display='none';
+  $('backImport').classList.add('hidden'); $('submitBtn').classList.add('hidden'); $('reviewPanel').classList.remove('show'); $('settingsPanel').classList.remove('show');
+  renderRecords();
+}
+function accuracyPct(r){
+  const total=Number(r.totalQuestions)||40;
+  const correct=Number(r.correct ?? r.rawScore ?? 0);
+  if(!total) return 0;
+  return Math.round((correct/total)*1000)/10;
+}
+function sparklineSvg(chron){
+  const pts=chron.map(accuracyPct);
+  const n=pts.length;
+  const W=680,H=150,padL=30,padR=14,padT=14,padB=24;
+  const innerW=W-padL-padR, innerH=H-padT-padB;
+  const xFor=i=> n<=1 ? padL+innerW/2 : padL+(i/(n-1))*innerW;
+  const yFor=v=> padT+(1-(Math.max(0,Math.min(100,v))/100))*innerH;
+  const grid=[0,50,100].map(g=>{const y=yFor(g);return `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W-padR}" y2="${y.toFixed(1)}" stroke="#ededed" stroke-width="1"/><text x="${padL-6}" y="${(y+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#aaa">${g}</text>`;}).join('');
+  const linePts=pts.map((v,i)=>`${xFor(i).toFixed(1)},${yFor(v).toFixed(1)}`).join(' ');
+  const line=n>1?`<polyline fill="none" stroke="#AA2B3A" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="${linePts}"/>`:'';
+  const dots=pts.map((v,i)=>{
+    const d=chron[i];
+    const dt=new Date(d.date).toLocaleDateString();
+    return `<circle class="trendDot" data-rec-id="${escapeHtml(d.id)}" cx="${xFor(i).toFixed(1)}" cy="${yFor(v).toFixed(1)}" r="4" fill="#fff" stroke="#AA2B3A" stroke-width="2" style="cursor:pointer"><title>${escapeHtml(dt)} · ${escapeHtml(d.title||d.testTitle||'')} · ${v}%</title></circle>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="正确率趋势">${grid}${line}${dots}</svg>`;
+}
+function renderRecordsTrend(list){
+  const box=$('recordsTrend'); if(!box) return;
+  if(!list || !list.length){ box.innerHTML=''; return; }
+  const chron=[...list].reverse(); // 旧 → 新
+  const pts=chron.map(accuracyPct);
+  const latest=pts[pts.length-1];
+  const avg=Math.round(pts.reduce((a,b)=>a+b,0)/pts.length*10)/10;
+  const best=Math.max(...pts);
+  box.innerHTML=`<div class="trendHead">
+      <span class="trendStat"><small>最新正确率</small><b>${latest}%</b></span>
+      <span class="trendStat"><small>平均正确率</small><b>${avg}%</b></span>
+      <span class="trendStat"><small>最高正确率</small><b>${best}%</b></span>
+      <span class="trendStat"><small>做题次数</small><b>${pts.length}</b></span>
+    </div>
+    <div class="trendChart">${sparklineSvg(chron)}</div>
+    <p class="subtle">正确率 = 答对题数 / 40，按时间从左到右排列；点击圆点查看该次详情。</p>`;
+  box.querySelectorAll('.trendDot').forEach(d=>d.onclick=()=>renderRecordDetail(d.dataset.recId));
+}
+function renderRecords(){
+  const list=getRecords();
+  renderRecordsTrend(list);
+  $('recordsBody').innerHTML = list.length ? list.map(r=>`<tr class="recordRow" data-id="${r.id}" style="cursor:pointer"><td>${new Date(r.date).toLocaleString()}</td><td>${escapeHtml(r.title||r.testTitle||'')}</td><td>${r.rawScore} / 40</td><td><b>${accuracyPct(r)}%</b></td><td>${r.adjustedScore} / 40</td><td>${r.estimatedBand}</td><td>${escapeHtml(r.difficulty||'')}</td><td>${r.wrong}</td><td>${r.unanswered}</td><td>${r.reviewMarkCount ?? r.reviewSentenceCount ?? 0}</td><td>${r.evidenceCount ?? Object.keys(r.evidenceMap||{}).length}</td><td><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">删除</button></td></tr>`).join('') : '<tr><td colspan="12">暂无记录。</td></tr>';
+  document.querySelectorAll('.recordRow').forEach(row=>row.onclick=()=>renderRecordDetail(row.dataset.id));
+  document.querySelectorAll('.recordDelBtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation(); deleteRecord(b.dataset.delId);});
+  $('recordDetail').classList.add('hidden');
+}
+function deleteRecord(id){
+  const rec=getRecords().find(r=>r.id===id);
+  if(!rec) return;
+  if(!confirm(`删除这条做题记录？\n${rec.title||rec.testTitle||''}（${rec.rawScore} / 40）`)) return;
+  localStorage.setItem(RECORDS_KEY, JSON.stringify(getRecords().filter(r=>r.id!==id)));
+  renderRecords();
+}
+// ===== 导出（CSV，带 UTF-8 BOM 以便 Excel 正确显示中文）=====
+function downloadFile(filename, content, mime='text/csv;charset=utf-8'){
+  const blob=new Blob([content], {type:mime});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{a.remove(); URL.revokeObjectURL(url);},0);
+}
+function csvCell(v){const s=(v==null?'':String(v)); return /[",\n\r]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;}
+function csvRow(arr){return arr.map(csvCell).join(',');}
+function toCsv(header, rows){return '﻿'+[csvRow(header), ...rows.map(csvRow)].join('\r\n');}
+function buildRecordsCsv(){
+  const list=getRecords();
+  if(!list.length) return '';
+  const header=['日期','套题','Raw','正确率%','Adjusted','Band','Difficulty','Wrong','Unanswered','待回看','定位'];
+  const rows=list.map(r=>[
+    new Date(r.date).toLocaleString(),
+    r.title||r.testTitle||'',
+    `${r.rawScore} / 40`, accuracyPct(r),
+    `${r.adjustedScore} / 40`, r.estimatedBand||'', r.difficulty||'',
+    r.wrong, r.unanswered,
+    r.reviewMarkCount ?? r.reviewSentenceCount ?? 0,
+    r.evidenceCount ?? Object.keys(r.evidenceMap||{}).length
+  ]);
+  return toCsv(header, rows);
+}
+function collectAllReviewMarks(){
+  const out=[];
+  getPapers().forEach(paper=>{
+    const draft=normalizeDraft(paper.draft);
+    const marks=draft.reviewMarks || draft.reviewItems || [];
+    const passages=(paper.data && Array.isArray(paper.data.passages)) ? paper.data.passages : [];
+    marks.forEach(m=>{
+      const pi=Number(m.passageIndex)||0;
+      out.push({
+        paper: mainPaperTitle(paper),
+        paperNo: paper.paperNo || paper.paperId || '',
+        passage: `Passage ${pi+1}`,
+        passageTitle: m.passageTitle || passages[pi]?.title || `Passage ${pi+1}`,
+        paragraph: m.paragraphLabel || m.label || '',
+        sentence: m.text || '',
+        createdAt: m.createdAt ? new Date(m.createdAt).toLocaleString() : ''
+      });
+    });
+  });
+  return out;
+}
+function buildReviewMarksCsv(){
+  const marks=collectAllReviewMarks();
+  if(!marks.length) return '';
+  const header=['套题','编号','Passage','文章标题','段落','句子','标记时间'];
+  const rows=marks.map(m=>[m.paper,m.paperNo,m.passage,m.passageTitle,m.paragraph,m.sentence,m.createdAt]);
+  return toCsv(header, rows);
+}
+function exportRecordsCsv(){
+  const csv=buildRecordsCsv();
+  if(!csv){ alert('暂无做题记录可导出。'); return; }
+  downloadFile(`brand9-做题记录-${new Date().toISOString().slice(0,10)}.csv`, csv);
+}
+function exportReviewMarksCsv(){
+  const csv=buildReviewMarksCsv();
+  if(!csv){ alert('暂无待回看标记可导出。'); return; }
+  downloadFile(`brand9-待回看标记-${new Date().toISOString().slice(0,10)}.csv`, csv);
+}
+function renderRecordDetail(id){
+  const r=getRecords().find(x=>x.id===id); if(!r) return;
+  const pb=r.passageBreakdown||{};
+  const passages=r.passages || [
+    {...(pb.p1||{}), passageTitle:pb.p1?.passageTitle||'Passage 1', questionRange:pb.p1?.questionRange||'1-13'},
+    {...(pb.p2||{}), passageTitle:pb.p2?.passageTitle||'Passage 2', questionRange:pb.p2?.questionRange||'14-26'},
+    {...(pb.p3||{}), passageTitle:pb.p3?.passageTitle||'Passage 3', questionRange:pb.p3?.questionRange||'27-40'}
+  ];
+  const cards=passages.map(p=>`<article class="statPassageCard">
+    <h4>${escapeHtml(p.passageTitle || 'Passage')}</h4>
+    <p class="subtle">Questions ${escapeHtml(p.questionRange || '')}</p>
+    <p><span class="badge">Raw: ${p.raw??'-'} / ${p.total??'-'}</span><span class="badge">Weighted: ${p.weighted??'-'} / ${p.weightedTotal??'-'}</span></p>
+    <p class="subtle">Wrong: ${escapeHtml((p.wrongQuestions||[]).map(q=>'Q'+q).join(', ') || 'none')}<br>Unanswered: ${escapeHtml((p.unansweredQuestions||[]).map(q=>'Q'+q).join(', ') || 'none')}<br>定位数量：${p.evidenceCount??0}；待回看标记：${p.reviewMarkCount??0}</p>
+  </article>`).join('');
+  $('recordDetail').classList.remove('hidden');
+  $('recordDetail').innerHTML=`<h3 style="font-size:15px;margin:0 0 8px">${escapeHtml(r.title)}</h3>
+    <p><span class="badge">Raw: ${r.rawScore} / 40</span><span class="badge">正确率: ${accuracyPct(r)}%</span><span class="badge">Adjusted: ${r.adjustedScore} / 40</span><span class="badge">Band: ${r.estimatedBand}</span><span class="badge">Difficulty: ${escapeHtml(r.difficulty||'')}</span><span class="badge">待回看: ${r.reviewMarkCount ?? r.reviewSentenceCount ?? 0}</span><span class="badge">定位: ${r.evidenceCount ?? Object.keys(r.evidenceMap||{}).length}</span></p>
+    <div class="statPassageGrid">${cards}</div>
+    <p class="subtle">错题号：${escapeHtml((r.wrongQuestions||[]).map(q=>'Q'+q).join(', ')||'无')}；未答：${r.unanswered}。</p>
+    <p><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">删除此记录</button></p>`;
+  $('recordDetail').querySelector('.recordDelBtn')?.addEventListener('click',()=>deleteRecord(r.id));
+}
+function summaryForPaper(paper){
+  const draft=normalizeDraft(paper.draft);
+  if(draft.result) return draft.result;
+  if(!draft.submitted) return null;
+  DATA=normalizeData(paper.data);
+  answerState={...draft.userAnswers, ...draft.multiAnswers};
+  return buildGrade();
+}
+function showReviewPage(id){
+  const paper=findPaper(id);
+  if(!paper) return showHint('没有找到这套卷子');
+  saveDraft();
+  reviewPagePaperId=id;
+  const draft=normalizeDraft(paper.draft);
+  const s=summaryForPaper(paper);
+  questionEvidenceMap=draft.questionEvidenceMap || {};
+  evidenceSources=draft.evidenceSources || {};
+  $('app').style.display='none';
+  $('importScreen').style.display='none';
+  $('importPanel').style.display='none';
+  $('recordsScreen').style.display='none';
+  $('reviewScreen').style.display='block';
+  $('monitor').style.display='none';
+  setExamBarVisible(false);
+  $('reviewPanel').classList.remove('show');
+  $('settingsPanel').classList.remove('show');
+  $('reviewPageTitle').textContent=paper.status==='submitted' ? attemptTitle(paper) : mainPaperTitle(paper);
+  const marks=draft.reviewMarks || draft.reviewItems || [];
+  $('reviewPageMeta').textContent=`${statusText(paper.status)} · 编号 ${paper.paperNo || paper.paperId || '-'} · 创建于 ${new Date(paper.createdAt).toLocaleString()} · Review Marks: ${marks.length}`;
+  $('reviewPageContent').innerHTML=reviewPageHtml(paper, s, marks);
+  $('reviewPageContent').querySelectorAll('[data-review-jump]').forEach(btn=>btn.onclick=()=>{
+    const item=marks.find(x=>x.id===btn.dataset.reviewJump);
+    if(item) startPaper(id, item);
+  });
+  bindExplainToggles($('reviewPageContent'));
+}
+function reviewPageHtml(paper, s, items){
+  const paperData = paper?.data && Array.isArray(paper.data.passages) ? normalizeData(paper.data) : DATA;
+  const score=s ? `<div class="scoreGrid">
+      <div class="scoreCard"><small>Raw Score</small><b>${s.rawScore} / 40</b></div>
+      <div class="scoreCard"><small>Adjusted Score</small><b>${s.adjustedScore} / 40</b></div>
+      <div class="scoreCard"><small>Estimated Band</small><b>${s.estimatedBand}</b></div>
+    </div>
+    <p><span class="badge">Difficulty: ${escapeHtml(s.difficulty||'')}</span><span class="badge">Correct: ${s.correct}</span><span class="badge">Wrong: ${s.wrong}</span><span class="badge">Unanswered: ${s.unanswered}</span></p>` : '<p class="subtle">这套卷子还没有提交，暂无总成绩。</p>';
+  const breakdown=s?.breakdown || {};
+  const issueRows=issueRowsTableHtml(s?.issueRows || [], paperData);
+  const reviewRows=items.length ? items.map((it,idx)=>`<tr><td>Passage ${(Number(it.passageIndex)||0)+1}</td><td>${escapeHtml(it.paragraphLabel||it.label||'')}</td><td>${escapeHtml(it.text)}</td><td><button data-review-jump="${it.id}">回到原文</button></td></tr>`).join('') : '<tr><td colspan="4">还没有待回看标记。</td></tr>';
+  return `<section class="miniSection"><h3>总成绩</h3>${score}</section>
+    <section class="miniSection"><h3>分篇成绩</h3><div class="tableWrap"><table><thead><tr><th>Passage</th><th>Raw</th><th>Weighted</th></tr></thead><tbody>
+      <tr><td>${escapeHtml(breakdown.p1?.passageTitle||'Passage 1')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p1?.questionRange||'1-13')}</span></td><td>${breakdown.p1?.raw??'-'} / ${breakdown.p1?.total??'-'}</td><td>${breakdown.p1?.weighted??'-'} / ${breakdown.p1?.weightedTotal??'-'}</td></tr>
+      <tr><td>${escapeHtml(breakdown.p2?.passageTitle||'Passage 2')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p2?.questionRange||'14-26')}</span></td><td>${breakdown.p2?.raw??'-'} / ${breakdown.p2?.total??'-'}</td><td>${breakdown.p2?.weighted??'-'} / ${breakdown.p2?.weightedTotal??'-'}</td></tr>
+      <tr><td>${escapeHtml(breakdown.p3?.passageTitle||'Passage 3')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p3?.questionRange||'27-40')}</span></td><td>${breakdown.p3?.raw??'-'} / ${breakdown.p3?.total??'-'}</td><td>${breakdown.p3?.weighted??'-'} / ${breakdown.p3?.weightedTotal??'-'}</td></tr>
+    </tbody></table></div></section>
+    <section class="miniSection"><h3>错题表</h3><div class="tableWrap"><table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Weight</th><th>定位</th><th>解析</th></tr></thead><tbody>${issueRows}</tbody></table></div></section>
+    <section class="miniSection"><h3>待回看标记</h3><div class="tableWrap"><table><thead><tr><th>Passage</th><th>Paragraph</th><th>Sentence</th><th></th></tr></thead><tbody>${reviewRows}</tbody></table></div></section>`;
+}
+
+$('submitBtn').onclick=submitTest;
+$('backHomeExam').onclick=()=>showWorkspace();
+$('settingsBtn').onclick=()=>$('settingsPanel').classList.toggle('show');
+$('reviewBtn').onclick=()=>{ if(!submitted){showHint('提交后可查看待回看标记');return;} $('reviewPanel').classList.toggle('show'); renderReview(); };
+$('backImport').onclick=()=>showWorkspace();
+$('openImport').onclick=()=>showImportPanel();
+$('backHomeFromImport').onclick=()=>showWorkspace();
+$('loadJson').onclick=()=>{
+  const f=$('jsonFile').files[0]; if(!f) return alert('先选择 JSON 文件');
+  const r=new FileReader(); r.onload=()=>{try{createPaper(JSON.parse(r.result)); $('jsonFile').value=''; showWorkspace();}catch(e){alert('JSON 格式错误：'+e.message)}}; r.readAsText(f);
+};
+$('loadPastedJson').onclick=()=>{try{createPaper(JSON.parse($('jsonPaste').value)); $('jsonPaste').value=''; showWorkspace();}catch(e){alert('JSON 格式错误：'+e.message)}};
+$('copySchemaTemplate') && ($('copySchemaTemplate').onclick=()=>copySchemaTemplate());
+$('downloadSchemaTemplate') && ($('downloadSchemaTemplate').onclick=()=>downloadSchemaTemplate());
+$('openRecordsFromImport') && ($('openRecordsFromImport').onclick=()=>showRecordsScreen());
+$('backFromRecords').onclick=()=>showWorkspace();
+$('exportRecords').onclick=exportRecordsCsv;
+$('exportReviewMarks').onclick=exportReviewMarksCsv;
+$('clearRecords').onclick=()=>{if(confirm('确认清空所有做题记录吗？')){localStorage.removeItem(RECORDS_KEY);renderRecords();}};
+$('refreshWorkspace') && ($('refreshWorkspace').onclick=()=>renderWorkspace());
+$('closeReviewPanel').onclick=()=>$('reviewPanel').classList.remove('show');
+$('reviewBackHome').onclick=()=>showWorkspace();
+$('reviewOpenExam').onclick=()=>{if(reviewPagePaperId) startPaper(reviewPagePaperId)};
+
+function applySettings(){
+  document.documentElement.style.setProperty('--articleFont',$('articleSize').value+'px');
+  document.documentElement.style.setProperty('--questionFont',$('questionSize').value+'px');
+  document.documentElement.style.setProperty('--lineHeight',$('lineHeight').value);
+  document.documentElement.style.setProperty('--fontFamily',$('fontSelect').value==='serif' ? 'Georgia, Times New Roman, serif' : '-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif');
+}
+['articleSize','questionSize','lineHeight','fontSelect'].forEach(id=>$(id).oninput=applySettings);
+$('resetSettings').onclick=()=>{$('articleSize').value=16;$('questionSize').value=14;$('lineHeight').value=1.78;$('fontSelect').value='sans';applySettings()};
+let dragging=false;
+$('divider').addEventListener('mousedown',()=>dragging=true);
+window.addEventListener('mouseup',()=>dragging=false);
+window.addEventListener('mousemove',e=>{
+  if(!dragging) return;
+  const rect=$('layout').getBoundingClientRect();
+  const pct=Math.min(70,Math.max(35,((e.clientX-rect.left)/rect.width)*100));
+  document.documentElement.style.setProperty('--leftWidth',pct+'%');
+});
+migratePaperStorage();
+initSchemaTemplateBox();
+renderWorkspace();
+renderReview();
+</script>
+</body>
+</html>
