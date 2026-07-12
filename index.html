@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reading test system</title>
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -83,7 +83,7 @@ textarea{width:100%;min-height:160px;border:1px solid var(--line);border-radius:
 .statusPill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:12px;background:#fff;color:#333}
 .emptyPapers{border:1px dashed #cfcfcf;border-radius:10px;padding:18px;color:var(--muted);font-size:13px;background:#fff}
 .app{display:none}
-.layout{display:grid;grid-template-columns:var(--leftWidth) 8px 1fr;height:calc(100vh - 48px - 54px)}
+.layout{display:grid;grid-template-columns:var(--leftWidth) 8px minmax(0,1fr);height:calc(100vh - 48px - 54px);height:calc(100dvh - 48px - 54px)}
 .reader,.questions{overflow:auto;padding:18px;background:#fff}
 .divider{cursor:col-resize;background:linear-gradient(to right,transparent 3px,var(--line) 3px,var(--line) 5px,transparent 5px)}
 .passage{background:#fff;border:1px solid var(--line);border-radius:8px;padding:22px;margin-bottom:18px}
@@ -171,7 +171,7 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 @keyframes flash{0%,100%{box-shadow:none}35%{box-shadow:0 0 0 5px rgba(139,84,67,.22);background:#f4e6e0}}
 .toolbar{position:absolute;display:none;gap:6px;background:#222;color:white;padding:5px;border-radius:999px;z-index:100;box-shadow:0 8px 18px rgba(0,0,0,.16)}
 .toolbar button{background:transparent;color:white;border-color:rgba(255,255,255,.3);padding:4px 8px;font-size:12px}
-.monitor{height:54px;display:none;align-items:center;gap:5px;padding:8px 14px;border-top:1px solid var(--line);background:#fff;position:fixed;left:0;right:0;bottom:0;z-index:35;overflow-x:auto}
+.monitor{height:calc(54px + env(safe-area-inset-bottom));display:none;align-items:center;gap:5px;padding:8px 14px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff;position:fixed;left:0;right:0;bottom:0;z-index:35;overflow-x:auto}
 .dot{min-width:29px;height:29px;border:1px solid var(--line);border-radius:999px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);cursor:pointer}
 .dot.answered{background:var(--green-bg);border-color:#a6d1b5;color:#2d6c45;font-weight:800}
 .dot.current{outline:3px solid rgba(17,17,17,.14);border-color:#111;color:#111;font-weight:800}
