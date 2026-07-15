@@ -55,6 +55,8 @@ button:disabled,input:disabled,select:disabled{opacity:.7;cursor:not-allowed}
 .tabs{height:48px;display:flex;align-items:center;gap:8px;padding:0;margin:0;background:#fff;position:static;z-index:25;flex:1 1 auto;min-width:0;overflow-x:auto}
 .tab{border-radius:999px;padding:5px 11px;background:#fff;color:#111;white-space:nowrap}
 .tab.active{background:#111;color:#fff;border-color:#111}
+.tab.done{color:var(--green)}
+.tab.done .tab-check{margin-left:4px;font-size:11px}
 .importScreen,.importPanel,.recordsScreen,.reviewScreen{padding:26px;max-width:1120px;margin:0 auto}
 .workspaceTitle{font-size:24px;margin:0 0 8px;font-weight:700;letter-spacing:0;color:#111}
 .homeLead{color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 18px}
@@ -178,6 +180,7 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 .dot.right{background:#cfead8;color:#23673c;border-color:#78b68b;font-weight:800}
 .dot.wrong{background:var(--bad-bg);color:#922e2e;border-color:#d09090;font-weight:800}
 .dot.unanswered{background:var(--grey-bg);color:#777;border-color:#cfcfcf}
+.dot.locked{background:#f0f0f0;border-color:#d0d0d0;color:#999;font-weight:800;cursor:default}
 .settingsPanel,.reviewPanel{position:fixed;right:18px;top:58px;width:330px;max-height:calc(100vh - 86px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.10);z-index:60;padding:14px;display:none}
 .settingsPanel.show,.reviewPanel.show{display:block}
 .settingsPanel h3,.reviewPanel h3{margin:0 0 12px;font-size:16px}
@@ -219,39 +222,84 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
   .qrow input,.qrow select{grid-column:2}
   .reviewPanel,.settingsPanel{right:12px;left:12px;width:auto}
 }
+/* === NEW CSS: Per-passage mini test, library, import dialog === */
+.continueReadingCard{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fff;margin-bottom:20px;cursor:pointer;transition:box-shadow .15s ease}
+.continueReadingCard:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.continueReadingCard h3{font-size:15px;margin:0 0 4px;font-weight:700;color:#111}
+.continueReadingCard p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
+.continueReadingCard .cr-arrow{float:right;font-size:18px;color:#999;margin-top:-2px}
+.folderList{margin-top:8px}
+.folderItem{margin-bottom:6px}
+.folderHeader{display:flex;align-items:center;gap:6px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;user-select:none;transition:background .1s ease}
+.folderHeader:hover{background:var(--soft)}
+.folderHeader .folder-arrow{font-size:10px;color:#999;transition:transform .2s ease;display:inline-block;width:14px;text-align:center;flex-shrink:0}
+.folderHeader .folder-arrow.open{transform:rotate(90deg)}
+.folderHeader .folder-name{font-size:14px;font-weight:700;color:#111;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.folderHeader .folder-count{font-size:12px;color:var(--muted);flex-shrink:0}
+.folderPapers{margin-top:4px;margin-left:20px;display:none}
+.folderPapers.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.finishPassageBar{display:flex;justify-content:center;padding:18px 0 8px}
+.finishPassageBtn{font-size:15px;padding:10px 32px;border-radius:999px;font-weight:600}
+.importDialog{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:200;display:none;align-items:center;justify-content:center}
+.importDialog.show{display:flex}
+.importDialogBox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;width:380px;max-width:90vw;box-shadow:0 16px 40px rgba(0,0,0,.15)}
+.importDialogBox h3{margin:0 0 16px;font-size:16px;font-weight:700}
+.importDialogBox label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px;margin-top:12px}
+.importDialogBox label:first-of-type{margin-top:0}
+.importDialogBox input[type=text]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px}
+.importDialogActions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.passage-locked-banner{background:var(--soft);border:1px solid var(--line-soft);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.passage-locked-banner .lock-icon{font-size:15px}
 </style>
 </head>
 <body>
 <header class="topbar" id="examBar">
   <nav class="tabs" id="tabs"></nav>
   <div class="actions">
-    <span class="timer" id="timer" title="点击暂停 / 继续">60:00</span>
-    <button id="settingsBtn">设置</button>
-    <button class="primary" id="submitBtn">提交</button>
-    <button id="backHomeExam" class="homeExamBtn hidden">返回首页</button>
-    <button id="backImport" class="ghost hidden">导入材料</button>
-    <button id="reviewBtn" class="hidden">复盘库 <span id="reviewCount">0</span></button>
+    <span class="timer" id="timer" title="Click to pause / resume">60:00</span>
+    <button id="settingsBtn">Settings</button>
+    <button class="primary" id="finishPassageBtn" style="display:none">Finish Passage</button>
+    <button class="primary" id="submitBtn" style="display:none">View Summary</button>
+    <button id="backHomeExam" class="homeExamBtn hidden">Home</button>
+    <button id="backImport" class="ghost hidden">Import</button>
+    <button id="reviewBtn" class="hidden">Review <span id="reviewCount">0</span></button>
     <span class="lockHint" id="lockHint"></span>
   </div>
 </header>
 
+<!-- Import Dialog Modal -->
+<div class="importDialog" id="importDialog">
+  <div class="importDialogBox">
+    <h3>Import Paper</h3>
+    <label>Folder Name</label>
+    <input type="text" id="importFolderName" placeholder="e.g. Cambridge IELTS 18">
+    <label>Paper Name</label>
+    <input type="text" id="importPaperName" placeholder="e.g. Test 1 - Reading">
+    <div class="importDialogActions">
+      <button class="ghost" id="importDialogCancel">Cancel</button>
+      <button class="primary" id="importDialogConfirm">Import</button>
+    </div>
+  </div>
+</div>
+
 <section class="importScreen" id="importScreen">
   <h1 class="workspaceTitle">Reading test system</h1>
-  <p class="homeLead">导入自己的 JSON 卷子后，会在这里生成考试入口。点击卷子进入机考模式。</p>
+  <p class="homeLead">Import your JSON paper package. The paper will appear in your Reading Library.</p>
   <p class="subtle">Open-source notice: this version only contains the test system code. It does not include Cambridge IELTS papers, PDFs, official passages, official questions, or copyrighted test materials.</p>
   <div class="homeActions">
-    <button class="primary" id="openImport">导入新卷子</button>
-    <button id="openRecordsFromImport">做题统计</button>
+    <button class="primary" id="openImport">Import New Paper</button>
+    <button id="openRecordsFromImport">Statistics</button>
   </div>
+  <div id="continueReadingArea"></div>
   <div class="workspaceSection">
     <div class="workspaceHead">
-      <h2>卷子列表</h2>
+      <h2>Reading Library</h2>
     </div>
-    <div id="paperList" class="paperGrid"></div>
+    <div id="folderTree" class="folderList"></div>
   </div>
   <div class="workspaceSection">
     <div class="workspaceHead">
-      <h2>做题记录</h2>
+      <h2>History</h2>
     </div>
     <div id="attemptList" class="paperGrid"></div>
   </div>
@@ -259,30 +307,30 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 
 <section class="importPanel" id="importPanel">
   <div class="recordsTop">
-    <h2>导入新卷子</h2>
-    <button id="backHomeFromImport">返回首页</button>
+    <h2>Import New Paper</h2>
+    <button id="backHomeFromImport">Home</button>
   </div>
   <div class="hero">
     <div class="importGrid">
       <div class="importBox">
-        <h3>导入 JSON 文件</h3>
-        <p class="subtle">选择你自己的 JSON 材料包，导入后会保存成一张卷子卡片。</p>
+        <h3>Import JSON File</h3>
+        <p class="subtle">Select your JSON paper package file.</p>
         <input type="file" id="jsonFile" accept=".json,application/json">
-        <button class="primary" id="loadJson">导入 JSON</button>
+        <button class="primary" id="loadJson">Import JSON</button>
       </div>
       <div class="importBox">
-        <h3>粘贴 JSON</h3>
-        <textarea id="jsonPaste" placeholder='把 AI 生成的 JSON 粘贴到这里，然后点“导入粘贴 JSON”。'></textarea>
-        <button id="loadPastedJson">导入粘贴 JSON</button>
-        <p class="subtle">支持字段：title / passages / answers / questionWeights / difficultyAnalysis。</p>
+        <h3>Paste JSON</h3>
+        <textarea id="jsonPaste" placeholder='Paste your AI-generated JSON here, then click "Import Pasted JSON".'></textarea>
+        <button id="loadPastedJson">Import Pasted JSON</button>
+        <p class="subtle">Supported fields: title / passages / answers / questionWeights / difficultyAnalysis.</p>
       </div>
     </div>
     <div class="schemaTemplateBox">
-      <h3>AI 生成材料包格式</h3>
-      <p class="subtle">复制下面这个结构发给 AI，让 AI 只填结构化 JSON。不要让 AI 写 questionsHtml；题目格式由系统渲染。</p>
+      <h3>AI Material Package Format</h3>
+      <p class="subtle">Copy the structure below and send to AI. Let AI fill in structured JSON. Do not let AI write questionsHtml.</p>
       <div class="schemaTemplateActions">
-        <button id="copySchemaTemplate">复制格式模板</button>
-        <button id="downloadSchemaTemplate">下载 JSON 模板</button>
+        <button id="copySchemaTemplate">Copy Format Template</button>
+        <button id="downloadSchemaTemplate">Download JSON Template</button>
       </div>
       <textarea id="schemaTemplateText" readonly spellcheck="false"></textarea>
     </div>
@@ -291,16 +339,16 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 
 <section class="recordsScreen" id="recordsScreen">
   <div class="recordsTop">
-    <h2>做题统计</h2>
+    <h2>Statistics</h2>
     <div>
-      <button id="backFromRecords">返回首页</button>
-      <button id="exportRecords">导出做题记录</button>
-      <button id="exportReviewMarks">导出待回看标记</button>
-      <button id="clearRecords" class="ghost">清空记录</button>
+      <button id="backFromRecords">Home</button>
+      <button id="exportRecords">Export Records</button>
+      <button id="exportReviewMarks">Export Review Marks</button>
+      <button id="clearRecords" class="ghost">Clear Records</button>
     </div>
   </div>
   <div id="recordsTrend" class="recordsTrend"></div>
-  <div class="tableWrap"><table><thead><tr><th>日期</th><th>套题</th><th>Raw</th><th>正确率</th><th>Adjusted</th><th>Band</th><th>Difficulty</th><th>Wrong</th><th>Unanswered</th><th>待回看</th><th>定位</th><th>操作</th></tr></thead><tbody id="recordsBody"></tbody></table></div>
+  <div class="tableWrap"><table><thead><tr><th>Date</th><th>Paper</th><th>Raw</th><th>Accuracy</th><th>Adjusted</th><th>Band</th><th>Difficulty</th><th>Wrong</th><th>Unanswered</th><th>Review</th><th>Evidence</th><th>Action</th></tr></thead><tbody id="recordsBody"></tbody></table></div>
   <div id="recordDetail" class="recordDetail hidden"></div>
 </section>
 
@@ -311,8 +359,8 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
       <p class="subtle" id="reviewPageMeta"></p>
     </div>
     <div class="reviewActions">
-      <button id="reviewBackHome">返回首页</button>
-      <button class="primary" id="reviewOpenExam">进入机考页查看原文</button>
+      <button id="reviewBackHome">Home</button>
+      <button class="primary" id="reviewOpenExam">View in Exam</button>
     </div>
   </div>
   <div id="reviewPageContent" class="reviewColumns"></div>
@@ -326,23 +374,23 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
   </main>
 </section>
 
-<div class="toolbar" id="toolbar"><button data-act="highlight">Highlight</button><button data-act="note">Note</button><button data-act="review" id="reviewToolBtn" title="加入待回看">＋</button><button data-act="remove" id="removeToolBtn">Remove</button></div>
+<div class="toolbar" id="toolbar"><button data-act="highlight">Highlight</button><button data-act="note">Note</button><button data-act="review" id="reviewToolBtn" title="Add review mark">+</button><button data-act="remove" id="removeToolBtn">Remove</button></div>
 
 <aside class="settingsPanel" id="settingsPanel">
-  <h3>设置</h3>
-  <div class="settingRow"><span>文章字号</span><input type="range" id="articleSize" min="14" max="22" value="16"></div>
-  <div class="settingRow"><span>题目字号</span><input type="range" id="questionSize" min="12" max="18" value="14"></div>
-  <div class="settingRow"><span>行距</span><input type="range" id="lineHeight" min="1.4" max="2.2" step="0.05" value="1.78"></div>
-  <div class="settingRow"><span>字体</span><select id="fontSelect"><option value="sans">Sans-serif</option><option value="serif">Serif</option></select></div>
-  <button id="resetSettings">恢复默认</button>
+  <h3>Settings</h3>
+  <div class="settingRow"><span>Article Font</span><input type="range" id="articleSize" min="14" max="22" value="16"></div>
+  <div class="settingRow"><span>Question Font</span><input type="range" id="questionSize" min="12" max="18" value="14"></div>
+  <div class="settingRow"><span>Line Height</span><input type="range" id="lineHeight" min="1.4" max="2.2" step="0.05" value="1.78"></div>
+  <div class="settingRow"><span>Font</span><select id="fontSelect"><option value="sans">Sans-serif</option><option value="serif">Serif</option></select></div>
+  <button id="resetSettings">Reset</button>
 </aside>
 
 <aside class="reviewPanel" id="reviewPanel">
   <div class="reviewPanelTop">
-    <h3>待回看标记</h3>
-    <button id="closeReviewPanel" class="ghost">关闭</button>
+    <h3>Review Marks</h3>
+    <button id="closeReviewPanel" class="ghost">Close</button>
   </div>
-  <p class="subtle">点「＋」不会高亮、不会弹窗，只会默默记录。提交后可点击句子跳回原文。</p>
+  <p class="subtle">Click "+" to silently record a review mark. After submission, click marks to jump back to the original text.</p>
   <div id="reviewList"></div>
 </aside>
 
@@ -351,6 +399,8 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 <script>
 const RECORDS_KEY = 'brand9_reading_mock_score_records_v1';
 const PAPERS_KEY = 'brand9_reading_mock_papers_v1';
+const LIBRARY_KEY = 'brand9_reading_mock_library_v1';
+const CONTINUE_KEY = 'brand9_reading_mock_continue_v1';
 const OPEN_SOURCE_NOTICE = 'This open-source version only contains the test system code. It does not include Cambridge IELTS papers, PDFs, official passages, official questions, or copyrighted test materials.';
 const BUILTIN_PAPER_ID = '';
 const BUILTIN_PAPER_NO = '';
@@ -413,9 +463,12 @@ let pendingEvidenceSource = null;
 let evidenceSources = {};
 let questionEvidenceMap = {};
 let saveTick = 0;
+let passageGrades = {};
+let passageLocked = {};
+let pendingImportData = null;
 
 function $(id){return document.getElementById(id)}
-function norm(v){return (v||'').toString().trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g,' ')}
+function norm(v){return (v||'').toString().trim().toLowerCase().replace(/[\u2019\u2018']/g,"'").replace(/\s+/g,' ')}
 function escapeHtml(s){return (s||'').toString().replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function fmtTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 function round1(n){return Math.round((Number(n)||0)*10)/10}
@@ -437,6 +490,69 @@ function makeId(prefix){return `${prefix}_${Date.now()}_${Math.floor(Math.random
 function getPapers(){try{return JSON.parse(localStorage.getItem(PAPERS_KEY)||'[]')}catch(e){return []}}
 function savePapers(list){localStorage.setItem(PAPERS_KEY, JSON.stringify(list))}
 function findPaper(id){return getPapers().find(p=>p.id===id)}
+
+// ===== Library functions =====
+function getLibrary(){
+  try{return JSON.parse(localStorage.getItem(LIBRARY_KEY)||'[]')}catch(e){return []}
+}
+function saveLibrary(list){localStorage.setItem(LIBRARY_KEY, JSON.stringify(list))}
+
+// ===== Continue Reading functions =====
+function getContinueReading(){
+  try{return JSON.parse(localStorage.getItem(CONTINUE_KEY)||'null')}catch(e){return null}
+}
+function saveContinueReading(data){
+  if(data) localStorage.setItem(CONTINUE_KEY, JSON.stringify(data));
+  else localStorage.removeItem(CONTINUE_KEY);
+}
+
+// ===== Migrate old papers to library =====
+function migratePapersToLibrary(){
+  const lib = getLibrary();
+  if(lib.length > 0) return; // Already migrated
+  const list = getPapers();
+  if(!list.length) return;
+  // Collect all unique paperIds
+  const paperMap = new Map();
+  list.forEach(p => {
+    const pid = p.paperId || p.paperNo || p.id;
+    if(!paperMap.has(pid)){
+      paperMap.set(pid, {
+        id: 'folder_imported_' + Date.now(),
+        name: 'Imported',
+        papers: []
+      });
+    }
+    const folder = paperMap.get(pid);
+    // Avoid duplicates
+    if(!folder.papers.some(fp => fp.id === p.id)){
+      folder.papers.push({
+        id: p.id,
+        paperId: p.paperId || p.paperNo || p.id,
+        shortTitle: p.shortTitle || cleanImportedTitle(p.data || {title: p.title}),
+        title: p.title || mainPaperTitle(p),
+        subtitle: p.subtitle || '',
+        status: p.status || 'not_started',
+        updatedAt: p.updatedAt || p.createdAt || new Date().toISOString()
+      });
+    }
+  });
+  // Merge all into one "Imported" folder
+  const allPapers = [];
+  paperMap.forEach(folder => {
+    folder.papers.forEach(fp => {
+      if(!allPapers.some(ap => ap.id === fp.id)) allPapers.push(fp);
+    });
+  });
+  if(allPapers.length > 0){
+    saveLibrary([{
+      id: 'folder_imported_' + Date.now(),
+      name: 'Imported',
+      papers: allPapers
+    }]);
+  }
+}
+
 function defaultDraft(){
   return {
     currentPassage:0,
@@ -451,13 +567,27 @@ function defaultDraft(){
     submitted:false,
     submittedAt:null,
     result:null,
-    passageMarkupCache:{}
+    passageMarkupCache:{},
+    passageLocked:{},
+    passageGrades:{}
   };
 }
 function normalizeDraft(draft){
   const src=draft||{};
   const marks=[...(src.reviewMarks||src.reviewItems||[])];
-  return {...defaultDraft(), ...src, userAnswers:{...(src.userAnswers||{})}, multiAnswers:{...(src.multiAnswers||{})}, reviewMarks:marks, reviewItems:marks, evidenceSources:{...(src.evidenceSources||{})}, questionEvidenceMap:{...(src.questionEvidenceMap||{})}, passageMarkupCache:{...(src.passageMarkupCache||{})}};
+  return {
+    ...defaultDraft(),
+    ...src,
+    userAnswers:{...(src.userAnswers||{})},
+    multiAnswers:{...(src.multiAnswers||{})},
+    reviewMarks:marks,
+    reviewItems:marks,
+    evidenceSources:{...(src.evidenceSources||{})},
+    questionEvidenceMap:{...(src.questionEvidenceMap||{})},
+    passageMarkupCache:{...(src.passageMarkupCache||{})},
+    passageLocked:{...(src.passageLocked||{})},
+    passageGrades:{...(src.passageGrades||{})}
+  };
 }
 function splitAnswerState(){
   const userAnswers={}, multiAnswers={};
@@ -476,7 +606,6 @@ function hasBuiltinSignature(data){
   return false;
 }
 
-
 function nextPaperNo(list=getPapers()){
   const max=Math.max(0, ...list.map(p=>paperNoNumber(p.paperNo||p.paperId)).filter(Boolean));
   return formatPaperNo(max+1);
@@ -484,20 +613,20 @@ function nextPaperNo(list=getPapers()){
 function cleanImportedTitle(data){
   const raw=String(data?.title||'Imported Reading Mock').trim();
   return raw
-    .replace(/^Brand9 Reading Mock\s*[·|-]\s*/i,'')
-    .replace(/^Brand9 Reading Demo\s*[·|-]?\s*/i,'')
+    .replace(/^Brand9 Reading Mock\s*[\u00b7|\-]\s*/i,'')
+    .replace(/^Brand9 Reading Demo\s*[\u00b7|\-]?\s*/i,'')
     .replace(/\s*Light JSON$/i,'')
-    .replace(/\s*[·|-]\s*$/,'')
+    .replace(/\s*[\u00b7|\-]\s*$/,'')
     .trim() || 'Imported Reading Mock';
 }
 function mainPaperTitle(paper){
   const no=paper?.paperNo || paper?.paperId || 'R-MOCK-000';
   const title=String(paper?.shortTitle || cleanImportedTitle(paper?.data || {title:paper?.title}) || 'Imported Reading Mock');
-  return `${no}｜${title.replace(new RegExp(`^${no}\\s*[｜|]\\s*`),'')}`;
+  return `${no} \u2502 ${title.replace(new RegExp(`^${no.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\s*[\u2502|]\\s*`),'')}`;
 }
 function attemptTitle(paper){
   const no=paper?.paperNo || paper?.paperId || 'R-MOCK-000';
-  return `${no}｜第 ${Number(paper?.attemptNo)||1} 次作答记录`;
+  return `${no} \u2502 Attempt ${Number(paper?.attemptNo)||1}`;
 }
 function createAttemptFromBase(base, attemptNo){
   const now=new Date().toISOString();
@@ -511,6 +640,8 @@ function createAttemptFromBase(base, attemptNo){
     shortTitle:base.shortTitle || cleanImportedTitle(base.data),
     subtitle:base.subtitle || '',
     source:base.source || 'imported',
+    folderName:base.folderName || '',
+    paperDisplayName:base.paperDisplayName || '',
     createdAt:now,
     updatedAt:now,
     status:'not_started',
@@ -531,10 +662,12 @@ function createPaper(data, opts={}){
     paperNo,
     attemptId:opts.attemptId || makeId('attempt'),
     attemptNo:Number(opts.attemptNo)||1,
-    title:opts.title || (isBuiltin ? BUILTIN_PAPER_TITLE : `${paperNo}｜${cleanImportedTitle(normalized)}`),
+    title:opts.title || (isBuiltin ? BUILTIN_PAPER_TITLE : `${paperNo} \u2502 ${cleanImportedTitle(normalized)}`),
     shortTitle:opts.shortTitle || (isBuiltin ? '29 / 33 / 77' : cleanImportedTitle(normalized)),
     subtitle:opts.subtitle || (isBuiltin ? BUILTIN_PAPER_SUBTITLE : ''),
     source:opts.source || (isBuiltin ? 'builtin' : 'imported'),
+    folderName:opts.folderName || '',
+    paperDisplayName:opts.paperDisplayName || '',
     createdAt:opts.createdAt || now,
     updatedAt:opts.updatedAt || now,
     status:opts.status || 'not_started',
@@ -543,9 +676,50 @@ function createPaper(data, opts={}){
   };
   list.unshift(paper);
   savePapers(list);
+  // Update library
+  updateLibraryForPaper(paper);
   renderWorkspace();
   return paper;
 }
+
+// ===== Library management =====
+function updateLibraryForPaper(paper){
+  const lib = getLibrary();
+  const folderName = paper.folderName || 'Imported';
+  let folder = lib.find(f => f.name === folderName);
+  if(!folder){
+    folder = {id: 'folder_' + Date.now() + '_' + Math.floor(Math.random()*999999), name: folderName, papers: []};
+    lib.push(folder);
+  }
+  // Avoid duplicate entries
+  const existingIdx = folder.papers.findIndex(fp => fp.id === paper.id);
+  const entry = {
+    id: paper.id,
+    paperId: paper.paperId || paper.paperNo || paper.id,
+    shortTitle: paper.paperDisplayName || paper.shortTitle || cleanImportedTitle(paper.data || {title: paper.title}),
+    title: paper.title || mainPaperTitle(paper),
+    subtitle: paper.subtitle || '',
+    status: paper.status || 'not_started',
+    updatedAt: paper.updatedAt || paper.createdAt || new Date().toISOString()
+  };
+  if(existingIdx >= 0){
+    folder.papers[existingIdx] = entry;
+  } else {
+    folder.papers.push(entry);
+  }
+  saveLibrary(lib);
+}
+
+function removePaperFromLibrary(paperId){
+  const lib = getLibrary();
+  lib.forEach(folder => {
+    folder.papers = folder.papers.filter(fp => fp.id !== paperId);
+  });
+  // Remove empty folders
+  const cleaned = lib.filter(f => f.papers.length > 0);
+  saveLibrary(cleaned);
+}
+
 function safeNormalizePaperData(data){
   try{return normalizeData(data || EMPTY_READING_DATA)}
   catch(e){return normalizeData({...EMPTY_READING_DATA})}
@@ -592,6 +766,8 @@ function migratePaperStorage(){
     if(!p.attemptNo){p.attemptNo=counters[key]; changed=true;}
   });
   if(changed) savePapers(cleaned);
+  // Also migrate to library if needed
+  migratePapersToLibrary();
 }
 
 function createPaperObjectForBuiltin(){
@@ -602,7 +778,7 @@ function redoPaper(paperId){
   const list=getPapers();
   const attempts=list.filter(p=>p.paperId===paperId);
   const base=attempts.find(p=>p.data) || list.find(p=>p.id===paperId);
-  if(!base) return showHint('没有找到原卷子');
+  if(!base) return showHint('Paper not found');
   const nextNo=Math.max(0,...attempts.map(p=>Number(p.attemptNo)||0))+1;
   const fresh=createAttemptFromBase(base, nextNo);
   list.unshift(fresh);
@@ -619,6 +795,124 @@ function updateCurrentPaper(mutator){
   savePapers(list);
   return list[idx];
 }
+
+// ===== Per-passage question helpers =====
+function getQuestionsForPassage(passageIndex){
+  const ranges = [[1,13],[14,26],[27,40]];
+  const [a,b] = ranges[passageIndex] || [1,40];
+  const nums = [];
+  for(let n=a; n<=b; n++) nums.push(String(n));
+  return nums;
+}
+
+function getUnansweredForPassage(passageIndex){
+  const qNums = getQuestionsForPassage(passageIndex);
+  let unanswered = 0;
+  qNums.forEach(q => {
+    if(!isAnswered(q)) unanswered++;
+  });
+  return unanswered;
+}
+
+function buildPassageGrade(passageIndex){
+  const qNums = getQuestionsForPassage(passageIndex);
+  const weights = getWeights();
+  const pGrade = {rawScore:0, total:qNums.length, correct:0, wrong:0, unanswered:0, issueRows:[], gradeState:{}};
+  qNums.forEach(q => {
+    // Check if this question belongs to a group
+    const groupKey = Object.keys(DATA.answers||{}).find(k => String(k).includes('-') && rangeNums(k).includes(q));
+    if(groupKey){
+      // For group keys, we process them once; skip individual items if already processed by group
+      if(pGrade.gradeState[groupKey]) return;
+      const nums = rangeNums(groupKey);
+      const right = correctAnswersForKey(groupKey);
+      const selected = answerState[groupKey] || [];
+      const selectedUpper = selected.map(x => String(x));
+      const rightUpper = right.map(x => String(x));
+      const correctSelected = selectedUpper.filter(x => rightUpper.includes(x));
+      const fullCorrect = correctSelected.length===rightUpper.length && selectedUpper.length===rightUpper.length;
+      const selectedLabel = selectedUpper.join(', ') || 'Unanswered';
+      nums.forEach((n, idx) => {
+        let status;
+        if(idx < correctSelected.length) status='right';
+        else if(selectedUpper.length===0 || (selectedUpper.length<rightUpper.length && selectedUpper.every(x=>rightUpper.includes(x)))) status='unanswered';
+        else status='wrong';
+        pGrade.gradeState[n] = {status, your:selectedLabel, correct:rightUpper.join(' / '), weight:Number(weights[n]||1), group:groupKey};
+        if(status==='right'){pGrade.rawScore++; pGrade.correct++;}
+        else if(status==='unanswered'){pGrade.unanswered++; pGrade.issueRows.push({question:n, your:'Unanswered', correct:rightUpper.join(' / '), weight:Number(weights[n]||1), status});}
+        else {pGrade.wrong++; pGrade.issueRows.push({question:n, your:selectedLabel, correct:rightUpper.join(' / '), weight:Number(weights[n]||1), status});}
+      });
+      pGrade.gradeState[groupKey] = {status:fullCorrect?'right':(selectedUpper.length?'wrong':'unanswered'), your:selectedLabel, correct:rightUpper.join(' / '), group:groupKey};
+    } else if(DATA.answers && DATA.answers[q]){
+      const your = answerState[q] || '';
+      const right = correctAnswersForKey(q);
+      const answered = norm(your).length > 0;
+      const ok = answered && right.map(norm).includes(norm(your));
+      const status = ok ? 'right' : (answered ? 'wrong' : 'unanswered');
+      pGrade.gradeState[q] = {status, your: your || 'Unanswered', correct: right.join(' / '), weight: Number(weights[q]||1)};
+      if(ok){pGrade.rawScore++; pGrade.correct++;}
+      else if(!answered){pGrade.unanswered++; pGrade.issueRows.push({question:q, your:'Unanswered', correct:right.join(' / '), weight:Number(weights[q]||1), status});}
+      else {pGrade.wrong++; pGrade.issueRows.push({question:q, your, correct:right.join(' / '), weight:Number(weights[q]||1), status});}
+    }
+  });
+  return pGrade;
+}
+
+function applyPassageFeedback(passageIndex){
+  const pGrade = passageGrades[passageIndex];
+  if(!pGrade) return;
+  // Merge passage grade state into global gradeState for this passage's questions
+  Object.entries(pGrade.gradeState).forEach(([k,v]) => {
+    gradeState[k] = v;
+  });
+  // Apply feedback to DOM
+  document.querySelectorAll('input[data-q], select[data-q]').forEach(el => markField(el.dataset.q));
+  document.querySelectorAll('.multi').forEach(box => markMulti(box));
+}
+
+function finishPassage(){
+  if(passageLocked[currentPassage]) return;
+  // Validate unanswered questions
+  const unanswered = getUnansweredForPassage(currentPassage);
+  if(unanswered > 0){
+    if(!confirm(`Passage ${currentPassage+1} has ${unanswered} unanswered question(s).\nDo you want to finish this passage anyway?`)){
+      return;
+    }
+  }
+  // Lock and grade this passage
+  passageLocked[currentPassage] = true;
+  passageGrades[currentPassage] = buildPassageGrade(currentPassage);
+  // Disable inputs for this passage
+  document.querySelectorAll('#questions input[data-q], #questions select[data-q]').forEach(el => {
+    el.disabled = true;
+  });
+  document.querySelectorAll('#questions .multi input').forEach(input => { input.disabled = true; });
+  // Apply feedback
+  applyPassageFeedback(currentPassage);
+  // Show locked banner
+  const banner = document.createElement('div');
+  banner.className = 'passage-locked-banner';
+  banner.innerHTML = '<span class="lock-icon">\uD83D\uDD12</span> This passage is locked. Your answers have been graded.';
+  const questionsEl = $('questions');
+  questionsEl.insertBefore(banner, questionsEl.firstChild);
+  // Hide finish button
+  $('finishPassageBtn').style.display = 'none';
+  // Save
+  saveDraft();
+  updateAnswered();
+  // Auto-advance to next passage
+  const nextPassage = currentPassage + 1;
+  const allLocked = DATA.passages.every((_, i) => passageLocked[i]);
+  if(nextPassage < DATA.passages.length){
+    renderPassage(nextPassage);
+  }
+  // Show submit button only when all passages are locked
+  $('submitBtn').style.display = allLocked ? '' : 'none';
+  renderTabs();
+  updateAnswered();
+  saveDraft();
+}
+
 function saveDraft(){
   if(!currentPaperId || $('app').style.display !== 'block') return;
   saveCurrentMarkup();
@@ -639,9 +933,29 @@ function saveDraft(){
       submitted,
       submittedAt:submitted ? (paper.draft?.submittedAt || new Date().toISOString()) : null,
       result:lastScoreSummary,
-      passageMarkupCache
+      passageMarkupCache,
+      passageLocked,
+      passageGrades
     };
   });
+  // Save continue reading state
+  if(!submitted){
+    const paper = findPaper(currentPaperId);
+    if(paper){
+      const totalPassages = DATA.passages.length;
+      const lockedCount = Object.values(passageLocked).filter(Boolean).length;
+      saveContinueReading({
+        paperId: currentPaperId,
+        folderName: paper.folderName || 'Imported',
+        paperDisplayName: paper.paperDisplayName || paper.shortTitle || cleanImportedTitle(paper.data || {title: paper.title}),
+        paperTitle: mainPaperTitle(paper),
+        currentPassage,
+        totalPassages,
+        lockedCount,
+        updatedAt: new Date().toISOString()
+      });
+    }
+  }
 }
 function scoreText(paper, field){
   const result=paper.draft?.result;
@@ -652,12 +966,12 @@ function scoreText(paper, field){
   return '-';
 }
 function statusText(status){
-  return status==='submitted' ? '已提交' : status==='in_progress' ? '进行中' : '未开始';
+  return status==='submitted' ? 'Submitted' : status==='in_progress' ? 'In Progress' : 'Not Started';
 }
 function paperGroupStatus(attempts){
-  if(attempts.some(p=>p.status==='in_progress')) return '进行中';
-  if(attempts.some(p=>p.status==='not_started')) return '未开始';
-  return attempts.some(p=>p.status==='submitted') ? '已完成' : '未开始';
+  if(attempts.some(p=>p.status==='in_progress')) return 'In Progress';
+  if(attempts.some(p=>p.status==='not_started')) return 'Not Started';
+  return attempts.some(p=>p.status==='submitted') ? 'Completed' : 'Not Started';
 }
 function paperSortTime(paper){
   return new Date(paper?.draft?.submittedAt || paper?.updatedAt || paper?.createdAt || 0).getTime() || 0;
@@ -681,8 +995,113 @@ function groupPapers(list){
 function scoreSummaryLine(paper){
   const result=paper?.draft?.result;
   if(!result) return '';
-  return `<span>最近一次</span><b>${result.rawScore} / 40，Band ${escapeHtml(result.estimatedBand || '-')}</b>`;
+  return `<span>Latest</span><b>${result.rawScore} / 40, Band ${escapeHtml(result.estimatedBand || '-')}</b>`;
 }
+
+// ===== Render Continue Reading Card =====
+function renderContinueReading(){
+  const box = $('continueReadingArea');
+  if(!box) return;
+  const cr = getContinueReading();
+  if(!cr){
+    box.innerHTML = '';
+    return;
+  }
+  // Verify the paper still exists
+  const paper = findPaper(cr.paperId);
+  if(!paper || paper.status === 'submitted'){
+    saveContinueReading(null);
+    box.innerHTML = '';
+    return;
+  }
+  box.innerHTML = `<div class="continueReadingCard" id="continueReadingCard">
+    <span class="cr-arrow">\u203A</span>
+    <h3>Continue Reading</h3>
+    <p>${escapeHtml(cr.folderName)} \u2502 ${escapeHtml(cr.paperDisplayName || cr.paperTitle)}</p>
+    <p>Progress: Passage ${cr.lockedCount + 1} / ${cr.totalPassages}</p>
+  </div>`;
+  $('continueReadingCard').onclick = () => {
+    startPaper(cr.paperId);
+  };
+}
+
+// ===== Render Folder Tree =====
+function renderFolderTree(){
+  const box = $('folderTree');
+  if(!box) return;
+  const lib = getLibrary();
+  if(!lib.length){
+    box.innerHTML = '<div class="emptyPapers">No papers yet. Click "Import New Paper" to import your JSON paper package.</div>';
+    return;
+  }
+  // Get all papers for status checking
+  const allPapers = getPapers();
+  box.innerHTML = lib.map(folder => {
+    const hasInProgress = folder.papers.some(fp => {
+      const p = allPapers.find(ap => ap.id === fp.id);
+      return p && p.status === 'in_progress';
+    });
+    const isOpen = hasInProgress ? ' open' : '';
+    return `<div class="folderItem">
+      <div class="folderHeader" data-folder-id="${escapeHtml(folder.id)}">
+        <span class="folder-arrow${isOpen}">\u25B6</span>
+        <span class="folder-name">${escapeHtml(folder.name)}</span>
+        <span class="folder-count">${folder.papers.length}</span>
+      </div>
+      <div class="folderPapers${isOpen}" data-folder-papers="${escapeHtml(folder.id)}">
+        ${renderFolderPapers(folder.papers, allPapers)}
+      </div>
+    </div>`;
+  }).join('');
+  // Bind folder toggle
+  box.querySelectorAll('.folderHeader').forEach(header => {
+    header.onclick = () => {
+      const arrow = header.querySelector('.folder-arrow');
+      const papersDiv = box.querySelector(`[data-folder-papers="${header.dataset.folderId}"]`);
+      arrow.classList.toggle('open');
+      papersDiv.classList.toggle('open');
+    };
+  });
+  // Bind paper actions
+  bindFolderPaperActions(box, allPapers);
+}
+
+function renderFolderPapers(folderPapers, allPapers){
+  return folderPapers.map(fp => {
+    const paper = allPapers.find(p => p.id === fp.id);
+    const rawStatus = paper ? paper.status : fp.status;
+    const status = statusText(rawStatus);
+    const startText = rawStatus === 'in_progress' ? '继续' : rawStatus === 'submitted' ? '查看复盘' : '开始';
+    const startAct = rawStatus === 'submitted' ? 'review' : 'start';
+    const title = fp.paperDisplayName || fp.shortTitle || fp.title || 'Imported Reading Mock';
+    return `<article class="paperCard" data-id="${fp.id}" data-paper-id="${escapeHtml(fp.paperId)}">
+      <h3>${escapeHtml(title)}</h3>
+      ${fp.subtitle ? `<p class="subtle">${escapeHtml(fp.subtitle)}</p>` : ''}
+      <div class="paperMeta">
+        <span>Status</span><b><span class="statusPill">${status}</span></b>
+      </div>
+      <div class="paperActions">
+        <button class="primary" data-act="${startAct}">${startText}</button>
+        <button class="ghost" data-act="delete">Delete</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+function bindFolderPaperActions(root, allPapers){
+  root.querySelectorAll('button[data-act]').forEach(btn => {
+    btn.onclick = (e) => {
+      const card = e.target.closest('.paperCard');
+      const id = card.dataset.id;
+      const paperId = card.dataset.paperId || findPaper(id)?.paperId;
+      const act = e.target.dataset.act;
+      if(act === 'start') startPaper(id);
+      if(act === 'review') showReviewPage(id);
+      if(act === 'delete') deletePaper(id);
+    };
+  });
+}
+
 function showWorkspace(){
   saveDraft();
   currentPaperId=null;
@@ -716,41 +1135,10 @@ function showImportPanel(){
 }
 function renderWorkspace(){
   migratePaperStorage();
+  renderContinueReading();
+  renderFolderTree();
   const list=getPapers();
-  const box=$('paperList');
   const attemptBox=$('attemptList');
-  if(!box) return;
-  if(!list.length){
-    box.innerHTML='<div class="emptyPapers">还没有卷子。开源版不内嵌任何套题，请点击“导入新卷子”导入你自己的 JSON 材料包。</div>';
-    if(attemptBox) attemptBox.innerHTML='<div class="emptyPapers">还没有提交过的作答记录。</div>';
-    return;
-  }
-  const groups=groupPapers(list);
-  box.innerHTML=groups.map(group=>{
-    const attempts=group.attempts;
-    const active=latestAttempt(attempts, p=>p.status!=='submitted') || latestAttempt(attempts);
-    const latestSubmitted=latestAttempt(attempts, p=>p.status==='submitted');
-    const reviewCount=(latestSubmitted?.draft?.reviewMarks || latestSubmitted?.draft?.reviewItems || active?.draft?.reviewMarks || active?.draft?.reviewItems || []).length;
-    const status=paperGroupStatus(attempts);
-    const startText=active?.status==='in_progress' ? '继续' : active?.status==='submitted' ? '查看复盘' : '开始';
-    const startAct=active?.status==='submitted' ? 'review' : 'start';
-    return `<article class="paperCard" data-id="${active.id}" data-paper-id="${escapeHtml(group.paperId)}">
-      <h3>${escapeHtml(mainPaperTitle(active))}</h3>
-      ${active.subtitle ? `<p class="subtle">${escapeHtml(active.subtitle)}</p>` : ''}
-      <div class="paperMeta">
-        <span>编号</span><b>${escapeHtml(active.paperNo || group.paperId)}</b>
-        <span>状态</span><b><span class="statusPill">${status}</span></b>
-        ${latestSubmitted ? scoreSummaryLine(latestSubmitted) : ''}
-        <span>Review Marks</span><b>${reviewCount}</b>
-      </div>
-      <div class="paperActions">
-        <button class="primary" data-act="${startAct}">${startText}</button>
-        ${latestSubmitted && startAct!=='review' ? '<button data-act="review-latest">查看复盘</button>' : ''}
-        ${status==='已完成' ? '<button data-act="redo">重做这套题</button>' : ''}
-        <button class="ghost" data-act="delete">删除</button>
-      </div>
-    </article>`;
-  }).join('');
   const submitted=list.filter(p=>p.status==='submitted').sort((a,b)=>paperSortTime(b)-paperSortTime(a));
   if(attemptBox){
     attemptBox.innerHTML=submitted.length ? submitted.map(p=>{
@@ -762,39 +1150,39 @@ function renderWorkspace(){
     return `<article class="paperCard" data-id="${p.id}">
       <h3>${escapeHtml(attemptTitle(p))}</h3>
       <div class="paperMeta">
-        <span>提交</span><b>${new Date(p.draft?.submittedAt || p.updatedAt || p.createdAt).toLocaleString()}</b>
-        <span>编号</span><b>${escapeHtml(p.paperNo || p.paperId || '')}</b>
+        <span>Submitted</span><b>${new Date(p.draft?.submittedAt || p.updatedAt || p.createdAt).toLocaleString()}</b>
+        <span>No.</span><b>${escapeHtml(p.paperNo || p.paperId || '')}</b>
         ${scoreRows}
         <span>Review Marks</span><b>${reviewCount}</b>
       </div>
       <div class="paperActions">
-        <button class="primary" data-act="review">查看复盘</button>
-        <button data-act="redo">重做这套题</button>
-        <button class="ghost" data-act="delete">删除</button>
+        <button class="primary" data-act="review">Review</button>
+        <button data-act="redo">Redo</button>
+        <button class="ghost" data-act="delete">Delete</button>
       </div>
     </article>`;
-    }).join('') : '<div class="emptyPapers">还没有提交过的作答记录。</div>';
+    }).join('') : '<div class="emptyPapers">No submitted records yet.</div>';
+    attemptBox.querySelectorAll('button[data-act]').forEach(btn=>btn.onclick=(e)=>{
+      const card=e.target.closest('.paperCard');
+      const id=card.dataset.id;
+      const paperId=card.dataset.paperId || findPaper(id)?.paperId;
+      const act=e.target.dataset.act;
+      if(act==='review') showReviewPage(id);
+      if(act==='redo') redoPaper(paperId);
+      if(act==='delete') deletePaper(id);
+    });
   }
-  document.querySelectorAll('#paperList button[data-act], #attemptList button[data-act]').forEach(btn=>btn.onclick=(e)=>{
-    const card=e.target.closest('.paperCard');
-    const id=card.dataset.id;
-    const paperId=card.dataset.paperId || findPaper(id)?.paperId;
-    const act=e.target.dataset.act;
-    if(act==='start') startPaper(id);
-    if(act==='review') showReviewPage(id);
-    if(act==='review-latest'){
-      const latest=latestAttempt(getPapers().filter(p=>p.paperId===paperId), p=>p.status==='submitted');
-      if(latest) showReviewPage(latest.id);
-    }
-    if(act==='redo') redoPaper(paperId);
-    if(act==='delete') deletePaper(id);
-  });
 }
 function deletePaper(id){
   const paper=findPaper(id);
   if(!paper) return;
-  if(!confirm(`删除这条记录？\n${paper.status==='submitted' ? attemptTitle(paper) : mainPaperTitle(paper)}`)) return;
+  if(!confirm(`Delete this record?\n${paper.status==='submitted' ? attemptTitle(paper) : mainPaperTitle(paper)}`)) return;
   savePapers(getPapers().filter(p=>p.id!==id));
+  // Clean up library
+  removePaperFromLibrary(id);
+  // Clean up continue reading if it references this paper
+  const cr = getContinueReading();
+  if(cr && cr.paperId === id) saveContinueReading(null);
   renderWorkspace();
 }
 
@@ -809,7 +1197,7 @@ setInterval(()=>{
 $('timer').onclick=()=>{ if($('app').style.display==='block'){ timerPaused=!timerPaused; $('timer').textContent=timerPaused ? `Paused ${fmtTime(timerSeconds)}` : fmtTime(timerSeconds); $('timer').classList.toggle('paused', timerPaused); saveDraft(); }};
 
 function normalizeData(data){
-  if(!data || !Array.isArray(data.passages)) throw new Error('JSON 需要包含 passages 数组');
+  if(!data || !Array.isArray(data.passages)) throw new Error('JSON must contain a passages array');
   data.answers = data.answers || {};
   data.questionWeights = {...DEFAULT_WEIGHTS,...(data.questionWeights||{})};
   data.difficultyAnalysis = {...DEFAULT_DIFFICULTY,...(data.difficultyAnalysis||{})};
@@ -824,11 +1212,12 @@ function startApp(data){
   $('app').style.display='block';
   $('monitor').style.display='flex';
   setExamBarVisible(true);
-  // 机考模式：做题时顶部只保留 Passage、计时器、设置、提交。
   $('backImport').classList.add('hidden');
-  $('submitBtn').classList.remove('hidden');
+  $('submitBtn').style.display='none';
+  $('finishPassageBtn').style.display='none';
   $('backHomeExam').classList.add('hidden');
   submitted=false; savedCurrentRecord=false; reviewMarks=[]; evidenceSources={}; questionEvidenceMap={}; pendingEvidenceSource=null; currentPassage=0; timerSeconds=60*60; timerPaused=false;
+  passageLocked={}; passageGrades={};
   hideToolbar();
   answerState={}; gradeState={}; currentQuestion=''; passageMarkupCache={}; lastScoreSummary=null;
   $('reviewCount').textContent='0'; $('reviewPanel').classList.remove('show'); $('settingsPanel').classList.remove('show');
@@ -836,7 +1225,7 @@ function startApp(data){
 }
 function startPaper(id, reviewJump=null){
   const paper=findPaper(id);
-  if(!paper) return showHint('没有找到这套卷子');
+  if(!paper) return showHint('Paper not found');
   currentPaperId=id;
   const draft=normalizeDraft(paper.draft);
   DATA = normalizeData(paper.data);
@@ -849,7 +1238,6 @@ function startPaper(id, reviewJump=null){
   setExamBarVisible(true);
   $('backImport').classList.add('hidden');
   $('reviewBtn').classList.add('hidden');
-  $('submitBtn').classList.toggle('hidden', !!draft.submitted);
   $('backHomeExam').classList.toggle('hidden', !draft.submitted);
   submitted=!!draft.submitted;
   savedCurrentRecord=!!draft.submitted;
@@ -865,6 +1253,8 @@ function startPaper(id, reviewJump=null){
   currentQuestion='';
   passageMarkupCache=draft.passageMarkupCache || {};
   lastScoreSummary=null;
+  passageLocked=draft.passageLocked || {};
+  passageGrades=draft.passageGrades || {};
   if(submitted){
     lastScoreSummary=buildGrade();
     if(draft.result) lastScoreSummary={...lastScoreSummary, ...draft.result};
@@ -889,6 +1279,7 @@ function startPaper(id, reviewJump=null){
 function stripFeedbackFromNode(root){
   if(!root) return;
   root.querySelectorAll('.feedback').forEach(el=>el.remove());
+  root.querySelectorAll('.passage-locked-banner').forEach(el=>el.remove());
 }
 function hideToolbar(){
   const bar=$('toolbar');
@@ -900,14 +1291,21 @@ function saveCurrentMarkup(){
   if($('app').style.display !== 'block' || !$('reader').innerHTML.trim()) return;
   const qClone = $('questions').cloneNode(true);
   qClone.querySelector('#result')?.remove();
-  // 注入的“解析”按钮/解析区不进缓存：切换 Passage 时由 applySubmittedFeedbackForCurrentPassage 重新生成，保证事件绑定有效。
   qClone.querySelectorAll('.qExplainBlock').forEach(n=>n.remove());
-  // 只缓存题目高亮/Note 和输入结构，不把提交后的答案反馈缓存进“做题中”页面，避免答案泄露。
+  qClone.querySelectorAll('.finishPassageBar').forEach(n=>n.remove());
+  qClone.querySelectorAll('.passage-locked-banner').forEach(n=>n.remove());
   if(!submitted) stripFeedbackFromNode(qClone);
+  // For locked passages, keep feedback in cache
+  if(passageLocked[currentPassage]) stripFeedbackFromNode(qClone);
   passageMarkupCache[currentPassage] = {reader:$('reader').innerHTML, questions:qClone.innerHTML};
 }
 function renderTabs(){
-  $('tabs').innerHTML = DATA.passages.map((p,i)=>`<button class="tab ${i===currentPassage?'active':''}" data-i="${i}">Passage ${i+1}</button>`).join('');
+  $('tabs').innerHTML = DATA.passages.map((p,i)=>{
+    const isActive = i===currentPassage ? 'active' : '';
+    const isDone = passageLocked[i] ? 'done' : '';
+    const check = passageLocked[i] ? '<span class="tab-check">\u2713</span>' : '';
+    return `<button class="tab ${isActive} ${isDone}" data-i="${i}">Passage ${i+1}${check}</button>`;
+  }).join('');
   document.querySelectorAll('.tab').forEach(btn=>btn.onclick=()=>renderPassage(Number(btn.dataset.i)));
 }
 function renderPassage(i){
@@ -917,12 +1315,41 @@ function renderPassage(i){
   const cached=passageMarkupCache[i];
   $('reader').innerHTML = cached?.reader || `<article class="passage" id="${p.id||'p'+(i+1)}">${p.articleHtml || articleFromText(p)}</article>`;
   $('questions').innerHTML = resultHtml() + (cached?.questions || (p.questionsHtml || questionsFromData(p.questions||[])));
-  if(!submitted) stripFeedbackFromNode($('questions'));
+  if(!submitted && !passageLocked[i]) stripFeedbackFromNode($('questions'));
   bindAnswerEvents();
   bindEvidenceDotEvents();
   restoreAnswersForCurrentPassage();
+  // Handle locked state
+  if(passageLocked[i]){
+    // Show locked banner if not in cache
+    if(!cached?.questions || !$('questions').querySelector('.passage-locked-banner')){
+      const banner = document.createElement('div');
+      banner.className = 'passage-locked-banner';
+      banner.innerHTML = '<span class="lock-icon">\uD83D\uDD12</span> This passage is locked. Your answers have been graded.';
+      const questionsEl = $('questions');
+      const resultEl = $('result');
+      if(resultEl && resultEl.nextSibling) questionsEl.insertBefore(banner, resultEl.nextSibling);
+      else questionsEl.insertBefore(banner, questionsEl.firstChild);
+    }
+    // Apply feedback for locked passage
+    applyPassageFeedback(i);
+  }
   if(submitted) applySubmittedFeedbackForCurrentPassage();
   renderQuestionEvidenceMarkers();
+  // Show/hide finish passage button
+  const isLocked = passageLocked[i];
+  const allLocked = DATA.passages.every((_, idx) => passageLocked[idx]);
+  if(!submitted && !isLocked){
+    $('finishPassageBtn').style.display = '';
+  } else {
+    $('finishPassageBtn').style.display = 'none';
+  }
+  // Show submit button only when all passages are locked and not yet submitted
+  if(!submitted && allLocked){
+    $('submitBtn').style.display = '';
+  } else if(!submitted){
+    $('submitBtn').style.display = 'none';
+  }
   updateAnswered();
   saveDraft();
 }
@@ -1068,7 +1495,7 @@ function bindAnswerEvents(){
     el.onchange=(e)=>{
       const box=e.target.closest('.multi');
       const limit=Number(box.dataset.limit||99);
-      if(box.querySelectorAll('input:checked').length>limit){ e.target.checked=false; showHint(`最多选择 ${limit} 项`); }
+      if(box.querySelectorAll('input:checked').length>limit){ e.target.checked=false; showHint(`Max ${limit} selections`); }
       answerState[box.dataset.q]=Array.from(box.querySelectorAll('input:checked')).map(x=>x.value);
       markCurrent(rangeNums(box.dataset.q)[0]);
       updateAnswered();
@@ -1085,13 +1512,14 @@ function bindAnswerEvents(){
   }));
 }
 function restoreAnswersForCurrentPassage(){
+  const isThisLocked = passageLocked[currentPassage];
   document.querySelectorAll('input[data-q], select[data-q]').forEach(el=>{
     el.value = answerState[el.dataset.q] || '';
-    el.disabled = submitted;
+    el.disabled = submitted || isThisLocked;
   });
   document.querySelectorAll('.multi').forEach(box=>{
     const vals = answerState[box.dataset.q] || [];
-    box.querySelectorAll('input').forEach(input=>{input.checked = vals.includes(input.value); input.disabled=submitted;});
+    box.querySelectorAll('input').forEach(input=>{input.checked = vals.includes(input.value); input.disabled=submitted || isThisLocked;});
   });
 }
 function isAnswered(q){
@@ -1108,9 +1536,20 @@ function renderMonitor(){
 function updateAnswered(){
   document.querySelectorAll('.dot').forEach(d=>{
     const q=d.dataset.q;
-    d.classList.remove('answered','right','wrong','unanswered');
-    if(submitted && gradeState[q]) d.classList.add(gradeState[q].status);
-    else if(isAnswered(q)) d.classList.add('answered');
+    d.classList.remove('answered','right','wrong','unanswered','locked');
+    const pi = qToPassageIndex(q);
+    if(passageLocked[pi] && !submitted){
+      // Show locked state for locked passage questions
+      if(gradeState[q]){
+        d.classList.add(gradeState[q].status);
+      } else {
+        d.classList.add('locked');
+      }
+    } else if(submitted && gradeState[q]){
+      d.classList.add(gradeState[q].status);
+    } else if(isAnswered(q)){
+      d.classList.add('answered');
+    }
     d.classList.toggle('current', q===String(currentQuestion));
   });
 }
@@ -1187,7 +1626,6 @@ function removeHighlight(){
   saveDraft();
 }
 
-// 文章和题目都允许 Highlight / Note；＋只在文章区显示，且无感记录。
 document.addEventListener('mouseup', (e) => {
   if(e.target.closest('#toolbar')) return;
   const sel = window.getSelection();
@@ -1263,7 +1701,7 @@ function addEvidenceDotForHighlight(span){
   dot.id='dot_' + span.id.replace(/^hl_/,'');
   dot.className='evidenceSourceDot';
   dot.dataset.highlightId=span.id;
-  dot.title='点击后绑定题目';
+  dot.title='Click to bind to question';
   span.after(dot);
   const source={...evidenceSourceFromHighlight(span), sourceDotId:dot.id};
   evidenceSources[span.id]=source;
@@ -1294,7 +1732,7 @@ function bindEvidenceDotEvents(){
       pendingEvidenceSource=src;
       document.querySelectorAll('.evidenceSourceDot').forEach(d=>d.classList.remove('active'));
       dot.classList.add('active');
-      showHint('点击题号或题目绑定定位');
+      showHint('Click a question to bind evidence');
     };
   });
 }
@@ -1327,8 +1765,8 @@ function renderQuestionEvidenceMarkers(){
     btn.type='button';
     btn.className='evidenceJumpDot';
     btn.dataset.evidenceQ=q;
-    btn.title='查看我的定位';
-    btn.textContent='📍';
+    btn.title='View my evidence';
+    btn.textContent='\uD83D\uDCCD';
     qnum.appendChild(btn);
   });
   document.querySelectorAll('.evidenceJumpDot').forEach(btn=>btn.onclick=(e)=>{
@@ -1360,7 +1798,7 @@ function jumpToEvidence(q){
   if(DATA.passages[pi] && pi!==currentPassage) renderPassage(pi);
   setTimeout(()=>{
     const target=findEvidenceTarget(item);
-    if(!target){showHint('暂时没有定位到原文高亮'); return;}
+    if(!target){showHint('Evidence not found'); return;}
     target.scrollIntoView({behavior:'smooth',block:'center'});
     target.classList.add('flash');
     setTimeout(()=>target.classList.remove('flash'),1500);
@@ -1410,8 +1848,8 @@ $('toolbar').addEventListener('click', e=>{
 });
 function renderReview(){
   const box=$('reviewList');
-  if(!reviewMarks.length) {box.innerHTML='<p class="subtle">还没有待回看标记。</p>';return;}
-  box.innerHTML=reviewMarks.map((it,idx)=>`<div class="reviewItem" data-id="${it.id}"><small>${idx+1} · Passage ${(Number(it.passageIndex)||0)+1} · ${escapeHtml(it.paragraphLabel||it.label||'')}</small><p>${escapeHtml(it.text)}</p><button class="reviewJump" data-jump="${it.id}">跳转</button></div>`).join('');
+  if(!reviewMarks.length) {box.innerHTML='<p class="subtle">No review marks yet.</p>';return;}
+  box.innerHTML=reviewMarks.map((it,idx)=>`<div class="reviewItem" data-id="${it.id}"><small>${idx+1} \u00b7 Passage ${(Number(it.passageIndex)||0)+1} \u00b7 ${escapeHtml(it.paragraphLabel||it.label||'')}</small><p>${escapeHtml(it.text)}</p><button class="reviewJump" data-jump="${it.id}">Jump</button></div>`).join('');
   box.querySelectorAll('[data-jump]').forEach(btn=>btn.onclick=(e)=>{
     e.stopPropagation();
     const item=reviewMarks.find(x=>x.id===btn.dataset.jump);
@@ -1445,7 +1883,6 @@ function findReviewTarget(reviewItem){
   }
   return null;
 }
-// 在段落内定位用户当初选中的那句话，返回精确 Range（容忍空白/大小写差异），不修改 DOM。
 function findSentenceRange(root, rawText){
   const needle=(rawText||'').replace(/\s+/g,' ').trim().toLowerCase();
   if(!root || !needle) return null;
@@ -1474,7 +1911,6 @@ function findSentenceRange(root, rawText){
     return range;
   }catch(e){ return null; }
 }
-// 找到离节点最近的可滚动容器（双栏时是 .reader，单栏时是窗口）。
 function getScrollParent(node){
   let el=node instanceof Element ? node : node?.parentElement;
   while(el && el!==document.body && el!==document.documentElement){
@@ -1484,7 +1920,6 @@ function getScrollParent(node){
   }
   return document.scrollingElement||document.documentElement;
 }
-// 滚动到该句并短暂高亮（Custom Highlight API，不动 DOM；不支持时返回 false 由调用方退回段落闪烁）。
 function flashRange(range){
   if(!range) return false;
   let flashed=false;
@@ -1503,7 +1938,6 @@ function flashRange(range){
     const cur=isWin?(window.scrollY||window.pageYOffset):scroller.scrollTop;
     const viewH=isWin?window.innerHeight:scroller.clientHeight;
     const top=Math.max(0, cur + (rect.top - base) - viewH/2 + rect.height/2);
-    // 同步直接定位，确保一定滚到位（不依赖平滑滚动，兼容减少动态效果设置）。
     try{ if(isWin) window.scrollTo(0, top); else scroller.scrollTop=top; }catch(e){}
   }
   return flashed;
@@ -1514,7 +1948,7 @@ function jumpToReviewItem(reviewItem){
   if(DATA.passages[pi] && pi!==currentPassage) renderPassage(pi);
   setTimeout(()=>{
     const target=findReviewTarget(reviewItem);
-    if(!target){showHint('没有定位到原文段落，但待回看标记已保存。'); return;}
+    if(!target){showHint('Paragraph not found, but review mark is saved.'); return;}
     const range=reviewItem.text ? findSentenceRange(target, reviewItem.text) : null;
     if(range && flashRange(range)) return;
     if(range) range.startContainer.parentElement?.scrollIntoView({behavior:'smooth',block:'center'});
@@ -1540,7 +1974,7 @@ function buildGrade(){
       const rightUpper=right.map(x=>String(x));
       const correctSelected = selectedUpper.filter(x=>rightUpper.includes(x));
       const fullCorrect = correctSelected.length===rightUpper.length && selectedUpper.length===rightUpper.length;
-      const selectedLabel = selectedUpper.join(', ') || '未作答';
+      const selectedLabel = selectedUpper.join(', ') || 'Unanswered';
       const statusList=[];
       nums.forEach((q,idx)=>{
         let status;
@@ -1550,22 +1984,23 @@ function buildGrade(){
         gradeState[q]={status, your:selectedLabel, correct:rightUpper.join(' / '), weight:Number(weights[q]||1), group:k};
         statusList.push(status);
         if(status==='right'){rawScore++; correct++; adjustedScore += Number(weights[q]||1)}
-        else if(status==='unanswered'){unanswered++; issueRows.push({question:q,your:'未作答',correct:rightUpper.join(' / '),weight:Number(weights[q]||1),status});}
+        else if(status==='unanswered'){unanswered++; issueRows.push({question:q,your:'Unanswered',correct:rightUpper.join(' / '),weight:Number(weights[q]||1),status});}
         else {wrong++; issueRows.push({question:q,your:selectedLabel,correct:rightUpper.join(' / '),weight:Number(weights[q]||1),status});}
       });
       gradeState[k]={status:fullCorrect?'right':(selectedUpper.length?'wrong':'unanswered'), your:selectedLabel, correct:rightUpper.join(' / '), group:k};
     }else{
       const q=String(k), your=answerState[q]||'', right=correctAnswersForKey(q), answered=norm(your).length>0, ok=answered && right.map(norm).includes(norm(your));
       const status=ok?'right':(answered?'wrong':'unanswered');
-      gradeState[q]={status,your:your||'未作答',correct:right.join(' / '),weight:Number(weights[q]||1)};
+      gradeState[q]={status,your:your||'Unanswered',correct:right.join(' / '),weight:Number(weights[q]||1)};
       if(ok){rawScore++; correct++; adjustedScore += Number(weights[q]||1)}
-      else if(!answered){unanswered++; issueRows.push({question:q,your:'未作答',correct:right.join(' / '),weight:Number(weights[q]||1),status});}
+      else if(!answered){unanswered++; issueRows.push({question:q,your:'Unanswered',correct:right.join(' / '),weight:Number(weights[q]||1),status});}
       else{wrong++; issueRows.push({question:q,your,correct:right.join(' / '),weight:Number(weights[q]||1),status});}
     }
   });
   const breakdown = passageBreakdown(weights, issueRows);
   const weightedTotal = qNums().reduce((sum,q)=>sum+Number(weights[q]||1),0);
-  return {rawScore, adjustedScore:round1(adjustedScore), weightedTotal:round1(weightedTotal), estimatedBand:bandFromScore(adjustedScore), correct, wrong, unanswered, issueRows, breakdown, difficulty:getDifficulty().overall};
+  const timeUsed = 60*60 - timerSeconds;
+  return {rawScore, adjustedScore:round1(adjustedScore), weightedTotal:round1(weightedTotal), estimatedBand:bandFromScore(adjustedScore), correct, wrong, unanswered, issueRows, breakdown, difficulty:getDifficulty().overall, timeUsed};
 }
 function passageBreakdown(weights, issueRows=[]){
   const ranges={p1:[1,13],p2:[14,26],p3:[27,40]};
@@ -1592,7 +2027,7 @@ function bandFromScore(score){
 }
 function resultHtml(){
   if(!(submitted&&lastScoreSummary)) return `<div class="result" id="result"></div>`;
-  return `<div class="result show" id="result"><details class="overviewFold"><summary>本套卷总览</summary><div class="overviewBody">${scorePanelHtml(lastScoreSummary)}</div></details></div>`;
+  return `<div class="result show" id="result"><details class="overviewFold"><summary>Paper Summary</summary><div class="overviewBody">${scorePanelHtml(lastScoreSummary)}</div></details></div>`;
 }
 function safeTextValue(v){
   if(Array.isArray(v)) return v.join(', ');
@@ -1616,7 +2051,7 @@ function explanationForQuestion(q, data = DATA) {
   if(typeof item === 'object'){
     return {
       answer: safeTextValue(item.answer || item.correct || ''),
-      location: safeTextValue(item.location || item.loc || item['定位'] || ''),
+      location: safeTextValue(item.location || item.loc || item['location'] || ''),
       evidence: safeTextValue(item.evidence || item.source || ''),
       synonyms: Array.isArray(item.synonyms) ? item.synonyms.map(safeTextValue) : (item.synonyms ? [safeTextValue(item.synonyms)] : []),
       explanation: safeTextValue(item.explanation || item.analysis || item.reason || item.text || '')
@@ -1628,33 +2063,33 @@ function explanationDetailHtml(row, data = DATA){
   const q=String(row.question);
   const exp=explanationForQuestion(q, data) || {};
   const mine=questionEvidenceMap[q];
-  const synonyms=(exp.synonyms||[]).length ? `<p><b>同义替换：</b>${escapeHtml(exp.synonyms.join('；'))}</p>` : '';
-  const location=exp.location ? `<p><b>定位：</b>${escapeHtml(exp.location)}</p>` : '';
-  const evidence=exp.evidence ? `<p><b>原文证据：</b>${escapeHtml(exp.evidence)}</p>` : '';
-  const myEvidence=mine ? `<p><b>我的定位：</b>${escapeHtml(mine.passageTitle || ('Passage '+(Number(mine.passageIndex||0)+1)))} ${mine.paragraphLabel ? ' · '+escapeHtml(mine.paragraphLabel) : ''} · ${escapeHtml(mine.text||'')}</p><p><button class="qExplainBtn" data-jump-evidence="${escapeHtml(q)}">跳回我的定位</button></p>` : '<p><b>我的定位：</b>未绑定</p>';
-  const explanation=exp.explanation || (exp.evidence ? '请对照上方原文证据与正确答案。本题解析字段未单独提供。' : '这道题暂时没有解析数据。');
+  const synonyms=(exp.synonyms||[]).length ? `<p><b>Synonyms:</b>${escapeHtml(exp.synonyms.join('; '))}</p>` : '';
+  const location=exp.location ? `<p><b>Location:</b>${escapeHtml(exp.location)}</p>` : '';
+  const evidence=exp.evidence ? `<p><b>Evidence:</b>${escapeHtml(exp.evidence)}</p>` : '';
+  const myEvidence=mine ? `<p><b>My Evidence:</b>${escapeHtml(mine.passageTitle || ('Passage '+(Number(mine.passageIndex||0)+1)))} ${mine.paragraphLabel ? ' \u00b7 '+escapeHtml(mine.paragraphLabel) : ''} \u00b7 ${escapeHtml(mine.text||'')}</p><p><button class="qExplainBtn" data-jump-evidence="${escapeHtml(q)}">Jump to My Evidence</button></p>` : '<p><b>My Evidence:</b>Not bound</p>';
+  const explanation=exp.explanation || (exp.evidence ? 'Compare the evidence above with the correct answer.' : 'No explanation available for this question.');
   return `<div class="q-explain">
-    <p><b>正确答案：</b>${escapeHtml(row.correct || exp.answer || '')}</p>
-    <p><b>你的答案：</b>${escapeHtml(row.your || '未作答')}</p>
+    <p><b>Correct Answer:</b>${escapeHtml(row.correct || exp.answer || '')}</p>
+    <p><b>Your Answer:</b>${escapeHtml(row.your || 'Unanswered')}</p>
     ${location}
     ${evidence}
     ${synonyms}
-    <p><b>解析：</b>${escapeHtml(explanation)}</p>
+    <p><b>Explanation:</b>${escapeHtml(explanation)}</p>
     ${myEvidence}
   </div>`;
 }
 function issueRowsTableHtml(issueRows, data = DATA){
-  if(!issueRows || !issueRows.length) return '<tr><td colspan="6">没有错题或未答题。</td></tr>';
+  if(!issueRows || !issueRows.length) return '<tr><td colspan="6">No wrong or unanswered questions.</td></tr>';
   return issueRows.map(r=>{
     const q=String(r.question);
     const hasEvidence=!!questionEvidenceMap[q];
     return `<tr>
-      <td>Q${escapeHtml(q)} ${hasEvidence?`<button class="evidenceJumpDot" data-evidence-q="${escapeHtml(q)}" title="查看我的定位">📍</button>`:''}</td>
-      <td>${escapeHtml(r.your || '未作答')}</td>
+      <td>Q${escapeHtml(q)} ${hasEvidence?`<button class="evidenceJumpDot" data-evidence-q="${escapeHtml(q)}" title="View my evidence">\uD83D\uDCCD</button>`:''}</td>
+      <td>${escapeHtml(r.your || 'Unanswered')}</td>
       <td>${escapeHtml(r.correct || '')}</td>
       <td>${round1(r.weight)}</td>
-      <td>${hasEvidence?'已绑定':'-'}</td>
-      <td><button class="qExplainBtn" data-toggle-explain="${escapeHtml(q)}">解析</button></td>
+      <td>${hasEvidence?'Bound':'-'}</td>
+      <td><button class="qExplainBtn" data-toggle-explain="${escapeHtml(q)}">Explain</button></td>
     </tr>
     <tr class="qExplainRow" data-explain-row="${escapeHtml(q)}"><td colspan="6">${explanationDetailHtml(r, data)}</td></tr>`;
   }).join('');
@@ -1675,44 +2110,49 @@ function scorePanelHtml(s){
   const diff=getDifficulty();
   const rows=issueRowsTableHtml(s.issueRows, DATA);
   const notes=(diff.notes||[]).map(n=>`<li>${escapeHtml(n)}</li>`).join('');
-  return `<h2>成绩面板</h2>
+  const timeUsed = s.timeUsed || 0;
+  const timeUsedStr = fmtTime(timeUsed);
+  const overallAccuracy = s.rawScore ? Math.round((s.rawScore / 40) * 1000) / 10 + '%' : '0%';
+  return `<h2>Score Panel</h2>
     <div class="scoreGrid">
       <div class="scoreCard"><small>Raw Score</small><b>${s.rawScore} / 40</b></div>
       <div class="scoreCard"><small>Adjusted Score</small><b>${s.adjustedScore} / 40</b></div>
       <div class="scoreCard"><small>Estimated Band</small><b>${s.estimatedBand}</b></div>
+      <div class="scoreCard"><small>Overall Accuracy</small><b>${overallAccuracy}</b></div>
+      <div class="scoreCard"><small>Time Used</small><b>${timeUsedStr}</b></div>
+      <div class="scoreCard"><small>Difficulty</small><b>${escapeHtml(s.difficulty || '-')}</b></div>
     </div>
-    <p><span class="badge">Correct: ${s.correct}</span><span class="badge">Wrong: ${s.wrong}</span><span class="badge">Unanswered: ${s.unanswered}</span><span class="badge">Review Marks: ${reviewMarks.length}</span><span class="badge">定位: ${Object.keys(questionEvidenceMap||{}).length}</span><span class="badge">Difficulty: ${escapeHtml(s.difficulty)}</span></p>
-    <p class="subtle">Raw Score 是官方题数分；Adjusted Score 是 Brand9 根据本套题难度加权后的内部能力估分，不等同于官方 IELTS 原始换算。</p>
-    <div class="tableWrap"><table><thead><tr><th>Passage</th><th>Raw</th><th>Weighted</th></tr></thead><tbody>
-      <tr><td>${escapeHtml(s.breakdown.p1.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p1.questionRange}</span></td><td>${s.breakdown.p1.raw} / ${s.breakdown.p1.total}</td><td>${s.breakdown.p1.weighted} / ${s.breakdown.p1.weightedTotal}</td></tr>
-      <tr><td>${escapeHtml(s.breakdown.p2.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p2.questionRange}</span></td><td>${s.breakdown.p2.raw} / ${s.breakdown.p2.total}</td><td>${s.breakdown.p2.weighted} / ${s.breakdown.p2.weightedTotal}</td></tr>
-      <tr><td>${escapeHtml(s.breakdown.p3.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p3.questionRange}</span></td><td>${s.breakdown.p3.raw} / ${s.breakdown.p3.total}</td><td>${s.breakdown.p3.weighted} / ${s.breakdown.p3.weightedTotal}</td></tr>
+    <p><span class="badge">Correct: ${s.correct}</span><span class="badge">Wrong: ${s.wrong}</span><span class="badge">Unanswered: ${s.unanswered}</span><span class="badge">Review Marks: ${reviewMarks.length}</span><span class="badge">Evidence: ${Object.keys(questionEvidenceMap||{}).length}</span></p>
+    <p class="subtle">Raw Score is the official question count; Adjusted Score is a weighted internal estimate, not equivalent to official IELTS conversion.</p>
+    <div class="tableWrap"><table><thead><tr><th>Passage</th><th>Raw</th><th>Accuracy</th><th>Weighted</th></tr></thead><tbody>
+      <tr><td>${escapeHtml(s.breakdown.p1.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p1.questionRange}</span></td><td>${s.breakdown.p1.raw} / ${s.breakdown.p1.total}</td><td>${s.breakdown.p1.total ? Math.round((s.breakdown.p1.raw/s.breakdown.p1.total)*1000)/10 : 0}%</td><td>${s.breakdown.p1.weighted} / ${s.breakdown.p1.weightedTotal}</td></tr>
+      <tr><td>${escapeHtml(s.breakdown.p2.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p2.questionRange}</span></td><td>${s.breakdown.p2.raw} / ${s.breakdown.p2.total}</td><td>${s.breakdown.p2.total ? Math.round((s.breakdown.p2.raw/s.breakdown.p2.total)*1000)/10 : 0}%</td><td>${s.breakdown.p2.weighted} / ${s.breakdown.p2.weightedTotal}</td></tr>
+      <tr><td>${escapeHtml(s.breakdown.p3.passageTitle)}<br><span class="subtle">Questions ${s.breakdown.p3.questionRange}</span></td><td>${s.breakdown.p3.raw} / ${s.breakdown.p3.total}</td><td>${s.breakdown.p3.total ? Math.round((s.breakdown.p3.raw/s.breakdown.p3.total)*1000)/10 : 0}%</td><td>${s.breakdown.p3.weighted} / ${s.breakdown.p3.weightedTotal}</td></tr>
     </tbody></table></div>
     <h3 id="wrongTableTitle" style="font-size:15px;margin:14px 0 8px">Wrong / Unanswered Questions</h3>
-    <div class="tableWrap" id="wrongTableWrap"><table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Weight</th><th>定位</th><th>解析</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="subtle">难度说明：</p><ul class="subtle">${notes}</ul>
-    <p><button id="openReviewAfterSubmit">查看待回看标记</button> <button id="openWrongTableAfterSubmit">查看错题表</button></p>`;
+    <div class="tableWrap" id="wrongTableWrap"><table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Weight</th><th>Evidence</th><th>Explain</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="subtle">Difficulty notes:</p><ul class="subtle">${notes}</ul>
+    <p><button id="openReviewAfterSubmit">Review Marks</button> <button id="openWrongTableAfterSubmit">Wrong Questions</button></p>`;
 }
 function applySubmittedFeedbackForCurrentPassage(){
   document.querySelectorAll('input[data-q], select[data-q]').forEach(el=>markField(el.dataset.q));
   document.querySelectorAll('.multi').forEach(box=>markMulti(box));
   bindPostSubmitButtons();
 }
-// 提交后给每道题就地挂一个「解析」小胶囊 + 默认收起的解析区，点开只展开当前题，不跳顶部、不弹窗。
 function attachInlineExplain(el, q, g){
   if(!el) return;
   const key=String(q);
   const row=el.closest('.qrow');
   const anchor=row||el;
   const next=anchor.nextElementSibling;
-  if(next && next.classList && next.classList.contains('qExplainBlock') && next.dataset.explainBlock===key) return; // 幂等：避免切换 Passage 复用缓存时重复注入
+  if(next && next.classList && next.classList.contains('qExplainBlock') && next.dataset.explainBlock===key) return;
   const block=document.createElement(row?'div':'span');
   block.className='qExplainBlock';
   block.dataset.explainBlock=key;
   const btn=document.createElement('button');
   btn.type='button';
   btn.className='qExplainBtn';
-  btn.textContent='解析';
+  btn.textContent='Explain';
   const panel=document.createElement('div');
   panel.className='qExplainInline';
   panel.hidden=true;
@@ -1739,7 +2179,7 @@ function markField(q){
     el.insertAdjacentElement('afterend', fb);
   }
   const g=gradeState[q];
-  fb.textContent=g.status==='right'?'✓':(g.status==='unanswered'?`未作答 · ${g.correct}`:`✗ ${g.correct}`);
+  fb.textContent=g.status==='right'?'\u2713':(g.status==='unanswered'?`Unanswered \u00b7 ${g.correct}`:`\u2717 ${g.correct}`);
   fb.className='feedback '+(g.status==='right'?'correct':g.status==='unanswered'?'unansweredText':'wrong');
   attachInlineExplain(el, q, g);
 }
@@ -1748,7 +2188,7 @@ function markMulti(box){
   let fb=box.querySelector('.feedback'); if(!fb){fb=document.createElement('div');fb.className='feedback';box.appendChild(fb)}
   const g=gradeState[k];
   const nums=rangeNums(k); const got=nums.filter(q=>gradeState[q]?.status==='right').length;
-  fb.textContent=`你选：${g.your}; 答案：${g.correct}; 本组得分：${got}/${nums.length}`;
+  fb.textContent=`Yours: ${g.your}; Answer: ${g.correct}; Score: ${got}/${nums.length}`;
   fb.className='feedback '+(g.status==='right'?'correct':g.status==='unanswered'?'unansweredText':'wrong');
   attachInlineExplain(box, k, g);
 }
@@ -1758,24 +2198,30 @@ function bindPostSubmitButtons(){
   bindExplainToggles($('result') || document);
 }
 function submitTest(){
-  if(submitted){showHint('已经提交过了');return;}
+  if(submitted){showHint('Already submitted');return;}
+  const allLocked = DATA.passages.every((_, i) => passageLocked[i]);
+  if(!allLocked){showHint('Please finish all passages first');return;}
   saveCurrentMarkup();
   submitted=true;
   lastScoreSummary=buildGrade();
   saveScoreRecord(lastScoreSummary);
-  $('submitBtn').classList.add('hidden');
+  // Clear continue reading
+  saveContinueReading(null);
+  $('submitBtn').style.display='none';
+  $('finishPassageBtn').style.display='none';
   $('backHomeExam').classList.remove('hidden');
   saveDraft();
   renderPassage(currentPassage);
   updateAnswered();
   $('questions').scrollTo({top:0,behavior:'smooth'});
-  showHint('已提交，待回看标记已释放');
+  showHint('Submitted. Review marks released.');
 }
 function saveScoreRecord(s){
   if(savedCurrentRecord) return;
   const paper=findPaper(currentPaperId);
   const passages=['p1','p2','p3'].map(k=>s.breakdown[k]).filter(Boolean);
   const evidenceMap=Object.fromEntries(Object.entries(questionEvidenceMap||{}).map(([q,item])=>[q,{...item, passageTitle:item.passageTitle || DATA.passages[Number(item.passageIndex)||0]?.title || ''}]));
+  const timeUsed = s.timeUsed || 0;
   const rec={
     id:'rec_'+Date.now()+'_'+Math.floor(Math.random()*9999),
     date:new Date().toISOString(),
@@ -1794,6 +2240,7 @@ function saveScoreRecord(s){
     wrongQuestions:s.issueRows.map(r=>r.question),
     reviewMarkCount:reviewMarks.length,
     evidenceCount:Object.keys(questionEvidenceMap||{}).length,
+    timeUsed,
     passages,
     evidenceMap,
     difficulty:s.difficulty,
@@ -1805,31 +2252,31 @@ function getRecords(){try{return JSON.parse(localStorage.getItem(RECORDS_KEY)||'
 const STRUCTURED_JSON_TEMPLATE = {
   "_schemaVersion": "brand9-reading-structured-v1",
   "_aiInstructions": [
-    "只输出一个完整 JSON 对象，不要输出 Markdown 代码块。",
-    "不要写 questionsHtml，也不要写网页 HTML；题目排版交给系统渲染。",
-    "文章用 passages[].paragraphs 保存，题目用 passages[].questions 保存。",
-    "填空位置统一写成 [[题号]]，例如 [[9]]。",
-    "多选或组合题答案 key 用范围，例如 \"9-10\": [\"A\", \"C\"]。",
-    "每道题都要在 answers 和 explanations 里给出答案与解析。"
+    "Only output a complete JSON object, no Markdown code blocks.",
+    "Do not write questionsHtml or HTML; question layout is rendered by the system.",
+    "Use passages[].paragraphs for articles, passages[].questions for questions.",
+    "Use [[question_number]] for blanks, e.g. [[9]].",
+    "Multi-select or group answers use range keys, e.g. \"9-10\": [\"A\", \"C\"].",
+    "Every question must have answers and explanations."
   ],
   "_supportedQuestionTypes": {
-    "tfng": "TRUE / FALSE / NOT GIVEN，下拉选项系统自动生成。",
-    "ynng": "YES / NO / NOT GIVEN，下拉选项系统自动生成。",
-    "completion": "摘要/句子/笔记填空，用 blocks 和 [[题号]]。",
-    "table": "表格填空，用 rows，单元格里写 [[题号]]。",
-    "flow": "流程图填空，用 blocks，单行写 [[题号]]。",
-    "choice": "单选或多选。单选 num 为单题号；多选 num 用 9-10，select 写选择数量。",
-    "matching-headings": "段落标题匹配，options 是 i/ii/iii 选项库。",
-    "matching-information": "段落信息匹配，options 是 A/B/C 段落字母。",
-    "matching-features": "人物/特征匹配，options 是 A/B/C 人名或对象。",
-    "matching-sentence-endings": "句子结尾匹配，options 是 A/B/C 结尾。"
+    "tfng": "TRUE / FALSE / NOT GIVEN, dropdown auto-generated.",
+    "ynng": "YES / NO / NOT GIVEN, dropdown auto-generated.",
+    "completion": "Summary/sentence/note completion, use blocks and [[question_number]].",
+    "table": "Table completion, use rows, [[question_number]] in cells.",
+    "flow": "Flow-chart completion, use blocks, [[question_number]] per line.",
+    "choice": "Single or multiple choice. Single: num is single number; Multiple: num uses 9-10, select is count.",
+    "matching-headings": "Paragraph heading match, options are i/ii/iii.",
+    "matching-information": "Paragraph info match, options are A/B/C letters.",
+    "matching-features": "Person/feature match, options are A/B/C names.",
+    "matching-sentence-endings": "Sentence ending match, options are A/B/C endings."
   },
   "title": "Imported Reading Paper Title",
   "passages": [
     {
       "id": "p1",
       "title": "Passage 1 Title",
-      "subtitle": "Reading Passage 1 · Questions 1-13",
+      "subtitle": "Reading Passage 1 \u00b7 Questions 1-13",
       "paragraphs": [
         {"label": "A", "text": "Paragraph A text here."},
         {"label": "B", "text": "Paragraph B text here."}
@@ -1858,7 +2305,7 @@ const STRUCTURED_JSON_TEMPLATE = {
     {
       "id": "p2",
       "title": "Passage 2 Title",
-      "subtitle": "Reading Passage 2 · Questions 14-26",
+      "subtitle": "Reading Passage 2 \u00b7 Questions 14-26",
       "paragraphs": [
         {"label": "A", "text": "Paragraph A text here."},
         {"label": "B", "text": "Paragraph B text here."}
@@ -1895,7 +2342,7 @@ const STRUCTURED_JSON_TEMPLATE = {
     {
       "id": "p3",
       "title": "Passage 3 Title",
-      "subtitle": "Reading Passage 3 · Questions 27-40",
+      "subtitle": "Reading Passage 3 \u00b7 Questions 27-40",
       "paragraphs": [
         {"label": "A", "text": "Paragraph A text here."},
         {"label": "B", "text": "Paragraph B text here."}
@@ -1983,11 +2430,11 @@ async function copySchemaTemplate(){
   const text=schemaTemplateText();
   try{
     await navigator.clipboard.writeText(text);
-    showHint('格式模板已复制');
+    showHint('Template copied');
   }catch(e){
     const box=$('schemaTemplateText');
     if(box){box.focus(); box.select();}
-    showHint('已选中模板，可手动复制');
+    showHint('Template selected, copy manually');
   }
 }
 function downloadSchemaTemplate(){
@@ -1997,7 +2444,7 @@ function showRecordsScreen(){
   saveCurrentMarkup();
   $('app').style.display='none'; $('importScreen').style.display='none'; $('importPanel').style.display='none'; $('reviewScreen').style.display='none'; $('recordsScreen').style.display='block'; setExamBarVisible(false);
   $('monitor').style.display='none';
-  $('backImport').classList.add('hidden'); $('submitBtn').classList.add('hidden'); $('reviewPanel').classList.remove('show'); $('settingsPanel').classList.remove('show');
+  $('backImport').classList.add('hidden'); $('submitBtn').style.display='none'; $('reviewPanel').classList.remove('show'); $('settingsPanel').classList.remove('show');
   renderRecords();
 }
 function accuracyPct(r){
@@ -2019,32 +2466,32 @@ function sparklineSvg(chron){
   const dots=pts.map((v,i)=>{
     const d=chron[i];
     const dt=new Date(d.date).toLocaleDateString();
-    return `<circle class="trendDot" data-rec-id="${escapeHtml(d.id)}" cx="${xFor(i).toFixed(1)}" cy="${yFor(v).toFixed(1)}" r="4" fill="#fff" stroke="#AA2B3A" stroke-width="2" style="cursor:pointer"><title>${escapeHtml(dt)} · ${escapeHtml(d.title||d.testTitle||'')} · ${v}%</title></circle>`;
+    return `<circle class="trendDot" data-rec-id="${escapeHtml(d.id)}" cx="${xFor(i).toFixed(1)}" cy="${yFor(v).toFixed(1)}" r="4" fill="#fff" stroke="#AA2B3A" stroke-width="2" style="cursor:pointer"><title>${escapeHtml(dt)} \u00b7 ${escapeHtml(d.title||d.testTitle||'')} \u00b7 ${v}%</title></circle>`;
   }).join('');
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="正确率趋势">${grid}${line}${dots}</svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Accuracy trend">${grid}${line}${dots}</svg>`;
 }
 function renderRecordsTrend(list){
   const box=$('recordsTrend'); if(!box) return;
   if(!list || !list.length){ box.innerHTML=''; return; }
-  const chron=[...list].reverse(); // 旧 → 新
+  const chron=[...list].reverse();
   const pts=chron.map(accuracyPct);
   const latest=pts[pts.length-1];
   const avg=Math.round(pts.reduce((a,b)=>a+b,0)/pts.length*10)/10;
   const best=Math.max(...pts);
   box.innerHTML=`<div class="trendHead">
-      <span class="trendStat"><small>最新正确率</small><b>${latest}%</b></span>
-      <span class="trendStat"><small>平均正确率</small><b>${avg}%</b></span>
-      <span class="trendStat"><small>最高正确率</small><b>${best}%</b></span>
-      <span class="trendStat"><small>做题次数</small><b>${pts.length}</b></span>
+      <span class="trendStat"><small>Latest Accuracy</small><b>${latest}%</b></span>
+      <span class="trendStat"><small>Average Accuracy</small><b>${avg}%</b></span>
+      <span class="trendStat"><small>Best Accuracy</small><b>${best}%</b></span>
+      <span class="trendStat"><small>Attempts</small><b>${pts.length}</b></span>
     </div>
     <div class="trendChart">${sparklineSvg(chron)}</div>
-    <p class="subtle">正确率 = 答对题数 / 40，按时间从左到右排列；点击圆点查看该次详情。</p>`;
+    <p class="subtle">Accuracy = correct / 40, left to right by time. Click dots for details.</p>`;
   box.querySelectorAll('.trendDot').forEach(d=>d.onclick=()=>renderRecordDetail(d.dataset.recId));
 }
 function renderRecords(){
   const list=getRecords();
   renderRecordsTrend(list);
-  $('recordsBody').innerHTML = list.length ? list.map(r=>`<tr class="recordRow" data-id="${r.id}" style="cursor:pointer"><td>${new Date(r.date).toLocaleString()}</td><td>${escapeHtml(r.title||r.testTitle||'')}</td><td>${r.rawScore} / 40</td><td><b>${accuracyPct(r)}%</b></td><td>${r.adjustedScore} / 40</td><td>${r.estimatedBand}</td><td>${escapeHtml(r.difficulty||'')}</td><td>${r.wrong}</td><td>${r.unanswered}</td><td>${r.reviewMarkCount ?? r.reviewSentenceCount ?? 0}</td><td>${r.evidenceCount ?? Object.keys(r.evidenceMap||{}).length}</td><td><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">删除</button></td></tr>`).join('') : '<tr><td colspan="12">暂无记录。</td></tr>';
+  $('recordsBody').innerHTML = list.length ? list.map(r=>`<tr class="recordRow" data-id="${r.id}" style="cursor:pointer"><td>${new Date(r.date).toLocaleString()}</td><td>${escapeHtml(r.title||r.testTitle||'')}</td><td>${r.rawScore} / 40</td><td><b>${accuracyPct(r)}%</b></td><td>${r.adjustedScore} / 40</td><td>${r.estimatedBand}</td><td>${escapeHtml(r.difficulty||'')}</td><td>${r.wrong}</td><td>${r.unanswered}</td><td>${r.reviewMarkCount ?? r.reviewSentenceCount ?? 0}</td><td>${r.evidenceCount ?? Object.keys(r.evidenceMap||{}).length}</td><td><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">Delete</button></td></tr>`).join('') : '<tr><td colspan="12">No records yet.</td></tr>';
   document.querySelectorAll('.recordRow').forEach(row=>row.onclick=()=>renderRecordDetail(row.dataset.id));
   document.querySelectorAll('.recordDelBtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation(); deleteRecord(b.dataset.delId);});
   $('recordDetail').classList.add('hidden');
@@ -2052,11 +2499,10 @@ function renderRecords(){
 function deleteRecord(id){
   const rec=getRecords().find(r=>r.id===id);
   if(!rec) return;
-  if(!confirm(`删除这条做题记录？\n${rec.title||rec.testTitle||''}（${rec.rawScore} / 40）`)) return;
+  if(!confirm(`Delete this record?\n${rec.title||rec.testTitle||''} (${rec.rawScore} / 40)`)) return;
   localStorage.setItem(RECORDS_KEY, JSON.stringify(getRecords().filter(r=>r.id!==id)));
   renderRecords();
 }
-// ===== 导出（CSV，带 UTF-8 BOM 以便 Excel 正确显示中文）=====
 function downloadFile(filename, content, mime='text/csv;charset=utf-8'){
   const blob=new Blob([content], {type:mime});
   const url=URL.createObjectURL(blob);
@@ -2067,11 +2513,11 @@ function downloadFile(filename, content, mime='text/csv;charset=utf-8'){
 }
 function csvCell(v){const s=(v==null?'':String(v)); return /[",\n\r]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;}
 function csvRow(arr){return arr.map(csvCell).join(',');}
-function toCsv(header, rows){return '﻿'+[csvRow(header), ...rows.map(csvRow)].join('\r\n');}
+function toCsv(header, rows){return '\ufeff'+[csvRow(header), ...rows.map(csvRow)].join('\r\n');}
 function buildRecordsCsv(){
   const list=getRecords();
   if(!list.length) return '';
-  const header=['日期','套题','Raw','正确率%','Adjusted','Band','Difficulty','Wrong','Unanswered','待回看','定位'];
+  const header=['Date','Paper','Raw','Accuracy%','Adjusted','Band','Difficulty','Wrong','Unanswered','Review','Evidence'];
   const rows=list.map(r=>[
     new Date(r.date).toLocaleString(),
     r.title||r.testTitle||'',
@@ -2107,19 +2553,19 @@ function collectAllReviewMarks(){
 function buildReviewMarksCsv(){
   const marks=collectAllReviewMarks();
   if(!marks.length) return '';
-  const header=['套题','编号','Passage','文章标题','段落','句子','标记时间'];
+  const header=['Paper','No.','Passage','Title','Paragraph','Sentence','Time'];
   const rows=marks.map(m=>[m.paper,m.paperNo,m.passage,m.passageTitle,m.paragraph,m.sentence,m.createdAt]);
   return toCsv(header, rows);
 }
 function exportRecordsCsv(){
   const csv=buildRecordsCsv();
-  if(!csv){ alert('暂无做题记录可导出。'); return; }
-  downloadFile(`brand9-做题记录-${new Date().toISOString().slice(0,10)}.csv`, csv);
+  if(!csv){ alert('No records to export.'); return; }
+  downloadFile(`brand9-records-${new Date().toISOString().slice(0,10)}.csv`, csv);
 }
 function exportReviewMarksCsv(){
   const csv=buildReviewMarksCsv();
-  if(!csv){ alert('暂无待回看标记可导出。'); return; }
-  downloadFile(`brand9-待回看标记-${new Date().toISOString().slice(0,10)}.csv`, csv);
+  if(!csv){ alert('No review marks to export.'); return; }
+  downloadFile(`brand9-review-marks-${new Date().toISOString().slice(0,10)}.csv`, csv);
 }
 function renderRecordDetail(id){
   const r=getRecords().find(x=>x.id===id); if(!r) return;
@@ -2133,14 +2579,15 @@ function renderRecordDetail(id){
     <h4>${escapeHtml(p.passageTitle || 'Passage')}</h4>
     <p class="subtle">Questions ${escapeHtml(p.questionRange || '')}</p>
     <p><span class="badge">Raw: ${p.raw??'-'} / ${p.total??'-'}</span><span class="badge">Weighted: ${p.weighted??'-'} / ${p.weightedTotal??'-'}</span></p>
-    <p class="subtle">Wrong: ${escapeHtml((p.wrongQuestions||[]).map(q=>'Q'+q).join(', ') || 'none')}<br>Unanswered: ${escapeHtml((p.unansweredQuestions||[]).map(q=>'Q'+q).join(', ') || 'none')}<br>定位数量：${p.evidenceCount??0}；待回看标记：${p.reviewMarkCount??0}</p>
+    <p class="subtle">Wrong: ${escapeHtml((p.wrongQuestions||[]).map(q=>'Q'+q).join(', ') || 'none')}<br>Unanswered: ${escapeHtml((p.unansweredQuestions||[]).map(q=>'Q'+q).join(', ') || 'none')}<br>Evidence: ${p.evidenceCount??0}; Review: ${p.reviewMarkCount??0}</p>
   </article>`).join('');
+  const timeUsed = r.timeUsed || 0;
   $('recordDetail').classList.remove('hidden');
   $('recordDetail').innerHTML=`<h3 style="font-size:15px;margin:0 0 8px">${escapeHtml(r.title)}</h3>
-    <p><span class="badge">Raw: ${r.rawScore} / 40</span><span class="badge">正确率: ${accuracyPct(r)}%</span><span class="badge">Adjusted: ${r.adjustedScore} / 40</span><span class="badge">Band: ${r.estimatedBand}</span><span class="badge">Difficulty: ${escapeHtml(r.difficulty||'')}</span><span class="badge">待回看: ${r.reviewMarkCount ?? r.reviewSentenceCount ?? 0}</span><span class="badge">定位: ${r.evidenceCount ?? Object.keys(r.evidenceMap||{}).length}</span></p>
+    <p><span class="badge">Raw: ${r.rawScore} / 40</span><span class="badge">Accuracy: ${accuracyPct(r)}%</span><span class="badge">Adjusted: ${r.adjustedScore} / 40</span><span class="badge">Band: ${r.estimatedBand}</span><span class="badge">Difficulty: ${escapeHtml(r.difficulty||'')}</span><span class="badge">Time: ${fmtTime(timeUsed)}</span><span class="badge">Review: ${r.reviewMarkCount ?? r.reviewSentenceCount ?? 0}</span><span class="badge">Evidence: ${r.evidenceCount ?? Object.keys(r.evidenceMap||{}).length}</span></p>
     <div class="statPassageGrid">${cards}</div>
-    <p class="subtle">错题号：${escapeHtml((r.wrongQuestions||[]).map(q=>'Q'+q).join(', ')||'无')}；未答：${r.unanswered}。</p>
-    <p><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">删除此记录</button></p>`;
+    <p class="subtle">Wrong: ${escapeHtml((r.wrongQuestions||[]).map(q=>'Q'+q).join(', ')||'none')}; Unanswered: ${r.unanswered}.</p>
+    <p><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">Delete</button></p>`;
   $('recordDetail').querySelector('.recordDelBtn')?.addEventListener('click',()=>deleteRecord(r.id));
 }
 function summaryForPaper(paper){
@@ -2153,7 +2600,7 @@ function summaryForPaper(paper){
 }
 function showReviewPage(id){
   const paper=findPaper(id);
-  if(!paper) return showHint('没有找到这套卷子');
+  if(!paper) return showHint('Paper not found');
   saveDraft();
   reviewPagePaperId=id;
   const draft=normalizeDraft(paper.draft);
@@ -2171,7 +2618,7 @@ function showReviewPage(id){
   $('settingsPanel').classList.remove('show');
   $('reviewPageTitle').textContent=paper.status==='submitted' ? attemptTitle(paper) : mainPaperTitle(paper);
   const marks=draft.reviewMarks || draft.reviewItems || [];
-  $('reviewPageMeta').textContent=`${statusText(paper.status)} · 编号 ${paper.paperNo || paper.paperId || '-'} · 创建于 ${new Date(paper.createdAt).toLocaleString()} · Review Marks: ${marks.length}`;
+  $('reviewPageMeta').textContent=`${statusText(paper.status)} \u00b7 No. ${paper.paperNo || paper.paperId || '-'} \u00b7 Created ${new Date(paper.createdAt).toLocaleString()} \u00b7 Review Marks: ${marks.length}`;
   $('reviewPageContent').innerHTML=reviewPageHtml(paper, s, marks);
   $('reviewPageContent').querySelectorAll('[data-review-jump]').forEach(btn=>btn.onclick=()=>{
     const item=marks.find(x=>x.id===btn.dataset.reviewJump);
@@ -2181,45 +2628,77 @@ function showReviewPage(id){
 }
 function reviewPageHtml(paper, s, items){
   const paperData = paper?.data && Array.isArray(paper.data.passages) ? normalizeData(paper.data) : DATA;
+  const timeUsed = s?.timeUsed || 0;
   const score=s ? `<div class="scoreGrid">
       <div class="scoreCard"><small>Raw Score</small><b>${s.rawScore} / 40</b></div>
       <div class="scoreCard"><small>Adjusted Score</small><b>${s.adjustedScore} / 40</b></div>
       <div class="scoreCard"><small>Estimated Band</small><b>${s.estimatedBand}</b></div>
     </div>
-    <p><span class="badge">Difficulty: ${escapeHtml(s.difficulty||'')}</span><span class="badge">Correct: ${s.correct}</span><span class="badge">Wrong: ${s.wrong}</span><span class="badge">Unanswered: ${s.unanswered}</span></p>` : '<p class="subtle">这套卷子还没有提交，暂无总成绩。</p>';
+    <p><span class="badge">Difficulty: ${escapeHtml(s.difficulty||'')}</span><span class="badge">Correct: ${s.correct}</span><span class="badge">Wrong: ${s.wrong}</span><span class="badge">Unanswered: ${s.unanswered}</span><span class="badge">Time: ${fmtTime(timeUsed)}</span></p>` : '<p class="subtle">Not yet submitted, no score available.</p>';
   const breakdown=s?.breakdown || {};
   const issueRows=issueRowsTableHtml(s?.issueRows || [], paperData);
-  const reviewRows=items.length ? items.map((it,idx)=>`<tr><td>Passage ${(Number(it.passageIndex)||0)+1}</td><td>${escapeHtml(it.paragraphLabel||it.label||'')}</td><td>${escapeHtml(it.text)}</td><td><button data-review-jump="${it.id}">回到原文</button></td></tr>`).join('') : '<tr><td colspan="4">还没有待回看标记。</td></tr>';
-  return `<section class="miniSection"><h3>总成绩</h3>${score}</section>
-    <section class="miniSection"><h3>分篇成绩</h3><div class="tableWrap"><table><thead><tr><th>Passage</th><th>Raw</th><th>Weighted</th></tr></thead><tbody>
-      <tr><td>${escapeHtml(breakdown.p1?.passageTitle||'Passage 1')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p1?.questionRange||'1-13')}</span></td><td>${breakdown.p1?.raw??'-'} / ${breakdown.p1?.total??'-'}</td><td>${breakdown.p1?.weighted??'-'} / ${breakdown.p1?.weightedTotal??'-'}</td></tr>
-      <tr><td>${escapeHtml(breakdown.p2?.passageTitle||'Passage 2')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p2?.questionRange||'14-26')}</span></td><td>${breakdown.p2?.raw??'-'} / ${breakdown.p2?.total??'-'}</td><td>${breakdown.p2?.weighted??'-'} / ${breakdown.p2?.weightedTotal??'-'}</td></tr>
-      <tr><td>${escapeHtml(breakdown.p3?.passageTitle||'Passage 3')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p3?.questionRange||'27-40')}</span></td><td>${breakdown.p3?.raw??'-'} / ${breakdown.p3?.total??'-'}</td><td>${breakdown.p3?.weighted??'-'} / ${breakdown.p3?.weightedTotal??'-'}</td></tr>
+  const reviewRows=items.length ? items.map((it,idx)=>`<tr><td>Passage ${(Number(it.passageIndex)||0)+1}</td><td>${escapeHtml(it.paragraphLabel||it.label||'')}</td><td>${escapeHtml(it.text)}</td><td><button data-review-jump="${it.id}">View</button></td></tr>`).join('') : '<tr><td colspan="4">No review marks.</td></tr>';
+  return `<section class="miniSection"><h3>Overall Score</h3>${score}</section>
+    <section class="miniSection"><h3>Passage Breakdown</h3><div class="tableWrap"><table><thead><tr><th>Passage</th><th>Raw</th><th>Accuracy</th><th>Weighted</th></tr></thead><tbody>
+      <tr><td>${escapeHtml(breakdown.p1?.passageTitle||'Passage 1')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p1?.questionRange||'1-13')}</span></td><td>${breakdown.p1?.raw??'-'} / ${breakdown.p1?.total??'-'}</td><td>${breakdown.p1?.total ? Math.round((breakdown.p1.raw/breakdown.p1.total)*1000)/10 : 0}%</td><td>${breakdown.p1?.weighted??'-'} / ${breakdown.p1?.weightedTotal??'-'}</td></tr>
+      <tr><td>${escapeHtml(breakdown.p2?.passageTitle||'Passage 2')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p2?.questionRange||'14-26')}</span></td><td>${breakdown.p2?.raw??'-'} / ${breakdown.p2?.total??'-'}</td><td>${breakdown.p2?.total ? Math.round((breakdown.p2.raw/breakdown.p2.total)*1000)/10 : 0}%</td><td>${breakdown.p2?.weighted??'-'} / ${breakdown.p2?.weightedTotal??'-'}</td></tr>
+      <tr><td>${escapeHtml(breakdown.p3?.passageTitle||'Passage 3')}<br><span class="subtle">Questions ${escapeHtml(breakdown.p3?.questionRange||'27-40')}</span></td><td>${breakdown.p3?.raw??'-'} / ${breakdown.p3?.total??'-'}</td><td>${breakdown.p3?.total ? Math.round((breakdown.p3.raw/breakdown.p3.total)*1000)/10 : 0}%</td><td>${breakdown.p3?.weighted??'-'} / ${breakdown.p3?.weightedTotal??'-'}</td></tr>
     </tbody></table></div></section>
-    <section class="miniSection"><h3>错题表</h3><div class="tableWrap"><table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Weight</th><th>定位</th><th>解析</th></tr></thead><tbody>${issueRows}</tbody></table></div></section>
-    <section class="miniSection"><h3>待回看标记</h3><div class="tableWrap"><table><thead><tr><th>Passage</th><th>Paragraph</th><th>Sentence</th><th></th></tr></thead><tbody>${reviewRows}</tbody></table></div></section>`;
+    <section class="miniSection"><h3>Wrong Questions</h3><div class="tableWrap"><table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Weight</th><th>Evidence</th><th>Explain</th></tr></thead><tbody>${issueRows}</tbody></table></div></section>
+    <section class="miniSection"><h3>Review Marks</h3><div class="tableWrap"><table><thead><tr><th>Passage</th><th>Paragraph</th><th>Sentence</th><th></th></tr></thead><tbody>${reviewRows}</tbody></table></div></section>`;
 }
 
+// ===== Import Dialog =====
+function showImportDialog(data){
+  pendingImportData = data;
+  const title = cleanImportedTitle(data);
+  $('importFolderName').value = 'Imported';
+  $('importPaperName').value = title;
+  $('importDialog').classList.add('show');
+  setTimeout(() => $('importFolderName').focus(), 50);
+}
+function hideImportDialog(){
+  $('importDialog').classList.remove('show');
+  pendingImportData = null;
+}
+function confirmImport(){
+  if(!pendingImportData) return;
+  const folderName = $('importFolderName').value.trim() || 'Imported';
+  const paperName = $('importPaperName').value.trim() || cleanImportedTitle(pendingImportData);
+  createPaper(pendingImportData, { folderName, paperDisplayName: paperName });
+  hideImportDialog();
+  showWorkspace();
+}
+
+// ===== Event Bindings =====
 $('submitBtn').onclick=submitTest;
+$('finishPassageBtn').onclick=finishPassage;
 $('backHomeExam').onclick=()=>showWorkspace();
 $('settingsBtn').onclick=()=>$('settingsPanel').classList.toggle('show');
-$('reviewBtn').onclick=()=>{ if(!submitted){showHint('提交后可查看待回看标记');return;} $('reviewPanel').classList.toggle('show'); renderReview(); };
+$('reviewBtn').onclick=()=>{ if(!submitted){showHint('Submit first to view review marks');return;} $('reviewPanel').classList.toggle('show'); renderReview(); };
 $('backImport').onclick=()=>showWorkspace();
 $('openImport').onclick=()=>showImportPanel();
 $('backHomeFromImport').onclick=()=>showWorkspace();
+
+// Import buttons now show import dialog
 $('loadJson').onclick=()=>{
-  const f=$('jsonFile').files[0]; if(!f) return alert('先选择 JSON 文件');
-  const r=new FileReader(); r.onload=()=>{try{createPaper(JSON.parse(r.result)); $('jsonFile').value=''; showWorkspace();}catch(e){alert('JSON 格式错误：'+e.message)}}; r.readAsText(f);
+  const f=$('jsonFile').files[0]; if(!f) return alert('Select a JSON file first');
+  const r=new FileReader(); r.onload=()=>{try{showImportDialog(JSON.parse(r.result)); $('jsonFile').value='';}catch(e){alert('JSON format error: '+e.message)}}; r.readAsText(f);
 };
-$('loadPastedJson').onclick=()=>{try{createPaper(JSON.parse($('jsonPaste').value)); $('jsonPaste').value=''; showWorkspace();}catch(e){alert('JSON 格式错误：'+e.message)}};
+$('loadPastedJson').onclick=()=>{try{showImportDialog(JSON.parse($('jsonPaste').value)); $('jsonPaste').value='';}catch(e){alert('JSON format error: '+e.message)}};
+
+// Import dialog events
+$('importDialogCancel').onclick=hideImportDialog;
+$('importDialogConfirm').onclick=confirmImport;
+$('importDialog').onclick=(e)=>{if(e.target===$('importDialog'))hideImportDialog();};
+
 $('copySchemaTemplate') && ($('copySchemaTemplate').onclick=()=>copySchemaTemplate());
 $('downloadSchemaTemplate') && ($('downloadSchemaTemplate').onclick=()=>downloadSchemaTemplate());
 $('openRecordsFromImport') && ($('openRecordsFromImport').onclick=()=>showRecordsScreen());
 $('backFromRecords').onclick=()=>showWorkspace();
 $('exportRecords').onclick=exportRecordsCsv;
 $('exportReviewMarks').onclick=exportReviewMarksCsv;
-$('clearRecords').onclick=()=>{if(confirm('确认清空所有做题记录吗？')){localStorage.removeItem(RECORDS_KEY);renderRecords();}};
-$('refreshWorkspace') && ($('refreshWorkspace').onclick=()=>renderWorkspace());
+$('clearRecords').onclick=()=>{if(confirm('Clear all records?')){localStorage.removeItem(RECORDS_KEY);renderRecords();}};
 $('closeReviewPanel').onclick=()=>$('reviewPanel').classList.remove('show');
 $('reviewBackHome').onclick=()=>showWorkspace();
 $('reviewOpenExam').onclick=()=>{if(reviewPagePaperId) startPaper(reviewPagePaperId)};
@@ -2241,6 +2720,8 @@ window.addEventListener('mousemove',e=>{
   const pct=Math.min(70,Math.max(35,((e.clientX-rect.left)/rect.width)*100));
   document.documentElement.style.setProperty('--leftWidth',pct+'%');
 });
+
+// ===== Init =====
 migratePaperStorage();
 initSchemaTemplateBox();
 renderWorkspace();
