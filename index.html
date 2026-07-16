@@ -250,6 +250,27 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 .importDialogActions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
 .passage-locked-banner{background:var(--soft);border:1px solid var(--line-soft);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
 .passage-locked-banner .lock-icon{font-size:15px}
+/* === Section & Paper Management === */
+.sectionActions{display:flex;gap:3px;flex-shrink:0;opacity:0;transition:opacity .15s ease}
+.folderHeader:hover .sectionActions{opacity:1}
+.sectionActions button{border:none;background:none;color:var(--muted);font-size:13px;padding:3px 5px;border-radius:4px;cursor:pointer;min-width:auto;line-height:1}
+.sectionActions button:hover{background:var(--line-soft);color:#111}
+.paperCardActions{display:flex;gap:4px;flex-wrap:wrap}
+.paperCardActions button{font-size:11px;padding:3px 8px;min-width:auto}
+.folderHeader .folder-count{font-size:13px;color:var(--muted);flex-shrink:0;font-weight:600}
+.addSectionBtn{border:1px dashed var(--line);border-radius:8px;background:#fff;padding:8px 14px;cursor:pointer;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:6px;width:100%;text-align:left;transition:background .1s ease}
+.addSectionBtn:hover{background:var(--soft);color:#111}
+.sectionCreateRow{display:flex;gap:8px;margin-top:8px}
+.sectionCreateRow input{flex:1}
+.sectionCreateRow button{flex-shrink:0;height:auto}
+/* Move dialog */
+.moveDialogSelect{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;margin-bottom:10px;background:#fff;color:var(--text)}
+.moveDialogNewRow{display:flex;gap:6px}
+.moveDialogNewRow input{flex:1;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+/* Import dialog section select */
+.importSectionSelect{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff;color:var(--text);margin-bottom:8px}
+.importNewSectionRow{display:flex;gap:8px;margin-bottom:4px}
+.importNewSectionRow input{flex:1}
 </style>
 </head>
 <body>
@@ -271,13 +292,31 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 <div class="importDialog" id="importDialog">
   <div class="importDialogBox">
     <h3>Import Paper</h3>
-    <label>Folder Name</label>
-    <input type="text" id="importFolderName" placeholder="e.g. Cambridge IELTS 18">
     <label>Paper Name</label>
     <input type="text" id="importPaperName" placeholder="e.g. Test 1 - Reading">
+    <label>Section</label>
+    <select class="importSectionSelect" id="importSectionSelect"></select>
+    <div class="importNewSectionRow hidden" id="importNewSectionRow">
+      <input type="text" id="importNewSectionName" placeholder="New section name">
+    </div>
     <div class="importDialogActions">
       <button class="ghost" id="importDialogCancel">Cancel</button>
       <button class="primary" id="importDialogConfirm">Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- Move Paper Dialog -->
+<div class="importDialog" id="moveDialog">
+  <div class="importDialogBox">
+    <h3>Move to Section</h3>
+    <select class="moveDialogSelect" id="moveSectionSelect"></select>
+    <div class="moveDialogNewRow hidden" id="moveNewSectionRow">
+      <input type="text" id="moveNewSectionName" placeholder="New section name">
+    </div>
+    <div class="importDialogActions">
+      <button class="ghost" id="moveDialogCancel">Cancel</button>
+      <button class="primary" id="moveDialogConfirm">Move</button>
     </div>
   </div>
 </div>
@@ -682,17 +721,20 @@ function createPaper(data, opts={}){
   return paper;
 }
 
-// ===== Library management =====
+// ===== Library / Section management =====
 function updateLibraryForPaper(paper){
   const lib = getLibrary();
-  const folderName = paper.folderName || 'Imported';
-  let folder = lib.find(f => f.name === folderName);
-  if(!folder){
-    folder = {id: 'folder_' + Date.now() + '_' + Math.floor(Math.random()*999999), name: folderName, papers: []};
-    lib.push(folder);
+  const sectionName = paper.folderName || 'Imported';
+  let section = lib.find(f => f.name === sectionName);
+  if(!section){
+    section = {id: 'folder_' + Date.now() + '_' + Math.floor(Math.random()*999999), name: sectionName, papers: []};
+    lib.push(section);
   }
-  // Avoid duplicate entries
-  const existingIdx = folder.papers.findIndex(fp => fp.id === paper.id);
+  // Remove from other sections first
+  lib.forEach(s => {
+    if(s.id !== section.id) s.papers = s.papers.filter(fp => fp.id !== paper.id);
+  });
+  const existingIdx = section.papers.findIndex(fp => fp.id === paper.id);
   const entry = {
     id: paper.id,
     paperId: paper.paperId || paper.paperNo || paper.id,
@@ -702,11 +744,8 @@ function updateLibraryForPaper(paper){
     status: paper.status || 'not_started',
     updatedAt: paper.updatedAt || paper.createdAt || new Date().toISOString()
   };
-  if(existingIdx >= 0){
-    folder.papers[existingIdx] = entry;
-  } else {
-    folder.papers.push(entry);
-  }
+  if(existingIdx >= 0) section.papers[existingIdx] = entry;
+  else section.papers.push(entry);
   saveLibrary(lib);
 }
 
@@ -715,9 +754,171 @@ function removePaperFromLibrary(paperId){
   lib.forEach(folder => {
     folder.papers = folder.papers.filter(fp => fp.id !== paperId);
   });
-  // Remove empty folders
-  const cleaned = lib.filter(f => f.papers.length > 0);
-  saveLibrary(cleaned);
+  saveLibrary(lib.filter(f => f.papers.length > 0));
+}
+
+function createSection(name){
+  if(!name || !name.trim()) return null;
+  name = name.trim();
+  const lib = getLibrary();
+  if(lib.find(f => f.name === name)) return null;
+  const section = {id: 'folder_' + Date.now() + '_' + Math.floor(Math.random()*999999), name, papers: []};
+  lib.push(section);
+  saveLibrary(lib);
+  return section;
+}
+
+function renameSection(sectionId, newName){
+  if(!newName || !newName.trim()) return;
+  newName = newName.trim();
+  const lib = getLibrary();
+  const section = lib.find(f => f.id === sectionId);
+  if(!section) return;
+  if(lib.find(f => f.id !== sectionId && f.name === newName)) return;
+  const oldName = section.name;
+  section.name = newName;
+  saveLibrary(lib);
+  // Update folderName on all papers in this section
+  const papers = getPapers();
+  let changed = false;
+  papers.forEach(p => {
+    if((p.folderName || 'Imported') === oldName){
+      p.folderName = newName;
+      changed = true;
+    }
+  });
+  if(changed) savePapers(papers);
+}
+
+function deleteSection(sectionId){
+  const lib = getLibrary();
+  const section = lib.find(f => f.id === sectionId);
+  if(!section) return;
+  if(!confirm(`Delete section "${section.name}" and all its papers?`)) return;
+  section.papers.forEach(fp => {
+    const paper = findPaper(fp.id);
+    if(paper){
+      savePapers(getPapers().filter(p => p.id !== fp.id));
+    }
+  });
+  saveLibrary(lib.filter(f => f.id !== sectionId));
+  const cr = getContinueReading();
+  if(cr && section.papers.some(fp => fp.id === cr.paperId)) saveContinueReading(null);
+  renderWorkspace();
+}
+
+function reorderSection(sectionId, direction){
+  const lib = getLibrary();
+  const idx = lib.findIndex(f => f.id === sectionId);
+  if(idx < 0) return;
+  const newIdx = idx + direction;
+  if(newIdx < 0 || newIdx >= lib.length) return;
+  const temp = lib[idx];
+  lib[idx] = lib[newIdx];
+  lib[newIdx] = temp;
+  saveLibrary(lib);
+  renderFolderTree();
+}
+
+function duplicatePaper(paperId){
+  const paper = findPaper(paperId);
+  if(!paper) return;
+  const newPaper = createPaper(paper.data, {
+    folderName: paper.folderName || 'Imported',
+    paperDisplayName: (paper.paperDisplayName || paper.shortTitle || 'Paper') + ' (Copy)',
+    shortTitle: (paper.shortTitle || 'Paper') + ' (Copy)',
+    subtitle: paper.subtitle || ''
+  });
+  showHint('Paper duplicated');
+}
+
+function renamePaper(paperId){
+  const paper = findPaper(paperId);
+  if(!paper) return;
+  const newName = prompt('New name:', paper.paperDisplayName || paper.shortTitle || '');
+  if(!newName || !newName.trim() || newName.trim() === (paper.paperDisplayName || paper.shortTitle || '')) return;
+  const name = newName.trim();
+  updateCurrentPaperForId(paperId, p => {
+    p.paperDisplayName = name;
+    p.shortTitle = name;
+    p.title = `${p.paperNo || p.paperId} \u2502 ${name}`;
+  });
+  const lib = getLibrary();
+  lib.forEach(section => {
+    const fp = section.papers.find(x => x.id === paperId);
+    if(fp){
+      fp.shortTitle = name;
+      fp.title = `${fp.paperId} \u2502 ${name}`;
+    }
+  });
+  saveLibrary(lib);
+  renderFolderTree();
+}
+
+function updateCurrentPaperForId(id, mutator){
+  const list = getPapers();
+  const idx = list.findIndex(p => p.id === id);
+  if(idx < 0) return;
+  mutator(list[idx]);
+  list[idx].updatedAt = new Date().toISOString();
+  savePapers(list);
+}
+
+let pendingMovePaperId = null;
+function showMoveDialog(paperId){
+  pendingMovePaperId = paperId;
+  populateSectionSelect('moveSectionSelect', 'moveNewSectionRow', paperId);
+  $('moveDialog').classList.add('show');
+}
+function hideMoveDialog(){
+  $('moveDialog').classList.remove('show');
+  pendingMovePaperId = null;
+}
+function confirmMove(){
+  if(!pendingMovePaperId) return;
+  const select = $('moveSectionSelect');
+  let sectionName = select.value;
+  if(sectionName === '__new__'){
+    sectionName = $('moveNewSectionName').value.trim();
+    if(!sectionName) return;
+    createSection(sectionName);
+  }
+  if(!sectionName) return;
+  const paper = findPaper(pendingMovePaperId);
+  if(paper){
+    updateCurrentPaperForId(pendingMovePaperId, p => { p.folderName = sectionName; });
+    updateLibraryForPaper({...paper, folderName: sectionName});
+    const cr = getContinueReading();
+    if(cr && cr.paperId === pendingMovePaperId){
+      cr.folderName = sectionName;
+      saveContinueReading(cr);
+    }
+  }
+  hideMoveDialog();
+  renderWorkspace();
+  showHint('Paper moved');
+}
+
+function populateSectionSelect(selectId, newRowId, excludePaperId){
+  const select = $(selectId);
+  const lib = getLibrary();
+  let currentSectionName = 'Imported';
+  if(excludePaperId){
+    const paper = findPaper(excludePaperId);
+    if(paper) currentSectionName = paper.folderName || 'Imported';
+  }
+  select.innerHTML = lib.map(s => {
+    const selected = s.name === currentSectionName ? ' selected' : '';
+    return `<option value="${escapeHtml(s.name)}"${selected}>${escapeHtml(s.name)} (${s.papers.length})</option>`;
+  }).join('') + '<option value="__new__">+ Create New Section</option>';
+  if($(newRowId)){
+    const isNew = select.value === '__new__';
+    $(newRowId).classList.toggle('hidden', !isNew);
+    select.onchange = () => {
+      $(newRowId).classList.toggle('hidden', select.value !== '__new__');
+      if(select.value === '__new__') $(newRowId).querySelector('input').focus();
+    };
+  }
 }
 
 function safeNormalizePaperData(data){
@@ -1030,13 +1231,19 @@ function renderFolderTree(){
   const box = $('folderTree');
   if(!box) return;
   const lib = getLibrary();
+  const allPapers = getPapers();
   if(!lib.length){
-    box.innerHTML = '<div class="emptyPapers">No papers yet. Click "Import New Paper" to import your JSON paper package.</div>';
+    box.innerHTML = '<div class="emptyPapers">No papers yet. Click "Import New Paper" to import your JSON paper package.</div><button class="addSectionBtn" id="addFirstSectionBtn">+ New Section</button>';
+    $('addFirstSectionBtn').onclick = () => {
+      const name = prompt('Section name:');
+      if(name && name.trim()){
+        createSection(name.trim());
+        renderFolderTree();
+      }
+    };
     return;
   }
-  // Get all papers for status checking
-  const allPapers = getPapers();
-  box.innerHTML = lib.map(folder => {
+  let html = lib.map((folder, idx) => {
     const hasInProgress = folder.papers.some(fp => {
       const p = allPapers.find(ap => ap.id === fp.id);
       return p && p.status === 'in_progress';
@@ -1046,22 +1253,64 @@ function renderFolderTree(){
       <div class="folderHeader" data-folder-id="${escapeHtml(folder.id)}">
         <span class="folder-arrow${isOpen}">\u25B6</span>
         <span class="folder-name">${escapeHtml(folder.name)}</span>
-        <span class="folder-count">${folder.papers.length}</span>
+        <span class="folder-count">(${folder.papers.length})</span>
+        <span class="sectionActions">
+          ${idx > 0 ? '<button data-sact="up" title="Move up">\u25B2</button>' : ''}
+          ${idx < lib.length - 1 ? '<button data-sact="down" title="Move down">\u25BC</button>' : ''}
+          <button data-sact="rename" title="Rename">\u270E</button>
+          <button data-sact="delete" title="Delete">\u2715</button>
+        </span>
       </div>
       <div class="folderPapers${isOpen}" data-folder-papers="${escapeHtml(folder.id)}">
         ${renderFolderPapers(folder.papers, allPapers)}
       </div>
     </div>`;
   }).join('');
-  // Bind folder toggle
+  html += '<button class="addSectionBtn" id="addSectionBtn">+ New Section</button>';
+  box.innerHTML = html;
+
+  // Bind section toggle
   box.querySelectorAll('.folderHeader').forEach(header => {
-    header.onclick = () => {
+    header.querySelector('.folder-arrow, .folder-name').onclick = (e) => {
       const arrow = header.querySelector('.folder-arrow');
       const papersDiv = box.querySelector(`[data-folder-papers="${header.dataset.folderId}"]`);
       arrow.classList.toggle('open');
       papersDiv.classList.toggle('open');
     };
   });
+
+  // Bind section actions
+  box.querySelectorAll('[data-sact]').forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const header = btn.closest('.folderHeader');
+      const sectionId = header.dataset.folderId;
+      const act = btn.dataset.sact;
+      if(act === 'up') reorderSection(sectionId, -1);
+      if(act === 'down') reorderSection(sectionId, 1);
+      if(act === 'rename'){
+        const lib2 = getLibrary();
+        const section = lib2.find(f => f.id === sectionId);
+        if(!section) return;
+        const newName = prompt('New section name:', section.name);
+        if(newName && newName.trim() && newName.trim() !== section.name){
+          renameSection(sectionId, newName.trim());
+          renderFolderTree();
+        }
+      }
+      if(act === 'delete') deleteSection(sectionId);
+    };
+  });
+
+  // Bind add section
+  $('addSectionBtn').onclick = () => {
+    const name = prompt('Section name:');
+    if(name && name.trim()){
+      createSection(name.trim());
+      renderFolderTree();
+    }
+  };
+
   // Bind paper actions
   bindFolderPaperActions(box, allPapers);
 }
@@ -1080,16 +1329,19 @@ function renderFolderPapers(folderPapers, allPapers){
       <div class="paperMeta">
         <span>Status</span><b><span class="statusPill">${status}</span></b>
       </div>
-      <div class="paperActions">
+      <div class="paperActions paperCardActions">
         <button class="primary" data-act="${startAct}">${startText}</button>
-        <button class="ghost" data-act="delete">Delete</button>
+        <button data-act="rename">Rename</button>
+        <button data-act="duplicate">Duplicate</button>
+        <button data-act="move">Move</button>
+        <button data-act="delete">Delete</button>
       </div>
     </article>`;
   }).join('');
 }
 
 function bindFolderPaperActions(root, allPapers){
-  root.querySelectorAll('button[data-act]').forEach(btn => {
+  root.querySelectorAll('.paperCard button[data-act]').forEach(btn => {
     btn.onclick = (e) => {
       const card = e.target.closest('.paperCard');
       const id = card.dataset.id;
@@ -1098,6 +1350,9 @@ function bindFolderPaperActions(root, allPapers){
       if(act === 'start') startPaper(id);
       if(act === 'review') showReviewPage(id);
       if(act === 'delete') deletePaper(id);
+      if(act === 'rename') renamePaper(id);
+      if(act === 'duplicate') duplicatePaper(id);
+      if(act === 'move') showMoveDialog(id);
     };
   });
 }
@@ -2652,10 +2907,10 @@ function reviewPageHtml(paper, s, items){
 function showImportDialog(data){
   pendingImportData = data;
   const title = cleanImportedTitle(data);
-  $('importFolderName').value = 'Imported';
   $('importPaperName').value = title;
+  populateSectionSelect('importSectionSelect', 'importNewSectionRow', null);
   $('importDialog').classList.add('show');
-  setTimeout(() => $('importFolderName').focus(), 50);
+  setTimeout(() => $('importPaperName').focus(), 50);
 }
 function hideImportDialog(){
   $('importDialog').classList.remove('show');
@@ -2663,9 +2918,16 @@ function hideImportDialog(){
 }
 function confirmImport(){
   if(!pendingImportData) return;
-  const folderName = $('importFolderName').value.trim() || 'Imported';
+  const select = $('importSectionSelect');
+  let sectionName = select.value;
+  if(sectionName === '__new__'){
+    sectionName = $('importNewSectionName').value.trim();
+    if(!sectionName) return;
+    createSection(sectionName);
+  }
+  if(!sectionName) sectionName = 'Imported';
   const paperName = $('importPaperName').value.trim() || cleanImportedTitle(pendingImportData);
-  createPaper(pendingImportData, { folderName, paperDisplayName: paperName });
+  createPaper(pendingImportData, { folderName: sectionName, paperDisplayName: paperName });
   hideImportDialog();
   showWorkspace();
 }
@@ -2691,6 +2953,11 @@ $('loadPastedJson').onclick=()=>{try{showImportDialog(JSON.parse($('jsonPaste').
 $('importDialogCancel').onclick=hideImportDialog;
 $('importDialogConfirm').onclick=confirmImport;
 $('importDialog').onclick=(e)=>{if(e.target===$('importDialog'))hideImportDialog();};
+
+// Move dialog events
+$('moveDialogCancel').onclick=hideMoveDialog;
+$('moveDialogConfirm').onclick=confirmMove;
+$('moveDialog').onclick=(e)=>{if(e.target===$('moveDialog'))hideMoveDialog();};
 
 $('copySchemaTemplate') && ($('copySchemaTemplate').onclick=()=>copySchemaTemplate());
 $('downloadSchemaTemplate') && ($('downloadSchemaTemplate').onclick=()=>downloadSchemaTemplate());
