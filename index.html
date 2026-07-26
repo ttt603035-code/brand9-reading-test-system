@@ -271,6 +271,71 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 .importSectionSelect{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff;color:var(--text);margin-bottom:8px}
 .importNewSectionRow{display:flex;gap:8px;margin-bottom:4px}
 .importNewSectionRow input{flex:1}
+
+/* === Cloze Practice Styles === */
+.moduleTabs{display:flex;gap:8px;padding:14px 26px 0;max-width:1120px;margin:0 auto}
+.moduleTab{padding:10px 20px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#111;cursor:pointer;font-size:14px;font-weight:600}
+.moduleTab.active{background:#111;color:#fff;border-color:#111}
+.moduleTab:hover{filter:brightness(.98)}
+.clozeHome,.clozeImportPanel,.clozeRecordsScreen,.clozeReviewScreen,.clozeWrongBookScreen,.clozeFavoritesScreen{padding:26px;max-width:1120px;margin:0 auto}
+.clozeLayout{display:grid;grid-template-columns:var(--leftWidth) 8px minmax(0,1fr);height:calc(100vh - 48px - 54px);height:calc(100dvh - 48px - 54px)}
+.clozePassageArea,.clozeQuestionsArea{overflow:auto;padding:18px;background:#fff}
+.clozePassage{background:#fff;border:1px solid var(--line);border-radius:8px;padding:22px;margin-bottom:18px}
+.clozePassage-head span{color:var(--muted);font-size:13px}
+.clozeBlank{display:inline-block;min-width:64px;padding:2px 8px;margin:0 2px;border:1px solid var(--line);border-radius:6px;background:var(--soft);text-align:center;font-weight:700;color:#7e2631;cursor:pointer;vertical-align:baseline}
+.clozeBlank.answered{background:var(--green-bg);border-color:#a6d1b5;color:#2d6c45}
+.clozeBlank.current{outline:2px solid rgba(17,17,17,.2);border-color:#111}
+.clozeQuestion{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:14px;scroll-margin-top:64px}
+.clozeQuestion h3{font-size:15px;margin:0 0 12px;line-height:1.45;font-weight:700}
+.clozeOption{display:block;padding:10px 12px;margin:4px 0;border:1px solid var(--line-soft);border-radius:8px;cursor:pointer;transition:all .12s ease;font-size:14px}
+.clozeOption:hover{background:var(--soft);border-color:var(--line)}
+.clozeOption.selected{background:#111;color:#fff;border-color:#111}
+.clozeOption.correct{background:var(--green-bg);border-color:#a6d1b5;color:#2d6c45;font-weight:600}
+.clozeOption.wrong{background:var(--bad-bg);border-color:#d09090;color:#922e2e;font-weight:600}
+.clozeOption.correct.selected{background:var(--green);color:#fff}
+.clozeOption.wrong.selected{background:var(--bad);color:#fff}
+.clozeProgressBar{height:6px;background:var(--line-soft);border-radius:999px;overflow:hidden;margin:10px 0}
+.clozeProgressFill{height:100%;background:#111;transition:width .3s ease;border-radius:999px}
+.clozeProgressText{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px}
+.clozeNavRow{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line-soft)}
+.clozeResultCard{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff;margin-bottom:14px}
+.clozeResultSummary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:10px 0}
+.clozeAnalysisSection{margin-top:14px}
+.clozeAnalysisSection h3{font-size:16px;margin:0 0 10px;font-weight:700}
+.clozeQuestionAnalysis{border:1px solid var(--line);border-radius:10px;background:#fff;padding:14px;margin-bottom:10px}
+.clozeQaHeader{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.clozeQaBadge{padding:3px 9px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid var(--line-soft)}
+.clozeQaBadge.correct{background:var(--green-bg);color:#2d6c45;border-color:#a6d1b5}
+.clozeQaBadge.wrong{background:var(--bad-bg);color:#922e2e;border-color:#d09090}
+.clozeQaBadge.unanswered{background:var(--grey-bg);color:#777;border-color:#cfcfcf}
+.clozeSubSection{margin-top:12px}
+.clozeSubSection h4{font-size:14px;margin:0 0 6px;font-weight:700;color:#333}
+.clozeVocabItem,.clozeCollocItem,.clozeGrammarItem{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:8px 10px;border:1px solid var(--line-soft);border-radius:8px;margin-bottom:6px;background:#fff;align-items:start}
+.clozeVocabWord,.clozeCollocPhrase{font-weight:700;color:#7e2631;font-size:14px}
+.clozeVocabPos{font-size:11px;color:var(--muted);font-style:italic;margin-left:4px}
+.clozeVocabMeaning{font-size:13px;color:#333;grid-column:2}
+.clozeVocabCn{font-size:13px;color:#555;grid-column:2}
+.clozeFavBtn{border:none;background:transparent;cursor:pointer;padding:2px 6px;font-size:14px;border-radius:4px;margin-left:6px;opacity:.5;transition:all .15s ease}
+.clozeFavBtn:hover{opacity:1;background:var(--soft)}
+.clozeFavBtn.active{opacity:1;color:#e6a817}
+.clozeTranslationBox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;line-height:1.85;font-size:15px;color:#222}
+.clozeSummaryBox{background:var(--note);border:1px solid #b8cff2;border-radius:10px;padding:14px;font-size:14px;line-height:1.65}
+.aiToolsModal{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.aiToolsModal.show{display:flex}
+.aiToolsBox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;width:640px;max-width:95vw;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 16px 40px rgba(0,0,0,.15)}
+.aiToolsBox h3{margin:0 0 12px;font-size:18px;font-weight:700}
+.aiPromptBox{flex:1;min-height:300px;border:1px solid var(--line);border-radius:10px;padding:12px;background:#fafafa;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.6;white-space:pre-wrap;overflow:auto}
+.aiToolsActions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.clozeStatGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px}
+.clozeStatCard{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.clozeStatCard small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.clozeStatCard b{font-size:20px}
+.clozeMetaInfo{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;font-size:13px;color:var(--muted)}
+.clozeMetaInfo b{color:#333;font-weight:600}
+.clozePassageMeta{background:var(--soft);border:1px solid var(--line-soft);border-radius:8px;padding:12px;margin-bottom:16px}
+@media(max-width:900px){
+  .clozeLayout{grid-template-columns:1fr;height:auto}
+}
 </style>
 </head>
 <body>
@@ -321,26 +386,62 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
   </div>
 </div>
 
+<div class="moduleTabs" id="moduleTabs">
+  <button class="moduleTab active" data-module="reading">📖 Reading</button>
+  <button class="moduleTab" data-module="cloze">📖 Cloze Practice</button>
+</div>
+
 <section class="importScreen" id="importScreen">
-  <h1 class="workspaceTitle">Reading test system</h1>
-  <p class="homeLead">Import your JSON paper package. The paper will appear in your Reading Library.</p>
-  <p class="subtle">Open-source notice: this version only contains the test system code. It does not include Cambridge IELTS papers, PDFs, official passages, official questions, or copyrighted test materials.</p>
-  <div class="homeActions">
-    <button class="primary" id="openImport">Import New Paper</button>
-    <button id="openRecordsFromImport">Statistics</button>
-  </div>
-  <div id="continueReadingArea"></div>
-  <div class="workspaceSection">
-    <div class="workspaceHead">
-      <h2>Reading Library</h2>
+  <div id="readingHomeContent">
+    <h1 class="workspaceTitle">Reading test system</h1>
+    <p class="homeLead">Import your JSON paper package. The paper will appear in your Reading Library.</p>
+    <p class="subtle">Open-source notice: this version only contains the test system code. It does not include Cambridge IELTS papers, PDFs, official passages, official questions, or copyrighted test materials.</p>
+    <div class="homeActions">
+      <button class="primary" id="openImport">Import New Paper</button>
+      <button id="openRecordsFromImport">Statistics</button>
     </div>
-    <div id="folderTree" class="folderList"></div>
-  </div>
-  <div class="workspaceSection">
-    <div class="workspaceHead">
-      <h2>History</h2>
+    <div id="continueReadingArea"></div>
+    <div class="workspaceSection">
+      <div class="workspaceHead">
+        <h2>Reading Library</h2>
+      </div>
+      <div id="folderTree" class="folderList"></div>
     </div>
-    <div id="attemptList" class="paperGrid"></div>
+    <div class="workspaceSection">
+      <div class="workspaceHead">
+        <h2>History</h2>
+      </div>
+      <div id="attemptList" class="paperGrid"></div>
+    </div>
+  </div>
+  <div id="clozeHomeContent" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+      <h1 class="workspaceTitle" style="margin:0">Cloze Practice</h1>
+      <div>
+        <button id="aiToolsBtn">✨ AI Tools</button>
+      </div>
+    </div>
+    <p class="homeLead">Import Cloze tests and practice. Data is saved to your browser's LocalStorage.</p>
+    <div id="clozeStatsGrid" class="clozeStatGrid" style="margin-bottom:18px"></div>
+    <div class="homeActions">
+      <button class="primary" id="clozeOpenImport">Import Cloze</button>
+      <button id="clozeOpenRecords">Statistics</button>
+      <button id="clozeOpenWrongBook">Wrong Book</button>
+      <button id="clozeOpenFavorites">Favorites</button>
+    </div>
+    <div id="continueClozeArea"></div>
+    <div class="workspaceSection">
+      <div class="workspaceHead">
+        <h2>Cloze Library</h2>
+      </div>
+      <div id="clozeFolderTree" class="folderList"></div>
+    </div>
+    <div class="workspaceSection">
+      <div class="workspaceHead">
+        <h2>History</h2>
+      </div>
+      <div id="clozeAttemptList" class="paperGrid"></div>
+    </div>
   </div>
 </section>
 
@@ -404,6 +505,128 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
   </div>
   <div id="reviewPageContent" class="reviewColumns"></div>
 </section>
+
+<!-- === Cloze Import Panel === -->
+<section class="clozeImportPanel" id="clozeImportPanel" style="display:none">
+  <div class="recordsTop">
+    <h2>Import Cloze Test</h2>
+    <button id="clozeBackHomeFromImport">Home</button>
+  </div>
+  <div class="hero">
+    <div class="importGrid">
+      <div class="importBox">
+        <h3>Import JSON File</h3>
+        <p class="subtle">Select your JSON Cloze package file.</p>
+        <input type="file" id="clozeJsonFile" accept=".json,application/json">
+        <button class="primary" id="clozeLoadJson">Import JSON</button>
+      </div>
+      <div class="importBox">
+        <h3>Paste JSON</h3>
+        <textarea id="clozeJsonPaste" placeholder='Paste your AI-generated Cloze JSON here, then click "Import Pasted JSON".'></textarea>
+        <button id="clozeLoadPastedJson">Import Pasted JSON</button>
+        <p class="subtle">Supported fields: title / difficulty / estimatedTime / passage / blanks / answers / analysis.</p>
+      </div>
+    </div>
+    <div class="schemaTemplateBox">
+      <h3>Cloze JSON Format</h3>
+      <p class="subtle">Copy the structure below and send to AI. Let AI fill in structured JSON.</p>
+      <div class="schemaTemplateActions">
+        <button id="clozeCopySchemaTemplate">Copy Format Template</button>
+        <button id="clozeDownloadSchemaTemplate">Download JSON Template</button>
+      </div>
+      <textarea id="clozeSchemaTemplateText" readonly spellcheck="false"></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- === Cloze App (Practice Interface) === -->
+<section class="app" id="clozeApp" style="display:none">
+  <main class="clozeLayout" id="clozeLayout">
+    <section class="clozePassageArea" id="clozePassageArea"></section>
+    <div class="divider" id="clozeDivider"></div>
+    <section class="clozeQuestionsArea" id="clozeQuestionsArea"></section>
+  </main>
+</section>
+
+<!-- === Cloze Records Screen === -->
+<section class="clozeRecordsScreen" id="clozeRecordsScreen" style="display:none">
+  <div class="recordsTop">
+    <h2>Cloze Statistics</h2>
+    <div>
+      <button id="clozeBackFromRecords">Home</button>
+      <button id="clozeExportRecords">Export Records</button>
+      <button id="clozeClearRecords" class="ghost">Clear Records</button>
+    </div>
+  </div>
+  <div id="clozeRecordsTrend" class="recordsTrend"></div>
+  <div class="tableWrap"><table><thead><tr><th>Date</th><th>Paper</th><th>Raw</th><th>Accuracy</th><th>Wrong</th><th>Unanswered</th><th>Time</th><th>Action</th></tr></thead><tbody id="clozeRecordsBody"></tbody></table></div>
+  <div id="clozeRecordDetail" class="recordDetail hidden"></div>
+</section>
+
+<!-- === Cloze Review / Analysis Screen === -->
+<section class="clozeReviewScreen" id="clozeReviewScreen" style="display:none">
+  <div class="reviewTop">
+    <div class="reviewTitleBlock">
+      <h2 id="clozeReviewPageTitle">Cloze Review</h2>
+      <p class="subtle" id="clozeReviewPageMeta"></p>
+    </div>
+    <div class="reviewActions">
+      <button id="clozeReviewBackHome">Home</button>
+      <button class="primary" id="clozeReviewOpenExam">View in Exam</button>
+    </div>
+  </div>
+  <div id="clozeReviewPageContent" class="reviewColumns"></div>
+</section>
+
+<!-- === Cloze Wrong Book Screen === -->
+<section class="clozeWrongBookScreen" id="clozeWrongBookScreen" style="display:none">
+  <div class="recordsTop">
+    <h2>Cloze Wrong Book</h2>
+    <button id="clozeWrongBackHome">Home</button>
+  </div>
+  <p class="subtle" id="clozeWrongBookMeta"></p>
+  <div id="clozeWrongBookContent"></div>
+</section>
+
+<!-- === Cloze Favorites Screen === -->
+<section class="clozeFavoritesScreen" id="clozeFavoritesScreen" style="display:none">
+  <div class="recordsTop">
+    <h2>Cloze Favorites</h2>
+    <div>
+      <button id="clozeFavBackHome">Home</button>
+      <button id="clozeFavExport">Export</button>
+      <button id="clozeFavClearAll" class="ghost">Clear All</button>
+    </div>
+  </div>
+  <div class="workspaceSection" style="margin-top:16px">
+    <div class="workspaceHead"><h2>⭐ Vocabulary</h2></div>
+    <div id="clozeFavVocabList"></div>
+  </div>
+  <div class="workspaceSection" style="margin-top:16px">
+    <div class="workspaceHead"><h2>🔗 Collocations</h2></div>
+    <div id="clozeFavCollocList"></div>
+  </div>
+  <div class="workspaceSection" style="margin-top:16px">
+    <div class="workspaceHead"><h2>📘 Grammar Notes</h2></div>
+    <div id="clozeFavGrammarList"></div>
+  </div>
+</section>
+
+<!-- === AI Tools Modal === -->
+<div class="aiToolsModal" id="aiToolsModal">
+  <div class="aiToolsBox">
+    <h3>✨ AI Tools</h3>
+    <div style="margin-bottom:8px">
+      <div style="font-weight:700;margin-bottom:6px;font-size:14px">Cloze Import Prompt</div>
+      <p class="subtle" style="margin:0 0 8px;line-height:1.55">Use this prompt with ChatGPT / Claude / etc. to generate a Cloze JSON package, then paste it into Import Cloze → Paste JSON.</p>
+    </div>
+    <textarea id="aiPromptBox" class="aiPromptBox" readonly spellcheck="false"></textarea>
+    <div class="aiToolsActions">
+      <button class="ghost" id="aiToolsClose">Close</button>
+      <button class="primary" id="aiToolsCopy">📋 Copy Prompt</button>
+    </div>
+  </div>
+</div>
 
 <section class="app" id="app">
   <main class="layout" id="layout">
@@ -2935,7 +3158,10 @@ function confirmImport(){
 // ===== Event Bindings =====
 $('submitBtn').onclick=submitTest;
 $('finishPassageBtn').onclick=finishPassage;
-$('backHomeExam').onclick=()=>showWorkspace();
+$('backHomeExam').onclick=()=>{
+  if($('clozeApp') && $('clozeApp').style.display === 'block') clozeShowWorkspace();
+  else showWorkspace();
+};
 $('settingsBtn').onclick=()=>$('settingsPanel').classList.toggle('show');
 $('reviewBtn').onclick=()=>{ if(!submitted){showHint('Submit first to view review marks');return;} $('reviewPanel').classList.toggle('show'); renderReview(); };
 $('backImport').onclick=()=>showWorkspace();
@@ -2987,6 +3213,1536 @@ window.addEventListener('mousemove',e=>{
   const pct=Math.min(70,Math.max(35,((e.clientX-rect.left)/rect.width)*100));
   document.documentElement.style.setProperty('--leftWidth',pct+'%');
 });
+
+// ============================================================
+// ===== Cloze Practice Engine (独立数据，独立逻辑) ============
+// ============================================================
+const CLOZE_PAPERS_KEY    = 'brand9_cloze_papers_v1';
+const CLOZE_LIBRARY_KEY   = 'brand9_cloze_library_v1';
+const CLOZE_RECORDS_KEY   = 'brand9_cloze_records_v1';
+const CLOZE_CONTINUE_KEY  = 'brand9_cloze_continue_v1';
+const CLOZE_WRONGBOOK_KEY = 'brand9_cloze_wrongbook_v1';
+const CLOZE_FAVORITES_KEY = 'brand9_cloze_favorites_v1';
+
+let currentClozePaperId = null;
+let clozeSubmitted = false;
+let clozeTimerSeconds = 20 * 60;
+let clozeTimerPaused = false;
+let clozeCurrentBlank = 1;
+let clozeClozeData = null;
+let clozeAnswerState = {};
+let clozeGradeState = {};
+let clozeLastSummary = null;
+let clozeSaveTick = 0;
+let clozeReviewPagePaperId = null;
+let pendingClozeImportData = null;
+
+function clozeGetPapers(){try{return JSON.parse(localStorage.getItem(CLOZE_PAPERS_KEY)||'[]')}catch(e){return []}}
+function clozeSavePapers(list){localStorage.setItem(CLOZE_PAPERS_KEY, JSON.stringify(list))}
+function clozeFindPaper(id){return clozeGetPapers().find(p=>p.id===id)}
+function clozeGetLibrary(){try{return JSON.parse(localStorage.getItem(CLOZE_LIBRARY_KEY)||'[]')}catch(e){return []}}
+function clozeSaveLibrary(list){localStorage.setItem(CLOZE_LIBRARY_KEY, JSON.stringify(list))}
+function clozeGetContinue(){try{return JSON.parse(localStorage.getItem(CLOZE_CONTINUE_KEY)||'null')}catch(e){return null}}
+function clozeSaveContinue(data){if(data) localStorage.setItem(CLOZE_CONTINUE_KEY, JSON.stringify(data)); else localStorage.removeItem(CLOZE_CONTINUE_KEY);}
+function clozeGetRecords(){try{return JSON.parse(localStorage.getItem(CLOZE_RECORDS_KEY)||'[]')}catch(e){return []}}
+function clozeSaveRecords(list){localStorage.setItem(CLOZE_RECORDS_KEY, JSON.stringify(list))}
+function clozeGetWrongBook(){try{return JSON.parse(localStorage.getItem(CLOZE_WRONGBOOK_KEY)||'[]')}catch(e){return []}}
+function clozeSaveWrongBook(list){localStorage.setItem(CLOZE_WRONGBOOK_KEY, JSON.stringify(list))}
+function clozeGetFavorites(){try{return JSON.parse(localStorage.getItem(CLOZE_FAVORITES_KEY)||'{vocab:[],colloc:[],grammar:[]}')}catch(e){return {vocab:[],colloc:[],grammar:[]}}}
+function clozeSaveFavorites(obj){localStorage.setItem(CLOZE_FAVORITES_KEY, JSON.stringify(obj))}
+
+function clozeDefaultDraft(){
+  return {
+    timerSeconds: 20*60,
+    timerPaused: false,
+    userAnswers: {},
+    submitted: false,
+    submittedAt: null,
+    result: null,
+    currentBlank: 1
+  };
+}
+function clozeNormalizeDraft(d){
+  const s = d||{};
+  return {
+    ...clozeDefaultDraft(),
+    ...s,
+    userAnswers: {...(s.userAnswers||{})}
+  };
+}
+function clozeCleanTitle(data){
+  const raw = String(data?.title||'Imported Cloze Test').trim();
+  return raw.replace(/\s*Cloze\s*$/i,'').replace(/\s*[\u00b7|\-]\s*$/,'').trim() || 'Imported Cloze Test';
+}
+function clozeMainTitle(p){
+  const no = p?.paperNo || p?.paperId || 'C-MOCK-000';
+  const t = String(p?.displayName || p?.shortTitle || clozeCleanTitle(p?.data||{title:p?.title}) || 'Cloze Test');
+  return `${no} │ ${t.replace(new RegExp(`^${no.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\s*[│|]\\s*`),'')}`;
+}
+function clozeAttemptTitle(p){
+  const no = p?.paperNo || p?.paperId || 'C-MOCK-000';
+  return `${no} │ Attempt ${Number(p?.attemptNo)||1}`;
+}
+function clozeFormatPaperNo(n){return `C-MOCK-${String(Math.max(1,n)).padStart(3,'0')}`}
+function clozePaperNoNumber(no){
+  const m = String(no||'').match(/^C-MOCK-(\d+)$/);
+  return m ? Number(m[1]) : 0;
+}
+function clozeNextPaperNo(){
+  const list = clozeGetPapers();
+  const max = Math.max(0, ...list.map(p=>clozePaperNoNumber(p.paperNo||p.paperId)).filter(Boolean));
+  return clozeFormatPaperNo(max+1);
+}
+function clozeStatusText(s){
+  return s==='submitted' ? 'Submitted' : s==='in_progress' ? 'In Progress' : 'Not Started';
+}
+
+const CLOZE_JSON_TEMPLATE = {
+  "_schemaVersion": "brand9-cloze-structured-v1",
+  "_aiInstructions": [
+    "Only output a complete JSON object, no Markdown code blocks.",
+    "Generate a high-quality cloze (完形填空) test with detailed analysis.",
+    "In the passage field, use [[1]] [[2]] ... [[n]] to mark blanks, numbered 1 to totalBlanks.",
+    "Each blank has 4 options A/B/C/D. Provide correct answers.",
+    "Provide detailed analysis: explanations, vocabulary, collocations, grammar notes.",
+    "Do NOT include HTML tags inside passage text; keep it plain text."
+  ],
+  "title": "CET4 Cloze Practice · The Impact of Urbanization",
+  "difficulty": "Medium",
+  "estimatedTime": 15,
+  "source": "CET4 / Practice",
+  "totalBlanks": 20,
+  "passage": "Urbanization refers to the migration of people from rural to urban areas. Over the past century, the world has [[1]] a dramatic increase in urban populations. People move to cities in [[2]] of better jobs, improved education, and access to modern services. However, rapid urban growth also [[3]] significant challenges, [[4]] housing shortages, traffic congestion, and environmental pollution.\n\nGovernments worldwide are now [[5]] policies to make cities more [[6]] and livable. They [[7]] public transportation, build affordable housing, and [[8]] green spaces. The [[9]] is to create cities where people can [[10]] healthy and fulfilling lives without [[11]] the environment.\n\nAt the [[12]] time, communities also play an important [[13]]. Local residents often [[14]] hands with city planners to [[15]] that development benefits everyone. In many cases, bottom-up approaches have [[16]] to be more [[17]] than top-down policies. The future of our cities will [[18]] on how well we can [[19]] economic growth with environmental [[20]].",
+  "blanks": [
+    {
+      "num": 1,
+      "options": [
+        {"key":"A","text":"witnessed"},
+        {"key":"B","text":"watched"},
+        {"key":"C","text":"observed"},
+        {"key":"D","text":"noticed"}
+      ]
+    },
+    {
+      "num": 2,
+      "options": [
+        {"key":"A","text":"search"},
+        {"key":"B","text":"hope"},
+        {"key":"C","text":"pursuit"},
+        {"key":"D","text":"wish"}
+      ]
+    }
+  ],
+  "answers": {
+    "1": "A",
+    "2": "C"
+  },
+  "analysis": {
+    "1": {
+      "explanation": "'Witness' means to see or experience something (often a change or event) take place. It is the most natural collocation with 'a dramatic increase'. B 'watched' implies visual attention over time. C 'observed' is more formal and intentional, typically used for scientific or careful viewing. D 'noticed' means to become aware of, which is weaker than the context requires.",
+      "whyCorrect": "'Witness' collocates naturally with events like increase, change, development, growth.",
+      "whyWrong": {
+        "A/B": "No - A is correct. B 'watched' is for continuous visual observation of a process.",
+        "C/D": "C 'observed' typically implies deliberate, disciplined viewing. D 'noticed' means only to become aware of something briefly."
+      },
+      "grammar": "Past participle after 'has' (present perfect). All four options are past participles, so grammar alone is not enough.",
+      "vocabulary": [
+        {"word":"witness","pos":"v.","cn":"见证；目睹","meaning":"to see or experience an event or change"},
+        {"word":"dramatic","pos":"adj.","cn":"急剧的；戏剧性的","meaning":"sudden, very great and noticeable"}
+      ],
+      "collocations": [
+        {"en":"witness an increase","cn":"见证增长","usage":"Common collocation: witness a change / increase / decrease / trend"},
+        {"en":"urban population","cn":"城市人口","usage":"Countable compound noun phrase"}
+      ]
+    }
+  },
+  "chineseTranslation": "城市化是指人口从农村向城市的迁移。在过去的一个世纪里，世界见证了城市人口的急剧增长。人们迁居城市，是为了寻求更好的工作、更优质的教育以及现代服务的便利。然而，城市的快速扩张也带来了巨大的挑战，包括住房短缺、交通拥堵和环境污染。\n\n如今，世界各国政府都在制定政策，力求让城市更具可持续性、更宜居。它们投资公共交通、建设保障性住房、保护绿地。目标是打造一座城市，让人们在不破坏环境的前提下过上健康、充实的生活。\n\n与此同时，社区也发挥着重要作用。当地居民常常与城市规划者携手合作，确保发展惠及每一个人。在许多情况下，自下而上的方式比自上而下的政策更为有效。我们城市的未来，将取决于能否在经济增长与环境保护之间取得良好的平衡。",
+  "summary": "本文探讨了城市化带来的机遇与挑战，并指出政府政策与社区协作相结合才能实现可持续的城市发展。"
+};
+
+function clozeNormalizeData(d){
+  if(!d) throw new Error('Cloze JSON is empty');
+  if(!d.passage) throw new Error('Cloze JSON must contain "passage"');
+  if(!Array.isArray(d.blanks)) throw new Error('Cloze JSON must contain "blanks" array');
+  if(!d.answers || typeof d.answers !== 'object') throw new Error('Cloze JSON must contain "answers" object');
+  d.totalBlanks = Number(d.totalBlanks) || d.blanks.length;
+  d.analysis = d.analysis || {};
+  d.difficulty = d.difficulty || 'Medium';
+  d.estimatedTime = Number(d.estimatedTime) || Math.max(10, Math.round(d.blanks.length * 0.8));
+  d.chineseTranslation = d.chineseTranslation || '';
+  d.summary = d.summary || '';
+  return d;
+}
+
+function clozeCreatePaper(data, opts={}){
+  const now = new Date().toISOString();
+  const normalized = clozeNormalizeData({...data});
+  const list = clozeGetPapers();
+  const paperNo = opts.paperNo || clozeNextPaperNo();
+  const paperId = opts.paperId || paperNo;
+  const paper = {
+    id: opts.id || makeId('cloze'),
+    paperId,
+    paperNo,
+    attemptId: opts.attemptId || makeId('attempt'),
+    attemptNo: Number(opts.attemptNo) || 1,
+    title: opts.title || `${paperNo} │ ${clozeCleanTitle(normalized)}`,
+    displayName: opts.displayName || opts.shortTitle || clozeCleanTitle(normalized),
+    shortTitle: opts.shortTitle || clozeCleanTitle(normalized),
+    folderName: opts.folderName || 'Practice',
+    source: opts.source || normalized.source || 'imported',
+    createdAt: opts.createdAt || now,
+    updatedAt: opts.updatedAt || now,
+    status: opts.status || 'not_started',
+    data: normalized,
+    draft: clozeNormalizeDraft(opts.draft)
+  };
+  list.unshift(paper);
+  clozeSavePapers(list);
+  clozeUpdateLibraryForPaper(paper);
+  clozeRenderWorkspace();
+  return paper;
+}
+function clozeUpdateLibraryForPaper(paper){
+  const lib = clozeGetLibrary();
+  const sectionName = paper.folderName || 'Practice';
+  let section = lib.find(f => f.name === sectionName);
+  if(!section){
+    section = {id: 'cloze_f_' + Date.now() + '_' + Math.floor(Math.random()*999999), name: sectionName, papers: []};
+    lib.push(section);
+  }
+  lib.forEach(s => { if(s.id !== section.id) s.papers = s.papers.filter(fp => fp.id !== paper.id); });
+  const entry = {
+    id: paper.id,
+    paperId: paper.paperId || paper.paperNo || paper.id,
+    shortTitle: paper.displayName || paper.shortTitle || clozeCleanTitle(paper.data||{title:paper.title}),
+    title: paper.title || clozeMainTitle(paper),
+    subtitle: '',
+    status: paper.status || 'not_started',
+    updatedAt: paper.updatedAt || paper.createdAt || new Date().toISOString(),
+    totalBlanks: paper.data?.totalBlanks || 0,
+    difficulty: paper.data?.difficulty || '-'
+  };
+  const i = section.papers.findIndex(fp => fp.id === paper.id);
+  if(i>=0) section.papers[i] = entry; else section.papers.push(entry);
+  clozeSaveLibrary(lib);
+}
+function clozeCreateSection(name){
+  if(!name || !name.trim()) return null;
+  name = name.trim();
+  const lib = clozeGetLibrary();
+  if(lib.find(f => f.name === name)) return null;
+  const s = {id: 'cloze_f_' + Date.now() + '_' + Math.floor(Math.random()*999999), name, papers: []};
+  lib.push(s);
+  clozeSaveLibrary(lib);
+  return s;
+}
+function clozeRenameSection(id, newName){
+  if(!newName || !newName.trim()) return;
+  newName = newName.trim();
+  const lib = clozeGetLibrary();
+  const s = lib.find(f=>f.id===id); if(!s) return;
+  if(lib.find(f=>f.id!==id && f.name===newName)) return;
+  const old = s.name; s.name = newName;
+  clozeSaveLibrary(lib);
+  const papers = clozeGetPapers();
+  let changed = false;
+  papers.forEach(p => { if((p.folderName || 'Practice') === old){ p.folderName = newName; changed = true; }});
+  if(changed) clozeSavePapers(papers);
+}
+function clozeDeleteSection(id){
+  const lib = clozeGetLibrary();
+  const s = lib.find(f=>f.id===id); if(!s) return;
+  if(!confirm(`Delete section "${s.name}" and all its cloze papers?`)) return;
+  s.papers.forEach(fp => clozeSavePapers(clozeGetPapers().filter(p=>p.id!==fp.id)));
+  clozeSaveLibrary(lib.filter(f=>f.id!==id));
+  const cr = clozeGetContinue();
+  if(cr && s.papers.some(fp=>fp.id===cr.paperId)) clozeSaveContinue(null);
+  clozeRenderWorkspace();
+}
+function clozeReorderSection(id, dir){
+  const lib = clozeGetLibrary();
+  const i = lib.findIndex(f=>f.id===id); if(i<0) return;
+  const j = i + dir; if(j<0 || j>=lib.length) return;
+  const t = lib[i]; lib[i] = lib[j]; lib[j] = t;
+  clozeSaveLibrary(lib); clozeRenderClozeFolderTree();
+}
+function clozeUpdatePaper(id, mutator){
+  const list = clozeGetPapers();
+  const i = list.findIndex(p=>p.id===id); if(i<0) return null;
+  mutator(list[i]);
+  list[i].updatedAt = new Date().toISOString();
+  clozeSavePapers(list);
+  return list[i];
+}
+function clozeDeletePaper(id){
+  const p = clozeFindPaper(id); if(!p) return;
+  if(!confirm(`Delete this cloze record?\n${p.status==='submitted' ? clozeAttemptTitle(p) : clozeMainTitle(p)}`)) return;
+  clozeSavePapers(clozeGetPapers().filter(x=>x.id!==id));
+  const lib = clozeGetLibrary();
+  lib.forEach(f => { f.papers = f.papers.filter(fp=>fp.id!==id); });
+  clozeSaveLibrary(lib.filter(f=>f.papers.length>0));
+  const cr = clozeGetContinue();
+  if(cr && cr.paperId === id) clozeSaveContinue(null);
+  clozeRenderWorkspace();
+}
+function clozeRenamePaper(id){
+  const p = clozeFindPaper(id); if(!p) return;
+  const name = prompt('New name:', p.displayName || p.shortTitle || '');
+  if(!name || !name.trim()) return;
+  const n = name.trim();
+  clozeUpdatePaper(id, pp => { pp.displayName = n; pp.shortTitle = n; pp.title = `${pp.paperNo||pp.paperId} │ ${n}`; });
+  clozeUpdateLibraryForPaper({...clozeFindPaper(id)});
+  clozeRenderWorkspace();
+}
+function clozeRedoPaper(paperId){
+  const list = clozeGetPapers();
+  const attempts = list.filter(p=>p.paperId===paperId);
+  const base = attempts.find(p=>p.data) || list.find(p=>p.id===paperId);
+  if(!base) return showHint('Cloze paper not found');
+  const no = Math.max(0,...attempts.map(p=>Number(p.attemptNo)||0)) + 1;
+  const now = new Date().toISOString();
+  const fresh = {
+    id: makeId('cloze'),
+    paperId: base.paperId,
+    paperNo: base.paperNo,
+    attemptId: makeId('attempt'),
+    attemptNo: no,
+    title: clozeMainTitle(base),
+    displayName: base.displayName,
+    shortTitle: base.shortTitle,
+    folderName: base.folderName || 'Practice',
+    source: base.source || 'imported',
+    createdAt: now, updatedAt: now,
+    status: 'not_started',
+    data: base.data,
+    draft: clozeDefaultDraft()
+  };
+  list.unshift(fresh); clozeSavePapers(list);
+  clozeStartPaper(fresh.id);
+}
+
+// ===== Module Switch (Reading / Cloze) =====
+let currentModule = 'reading';
+function switchModule(mod){
+  currentModule = mod;
+  document.querySelectorAll('.moduleTab').forEach(b => b.classList.toggle('active', b.dataset.module===mod));
+  const rh = $('readingHomeContent'), ch = $('clozeHomeContent');
+  if(!rh || !ch) return;
+  if(mod==='reading'){ rh.style.display=''; ch.style.display='none'; }
+  else { rh.style.display='none'; ch.style.display=''; clozeRenderWorkspace(); clozeRenderStats(); }
+}
+document.querySelectorAll('.moduleTab').forEach(b => b.onclick = () => switchModule(b.dataset.module));
+
+// ===== Cloze Workspace Rendering =====
+function clozeRenderStats(){
+  const records = clozeGetRecords();
+  const papers = clozeGetPapers();
+  const submitted = papers.filter(p=>p.status==='submitted');
+  const totalTests = records.length;
+  let completed = submitted.length;
+  let correctSum = 0, totalSum = 0;
+  records.forEach(r => { correctSum += Number(r.correct||0); totalSum += Number(r.totalQuestions||0); });
+  const accuracy = totalSum>0 ? Math.round((correctSum/totalSum)*1000)/10 : 0;
+  const inProgress = papers.filter(p=>p.status==='in_progress').length;
+  const libTotal = papers.length;
+  const grid = $('clozeStatsGrid'); if(!grid) return;
+  grid.innerHTML = `
+    <div class="clozeStatCard"><small>Progress (In Progress)</small><b>${inProgress}</b></div>
+    <div class="clozeStatCard"><small>Accuracy</small><b>${accuracy}%</b></div>
+    <div class="clozeStatCard"><small>Completed</small><b>${completed}</b></div>
+    <div class="clozeStatCard"><small>Total Tests</small><b>${libTotal}</b></div>
+  `;
+}
+function clozeRenderContinue(){
+  const box = $('continueClozeArea'); if(!box) return;
+  const cr = clozeGetContinue();
+  if(!cr){ box.innerHTML=''; return; }
+  const paper = clozeFindPaper(cr.paperId);
+  if(!paper || paper.status==='submitted'){ clozeSaveContinue(null); box.innerHTML=''; return; }
+  box.innerHTML = `<div class="continueReadingCard" id="continueClozeCard">
+    <span class="cr-arrow">›</span>
+    <h3>Continue Cloze</h3>
+    <p>${escapeHtml(cr.folderName||'Practice')} │ ${escapeHtml(cr.displayName||cr.paperTitle)}</p>
+    <p>Progress: Blank ${cr.currentBlank||1} / ${cr.totalBlanks||20}</p>
+  </div>`;
+  $('continueClozeCard').onclick = () => clozeStartPaper(cr.paperId);
+}
+function clozeRenderClozeFolderTree(){
+  const box = $('clozeFolderTree'); if(!box) return;
+  let lib = clozeGetLibrary();
+  // Ensure default sections exist (CET4/CET6/TEM4/Practice/Wrong Book) - only if empty
+  if(lib.length === 0){
+    clozeCreateSection('CET4 Cloze');
+    clozeCreateSection('CET6 Cloze');
+    clozeCreateSection('TEM4 Cloze');
+    clozeCreateSection('Practice');
+    clozeCreateSection('Wrong Book');
+    lib = clozeGetLibrary();
+  }
+  const allPapers = clozeGetPapers();
+  if(!lib.length){
+    box.innerHTML = '<div class="emptyPapers">No cloze tests yet. Click "Import Cloze" to import.</div><button class="addSectionBtn" id="clozeAddFirstSectionBtn">+ New Section</button>';
+    $('clozeAddFirstSectionBtn').onclick = () => {
+      const n = prompt('Section name:'); if(n && n.trim()){ clozeCreateSection(n.trim()); clozeRenderClozeFolderTree(); }
+    };
+    return;
+  }
+  let html = lib.map((f,idx)=>{
+    const hasInProgress = f.papers.some(fp => { const p = allPapers.find(ap=>ap.id===fp.id); return p && p.status==='in_progress'; });
+    const open = hasInProgress ? ' open' : '';
+    return `<div class="folderItem">
+      <div class="folderHeader" data-cfolder-id="${escapeHtml(f.id)}">
+        <span class="folder-arrow${open}">▶</span>
+        <span class="folder-name">${escapeHtml(f.name)}</span>
+        <span class="folder-count">(${f.papers.length})</span>
+        <span class="sectionActions">
+          ${idx>0?'<button data-csact="up" title="Move up">▲</button>':''}
+          ${idx<lib.length-1?'<button data-csact="down" title="Move down">▼</button>':''}
+          <button data-csact="rename" title="Rename">✎</button>
+          <button data-csact="delete" title="Delete">✕</button>
+        </span>
+      </div>
+      <div class="folderPapers${open}" data-cfolder-papers="${escapeHtml(f.id)}">
+        ${clozeRenderFolderPapers(f.papers, allPapers)}
+      </div>
+    </div>`;
+  }).join('');
+  html += '<button class="addSectionBtn" id="clozeAddSectionBtn">+ New Section</button>';
+  box.innerHTML = html;
+  box.querySelectorAll('.folderHeader').forEach(h => {
+    h.querySelector('.folder-arrow, .folder-name').onclick = (e) => {
+      const a = h.querySelector('.folder-arrow'); const p = box.querySelector(`[data-cfolder-papers="${h.dataset.cfolderId}"]`);
+      a.classList.toggle('open'); p.classList.toggle('open');
+    };
+  });
+  box.querySelectorAll('[data-csact]').forEach(b => b.onclick = e => {
+    e.stopPropagation();
+    const h = b.closest('.folderHeader'); const id = h.dataset.cfolderId; const act = b.dataset.csact;
+    if(act==='up') clozeReorderSection(id,-1);
+    if(act==='down') clozeReorderSection(id,1);
+    if(act==='rename'){ const l = clozeGetLibrary(); const s = l.find(f=>f.id===id); if(!s) return; const n = prompt('New section name:', s.name); if(n&&n.trim()&&n.trim()!==s.name){ clozeRenameSection(id,n.trim()); clozeRenderClozeFolderTree(); } }
+    if(act==='delete') clozeDeleteSection(id);
+  });
+  $('clozeAddSectionBtn').onclick = () => { const n = prompt('Section name:'); if(n&&n.trim()){ clozeCreateSection(n.trim()); clozeRenderClozeFolderTree(); } };
+  // bind paper actions
+  box.querySelectorAll('.paperCard button[data-cact]').forEach(b => b.onclick = e => {
+    const card = e.target.closest('.paperCard'); const id = card.dataset.id; const act = e.target.dataset.cact;
+    if(act==='start') clozeStartPaper(id);
+    if(act==='review') clozeShowReviewPage(id);
+    if(act==='delete') clozeDeletePaper(id);
+    if(act==='rename') clozeRenamePaper(id);
+    if(act==='duplicate'){
+      const p = clozeFindPaper(id); if(p) clozeCreatePaper(p.data, { folderName: p.folderName||'Practice', displayName: (p.displayName||p.shortTitle||'Paper') + ' (Copy)', shortTitle: (p.shortTitle||'Paper') + ' (Copy)'});
+      showHint('Cloze paper duplicated');
+    }
+    if(act==='move') clozeShowMoveDialog(id);
+  });
+}
+function clozeRenderFolderPapers(folderPapers, allPapers){
+  return folderPapers.map(fp => {
+    const paper = allPapers.find(p => p.id === fp.id);
+    const rawStatus = paper ? paper.status : fp.status;
+    const status = clozeStatusText(rawStatus);
+    const startText = rawStatus==='in_progress' ? '继续' : rawStatus==='submitted' ? '查看复盘' : '开始';
+    const startAct = rawStatus==='submitted' ? 'review' : 'start';
+    const title = fp.shortTitle || fp.title || 'Cloze Test';
+    const diff = fp.difficulty || paper?.data?.difficulty || '-';
+    const blanks = fp.totalBlanks || paper?.data?.totalBlanks || 0;
+    return `<article class="paperCard" data-id="${fp.id}" data-paper-id="${escapeHtml(fp.paperId)}">
+      <h3>${escapeHtml(title)}</h3>
+      <div class="paperMeta">
+        <span>Status</span><b><span class="statusPill">${status}</span></b>
+        <span>Difficulty</span><b>${escapeHtml(diff)}</b>
+        <span>Blanks</span><b>${blanks}</b>
+      </div>
+      <div class="paperActions paperCardActions">
+        <button class="primary" data-cact="${startAct}">${startText}</button>
+        <button data-cact="rename">Rename</button>
+        <button data-cact="duplicate">Duplicate</button>
+        <button data-cact="move">Move</button>
+        <button data-cact="delete">Delete</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+function clozeRenderWorkspace(){
+  clozeRenderContinue();
+  clozeRenderClozeFolderTree();
+  const list = clozeGetPapers();
+  const box = $('clozeAttemptList');
+  const submitted = list.filter(p=>p.status==='submitted').sort((a,b)=>clozePaperSortTime(b)-clozePaperSortTime(a));
+  if(box){
+    box.innerHTML = submitted.length ? submitted.map(p=>{
+      const r = p.draft?.result; const total = Number(r?.totalQuestions||p.data?.totalBlanks||0);
+      const acc = total>0 ? Math.round((Number(r?.correct||0)/total)*1000)/10 : 0;
+      const time = r?.timeUsed || 0;
+      return `<article class="paperCard" data-id="${p.id}">
+        <h3>${escapeHtml(clozeAttemptTitle(p))}</h3>
+        <div class="paperMeta">
+          <span>Submitted</span><b>${new Date(p.draft?.submittedAt||p.updatedAt||p.createdAt).toLocaleString()}</b>
+          <span>Score</span><b>${r?`${r.correct||0} / ${total}`:'-'}</b>
+          <span>Accuracy</span><b>${acc}%</b>
+          <span>Time</span><b>${fmtTime(time)}</b>
+        </div>
+        <div class="paperActions">
+          <button class="primary" data-cact="review">Review</button>
+          <button data-cact="redo">Redo</button>
+          <button class="ghost" data-cact="delete">Delete</button>
+        </div>
+      </article>`;
+    }).join('') : '<div class="emptyPapers">No submitted cloze records yet.</div>';
+    box.querySelectorAll('button[data-cact]').forEach(b => b.onclick = e => {
+      const card = e.target.closest('.paperCard'); const id = card.dataset.id; const paperId = card.dataset.paperId || clozeFindPaper(id)?.paperId; const act = e.target.dataset.cact;
+      if(act==='review') clozeShowReviewPage(id);
+      if(act==='redo') clozeRedoPaper(paperId);
+      if(act==='delete') clozeDeletePaper(id);
+    });
+  }
+}
+function clozePaperSortTime(p){ return new Date(p?.draft?.submittedAt || p?.updatedAt || p?.createdAt || 0).getTime() || 0; }
+
+// ===== Cloze Move Dialog =====
+let pendingClozeMoveId = null;
+function clozeShowMoveDialog(id){
+  pendingClozeMoveId = id;
+  // Re-use the moveDialog from Reading for convenience, but re-populate with cloze sections
+  const sel = $('moveSectionSelect'); const newRow = $('moveNewSectionRow');
+  const lib = clozeGetLibrary();
+  const paper = clozeFindPaper(id);
+  const current = paper?.folderName || 'Practice';
+  sel.innerHTML = lib.map(s => `<option value="${escapeHtml(s.name)}"${s.name===current?' selected':''}>${escapeHtml(s.name)} (${s.papers.length})</option>`).join('') + '<option value="__new__">+ Create New Section</option>';
+  newRow.classList.toggle('hidden', sel.value !== '__new__');
+  sel.onchange = () => {
+    newRow.classList.toggle('hidden', sel.value !== '__new__');
+    if(sel.value==='__new__') $('moveNewSectionName').focus();
+  };
+  $('moveDialog').classList.add('show');
+}
+// Re-bind move dialog buttons the first time we enter Cloze - but keep Reading bindings
+// We'll override in clozeShowMoveDialog and clozeConfirmMove
+function clozeConfirmMove(){
+  if(!pendingClozeMoveId) return;
+  const sel = $('moveSectionSelect'); let name = sel.value;
+  if(name==='__new__'){ name = $('moveNewSectionName').value.trim(); if(!name) return; clozeCreateSection(name); }
+  if(!name) return;
+  const paper = clozeFindPaper(pendingClozeMoveId);
+  if(paper){
+    clozeUpdatePaper(pendingClozeMoveId, p => { p.folderName = name; });
+    clozeUpdateLibraryForPaper({...paper, folderName: name});
+    const cr = clozeGetContinue();
+    if(cr && cr.paperId === pendingClozeMoveId){ cr.folderName = name; clozeSaveContinue(cr); }
+  }
+  $('moveDialog').classList.remove('show');
+  pendingClozeMoveId = null;
+  clozeRenderWorkspace();
+  showHint('Cloze paper moved');
+}
+// Override move confirm/cancel so they work for both modules when applicable
+const origMoveConfirm = $('moveDialogConfirm').onclick;
+$('moveDialogConfirm').onclick = () => {
+  if(pendingClozeMoveId) clozeConfirmMove();
+  else if(pendingMovePaperId) confirmMove();
+};
+const origMoveCancel = $('moveDialogCancel').onclick;
+$('moveDialogCancel').onclick = () => {
+  if(pendingClozeMoveId){ $('moveDialog').classList.remove('show'); pendingClozeMoveId = null; }
+  else if(pendingMovePaperId) hideMoveDialog();
+};
+
+// ===== Cloze Start / Draft =====
+function clozeSaveDraft(){
+  if(!currentClozePaperId || $('clozeApp').style.display !== 'block') return;
+  clozeUpdatePaper(currentClozePaperId, p => {
+    p.status = clozeSubmitted ? 'submitted' : 'in_progress';
+    p.draft = {
+      ...clozeNormalizeDraft(p.draft),
+      timerSeconds: clozeTimerSeconds,
+      timerPaused: clozeTimerPaused,
+      userAnswers: {...clozeAnswerState},
+      submitted: clozeSubmitted,
+      submittedAt: clozeSubmitted ? (p.draft?.submittedAt || new Date().toISOString()) : null,
+      result: clozeLastSummary,
+      currentBlank: clozeCurrentBlank
+    };
+  });
+  if(!clozeSubmitted){
+    const paper = clozeFindPaper(currentClozePaperId);
+    if(paper){
+      const total = paper.data?.totalBlanks || 0;
+      clozeSaveContinue({
+        paperId: currentClozePaperId,
+        folderName: paper.folderName || 'Practice',
+        displayName: paper.displayName || paper.shortTitle || clozeCleanTitle(paper.data),
+        paperTitle: clozeMainTitle(paper),
+        currentBlank: clozeCurrentBlank,
+        totalBlanks: total,
+        updatedAt: new Date().toISOString()
+      });
+    }
+  }
+}
+function clozeStartPaper(id){
+  const paper = clozeFindPaper(id); if(!paper) return showHint('Cloze paper not found');
+  currentClozePaperId = id;
+  clozeClozeData = clozeNormalizeData(paper.data);
+  const d = clozeNormalizeDraft(paper.draft);
+  // Hide all screens, show cloze app
+  $('importScreen').style.display = 'none';
+  $('importPanel').style.display = 'none';
+  $('recordsScreen').style.display = 'none';
+  $('reviewScreen').style.display = 'none';
+  $('app').style.display = 'none';
+  $('clozeImportPanel').style.display = 'none';
+  $('clozeRecordsScreen').style.display = 'none';
+  $('clozeReviewScreen').style.display = 'none';
+  $('clozeWrongBookScreen').style.display = 'none';
+  $('clozeFavoritesScreen').style.display = 'none';
+  $('clozeApp').style.display = 'block';
+  setExamBarVisible(true);
+  $('monitor').style.display = 'none'; // Cloze uses own bottom monitor inside questions area
+  $('backHomeExam').classList.toggle('hidden', !d.submitted);
+  $('reviewBtn').classList.add('hidden');
+  $('backImport').classList.add('hidden');
+  $('submitBtn').style.display = 'none';
+  $('finishPassageBtn').style.display = 'none';
+  clozeSubmitted = !!d.submitted;
+  clozeTimerSeconds = Number.isFinite(Number(d.timerSeconds)) ? Number(d.timerSeconds) : (Number(clozeClozeData.estimatedTime||15) * 60);
+  clozeTimerPaused = !!d.timerPaused;
+  clozeAnswerState = {...d.userAnswers};
+  clozeCurrentBlank = Number(d.currentBlank) || 1;
+  clozeGradeState = {};
+  clozeLastSummary = null;
+  if(clozeSubmitted){ clozeBuildGrade(); if(d.result) clozeLastSummary = {...clozeLastSummary, ...d.result}; }
+  $('settingsPanel').classList.remove('show');
+  $('reviewPanel').classList.remove('show');
+  hideToolbar();
+  clozeRenderTabsOrTitle();
+  clozeRenderAll();
+  clozeUpdateTimerUI();
+  clozeUpdatePaper(id, p => { if(p.status==='not_started') p.status = 'in_progress'; });
+  clozeSaveDraft();
+  requestExamFullscreen();
+}
+function clozeShowWorkspace(){
+  clozeSaveDraft();
+  currentClozePaperId = null;
+  $('clozeApp').style.display = 'none';
+  $('clozeImportPanel').style.display = 'none';
+  $('clozeRecordsScreen').style.display = 'none';
+  $('clozeReviewScreen').style.display = 'none';
+  $('clozeWrongBookScreen').style.display = 'none';
+  $('clozeFavoritesScreen').style.display = 'none';
+  setExamBarVisible(false);
+  $('settingsPanel').classList.remove('show');
+  $('reviewPanel').classList.remove('show');
+  hideToolbar();
+  $('importScreen').style.display = 'block';
+  switchModule('cloze');
+}
+function clozeRenderTabsOrTitle(){
+  // Instead of Reading's Passage tabs, show a single title tab with the cloze title
+  const d = clozeClozeData || {};
+  $('tabs').innerHTML = `<button class="tab active">Cloze Practice</button>`;
+}
+
+// ===== Cloze UI Rendering =====
+function clozeRenderPassageArea(){
+  const box = $('clozePassageArea'); if(!box) return;
+  const d = clozeClozeData || {};
+  const metaHtml = `<div class="clozePassageMeta">
+    <h2 style="margin:0 0 8px;font-size:20px">${escapeHtml(d.title||'Cloze Test')}</h2>
+    <div class="clozeMetaInfo">
+      <span>Difficulty: <b>${escapeHtml(d.difficulty||'-')}</b></span>
+      <span>Est. Time: <b>${d.estimatedTime||'-'} min</b></span>
+      <span>Blanks: <b>${d.totalBlanks||'?'}</b></span>
+      <span>Source: <b>${escapeHtml(d.source||'-')}</b></span>
+    </div>
+  </div>`;
+  let text = d.passage || '';
+  // Replace [[n]] with blank spans
+  const passageHtml = text.split('\n').map(para => {
+    if(!para.trim()) return '<p class="para" style="margin:0 0 16px">&nbsp;</p>';
+    let html = escapeHtml(para).replace(/\[\[(\d+)\]\]/g, (m, n) => {
+      const num = Number(n);
+      const answered = clozeAnswerState[num];
+      const current = clozeCurrentBlank === num ? ' current' : '';
+      const shown = answered ? String(answered) : num;
+      return `<span class="clozeBlank${answered?' answered':''}${current}" data-cblank="${num}">${escapeHtml(shown)}</span>`;
+    });
+    return `<p class="para" style="line-height:var(--lineHeight);font-size:var(--articleFont);margin:0 0 16px">${html}</p>`;
+  }).join('');
+  box.innerHTML = metaHtml + `<div class="passage" style="border:1px solid var(--line);border-radius:8px;padding:22px">${passageHtml}</div>`;
+  // Bind blank clicks to jump
+  box.querySelectorAll('.clozeBlank').forEach(b => b.onclick = () => { clozeCurrentBlank = Number(b.dataset.cblank); clozeRenderAll(); clozeSaveDraft(); });
+}
+function clozeCurrentBlankData(){
+  const d = clozeClozeData || {};
+  const blanks = d.blanks || [];
+  return blanks.find(b => Number(b.num) === clozeCurrentBlank) || null;
+}
+function clozeTotalBlanks(){ return Number(clozeClozeData?.totalBlanks || clozeClozeData?.blanks?.length || 0); }
+function clozeAnsweredCount(){
+  let n = 0;
+  for(let i=1;i<=clozeTotalBlanks();i++){ if(clozeAnswerState[i] && String(clozeAnswerState[i]).trim().length) n++; }
+  return n;
+}
+function clozeRenderQuestionsArea(){
+  const box = $('clozeQuestionsArea'); if(!box) return;
+  const total = clozeTotalBlanks();
+  const cur = clozeCurrentBlank;
+  const answered = clozeAnsweredCount();
+  const pct = total>0 ? Math.round((answered/total)*100) : 0;
+  const blank = clozeCurrentBlankData();
+  let questionBody = '';
+  if(blank){
+    const optionsHtml = (blank.options||[]).map(opt => {
+      const key = String(opt.key||'').toUpperCase();
+      const txt = opt.text||opt.value||'';
+      const sel = (clozeAnswerState[cur]||'').toUpperCase() === key ? ' selected' : '';
+      // If submitted, show correct / wrong styling
+      let gradeClass = '';
+      if(clozeSubmitted){
+        const right = String(clozeClozeData?.answers?.[cur]||'').toUpperCase();
+        if(key === right) gradeClass = ' correct';
+        else if(sel) gradeClass = ' wrong';
+      }
+      return `<div class="clozeOption${sel}${gradeClass}" data-copt="${key}">
+        <b style="display:inline-block;min-width:22px">${escapeHtml(key)}.</b> ${escapeHtml(String(txt))}
+      </div>`;
+    }).join('');
+    let gradeBadge = '';
+    if(clozeSubmitted){
+      const gs = clozeGradeState[cur];
+      if(gs){
+        const label = gs.status==='right' ? 'Correct' : gs.status==='unanswered' ? 'Unanswered' : 'Wrong';
+        gradeBadge = `<span class="clozeQaBadge ${gs.status}">${label}</span>`;
+      }
+    }
+    questionBody = `<div class="clozeQuestion">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <h3 style="margin:0">Question ${cur} / ${total}</h3>
+        ${gradeBadge}
+      </div>
+      <p class="subtle" style="margin:0 0 10px">Choose the best option for blank <b style="color:#7e2631">#${cur}</b>.</p>
+      ${optionsHtml}
+    </div>`;
+  } else {
+    questionBody = `<div class="clozeQuestion"><h3>Question ${cur} / ${total}</h3><p class="subtle">No option data for this blank.</p></div>`;
+  }
+  const prevDisabled = cur <= 1 ? ' disabled' : '';
+  const nextDisabled = cur >= total ? ' disabled' : '';
+  const submitHidden = clozeSubmitted ? ' style="display:none"' : '';
+  const submitDisabled = answered < total ? ' disabled' : '';
+  // After submission, add result summary on top
+  let resultHtml = '';
+  if(clozeSubmitted && clozeLastSummary){
+    const s = clozeLastSummary;
+    const acc = s.totalQuestions>0 ? Math.round((s.correct/s.totalQuestions)*1000)/10 : 0;
+    resultHtml = `<div class="clozeResultCard">
+      <h2 style="font-size:18px;margin:0 0 8px">📊 Score Summary</h2>
+      <div class="clozeResultSummary">
+        <div class="scoreCard"><small>Correct</small><b>${s.correct} / ${s.totalQuestions}</b></div>
+        <div class="scoreCard"><small>Accuracy</small><b>${acc}%</b></div>
+        <div class="scoreCard"><small>Wrong</small><b>${s.wrong}</b></div>
+        <div class="scoreCard"><small>Unanswered</small><b>${s.unanswered}</b></div>
+        <div class="scoreCard"><small>Time Used</small><b>${fmtTime(s.timeUsed||0)}</b></div>
+        <div class="scoreCard"><small>Difficulty</small><b>${escapeHtml(clozeClozeData?.difficulty||'-')}</b></div>
+      </div>
+      <div style="margin-top:10px">
+        <button class="primary" id="clozeGoReviewBtn">📖 View Full Analysis</button>
+        <button id="clozeRestartBtn">🔄 Restart</button>
+      </div>
+    </div>`;
+  }
+  const bottomNav = `<div class="clozeNavRow">
+    <button${prevDisabled} id="clozePrevBtn">← Previous</button>
+    <div style="flex:1;text-align:center">
+      <div class="clozeProgressText"><span>Question ${cur} / ${total}</span><span>${pct}% Complete (${answered}/${total})</span></div>
+      <div class="clozeProgressBar"><div class="clozeProgressFill" style="width:${pct}%"></div></div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:10px" id="clozeQMonitor"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+      <button${nextDisabled} id="clozeNextBtn">Next →</button>
+      <button class="primary"${submitHidden}${submitDisabled} id="clozeSubmitBtn">Submit</button>
+      ${clozeSubmitted ? '<button id="clozeRestartBtn2">🔄 Restart</button>' : ''}
+    </div>
+  </div>`;
+  box.innerHTML = resultHtml + questionBody + bottomNav;
+  // Bind option clicks
+  if(!clozeSubmitted){
+    box.querySelectorAll('.clozeOption').forEach(o => o.onclick = () => {
+      clozeAnswerState[cur] = o.dataset.copt.toUpperCase();
+      clozeRenderAll();
+      clozeSaveDraft();
+    });
+  }
+  // Nav buttons
+  $('clozePrevBtn')?.addEventListener('click', () => { if(cur>1){ clozeCurrentBlank=cur-1; clozeRenderAll(); clozeSaveDraft(); }});
+  $('clozeNextBtn')?.addEventListener('click', () => { if(cur<total){ clozeCurrentBlank=cur+1; clozeRenderAll(); clozeSaveDraft(); }});
+  $('clozeSubmitBtn')?.addEventListener('click', clozeSubmit);
+  $('clozeRestartBtn')?.addEventListener('click', () => clozeRestart());
+  $('clozeRestartBtn2')?.addEventListener('click', () => clozeRestart());
+  $('clozeGoReviewBtn')?.addEventListener('click', () => { if(currentClozePaperId) clozeShowReviewPage(currentClozePaperId); });
+  // Render question monitor dots
+  const mon = $('clozeQMonitor');
+  if(mon){
+    let dotsHtml = '';
+    for(let i=1;i<=total;i++){
+      let cls = 'dot';
+      if(i===cur) cls += ' current';
+      const ans = clozeAnswerState[i];
+      if(clozeSubmitted && clozeGradeState[i]) cls += ' ' + clozeGradeState[i].status;
+      else if(ans) cls += ' answered';
+      dotsHtml += `<button class="${cls}" data-cq="${i}">${i}</button>`;
+    }
+    mon.innerHTML = dotsHtml;
+    mon.querySelectorAll('.dot').forEach(d => d.onclick = () => { clozeCurrentBlank = Number(d.dataset.cq); clozeRenderAll(); clozeSaveDraft(); });
+  }
+}
+function clozeRenderAll(){
+  clozeRenderPassageArea();
+  clozeRenderQuestionsArea();
+}
+
+// ===== Cloze Grading / Submit =====
+function clozeBuildGrade(){
+  const d = clozeClozeData || {};
+  const total = clozeTotalBlanks();
+  clozeGradeState = {};
+  let correct = 0, wrong = 0, unanswered = 0;
+  const issueRows = [];
+  for(let i=1;i<=total;i++){
+    const yours = (clozeAnswerState[i]||'').toUpperCase();
+    const right = String(d.answers?.[i]||'').toUpperCase();
+    let status;
+    if(!yours) status = 'unanswered';
+    else if(yours === right) status = 'right';
+    else status = 'wrong';
+    clozeGradeState[i] = { status, your: yours || 'Unanswered', correct: right };
+    if(status==='right') correct++;
+    else if(status==='unanswered') unanswered++;
+    else wrong++;
+    if(status!=='right') issueRows.push({ blank:i, your: yours||'Unanswered', correct:right, status });
+  }
+  const timeUsed = (Number(clozeClozeData?.estimatedTime||15)*60) - clozeTimerSeconds;
+  clozeLastSummary = {
+    correct, wrong, unanswered,
+    totalQuestions: total,
+    issueRows,
+    timeUsed: Math.max(0, timeUsed)
+  };
+  return clozeLastSummary;
+}
+function clozeSubmit(){
+  if(clozeSubmitted) return showHint('Already submitted');
+  const total = clozeTotalBlanks();
+  const unanswered = total - clozeAnsweredCount();
+  if(unanswered>0){
+    if(!confirm(`You have ${unanswered} unanswered blank(s). Submit anyway?`)) return;
+  }
+  clozeSubmitted = true;
+  clozeBuildGrade();
+  clozeSaveRecord(clozeLastSummary);
+  clozeSaveContinue(null);
+  $('backHomeExam').classList.remove('hidden');
+  // Add to wrong book
+  clozeAddToWrongBook(clozeLastSummary);
+  clozeSaveDraft();
+  clozeRenderAll();
+  showHint('Cloze test submitted. Analysis ready.');
+}
+function clozeRestart(){
+  if(!currentClozePaperId) return;
+  if(!clozeSubmitted){
+    if(!confirm('Restart this cloze test? Your answers will be cleared.')) return;
+  }
+  clozeAnswerState = {};
+  clozeGradeState = {};
+  clozeSubmitted = false;
+  clozeCurrentBlank = 1;
+  clozeLastSummary = null;
+  const d = clozeClozeData || {};
+  clozeTimerSeconds = Number(d.estimatedTime||15) * 60;
+  clozeTimerPaused = false;
+  clozeUpdatePaper(currentClozePaperId, p => {
+    p.status = 'in_progress';
+    p.draft = clozeDefaultDraft();
+    p.draft.timerSeconds = clozeTimerSeconds;
+  });
+  clozeSaveDraft();
+  clozeRenderAll();
+  clozeUpdateTimerUI();
+}
+function clozeSaveRecord(s){
+  const paper = clozeFindPaper(currentClozePaperId);
+  const rec = {
+    id: 'crec_' + Date.now() + '_' + Math.floor(Math.random()*9999),
+    date: new Date().toISOString(),
+    paperId: paper?.paperId || clozeClozeData?.paperId || '',
+    paperNo: paper?.paperNo || '',
+    attemptNo: paper?.attemptNo || 1,
+    attemptId: paper?.attemptId || '',
+    title: paper ? clozeAttemptTitle(paper) : (clozeClozeData?.title || 'Cloze Test'),
+    totalQuestions: s.totalQuestions,
+    correct: s.correct,
+    wrong: s.wrong,
+    unanswered: s.unanswered,
+    issueRows: s.issueRows,
+    timeUsed: s.timeUsed,
+    difficulty: clozeClozeData?.difficulty || ''
+  };
+  const list = clozeGetRecords();
+  list.unshift(rec);
+  clozeSaveRecords(list);
+}
+
+// ===== Cloze Wrong Book =====
+function clozeAddToWrongBook(summary){
+  const d = clozeClozeData || {};
+  const paper = clozeFindPaper(currentClozePaperId);
+  const wrongBook = clozeGetWrongBook();
+  (summary.issueRows||[]).forEach(row => {
+    if(row.status !== 'wrong') return; // only actual wrong go to wrong book; unanswered not
+    const num = Number(row.blank);
+    // Check if already exists for this question & paperId
+    const existing = wrongBook.find(w => w.paperId === (paper?.paperId||'') && Number(w.blankNum) === num);
+    const blankData = (d.blanks||[]).find(b => Number(b.num)===num);
+    const entry = {
+      id: existing?.id || ('cw_' + Date.now() + '_' + Math.floor(Math.random()*999999)),
+      paperId: paper?.paperId || '',
+      paperTitle: paper?.displayName || d.title || 'Cloze Test',
+      paperNo: paper?.paperNo || '',
+      blankNum: num,
+      your: row.your,
+      correct: row.correct,
+      passage: d.passage || '',
+      blankData: blankData || null,
+      analysis: d.analysis?.[num] || null,
+      lastAttemptAt: new Date().toISOString(),
+      wrongCount: (existing?.wrongCount||0) + 1
+    };
+    if(existing){
+      const i = wrongBook.indexOf(existing); wrongBook[i] = entry;
+    } else {
+      wrongBook.unshift(entry);
+    }
+  });
+  clozeSaveWrongBook(wrongBook);
+}
+function clozeOpenWrongBook(){
+  $('importScreen').style.display = 'none';
+  $('clozeApp').style.display = 'none';
+  $('clozeImportPanel').style.display = 'none';
+  $('clozeRecordsScreen').style.display = 'none';
+  $('clozeReviewScreen').style.display = 'none';
+  $('clozeFavoritesScreen').style.display = 'none';
+  $('clozeWrongBookScreen').style.display = 'block';
+  setExamBarVisible(false);
+  clozeRenderWrongBook();
+}
+function clozeRenderWrongBook(){
+  const list = clozeGetWrongBook();
+  const meta = $('clozeWrongBookMeta');
+  const body = $('clozeWrongBookContent');
+  if(meta) meta.textContent = `Total wrong questions: ${list.length}. Click "Practice Wrong Book" to generate a practice paper from all wrong questions.`;
+  if(!body) return;
+  if(!list.length){
+    body.innerHTML = '<div class="emptyPapers">Wrong book is empty. Keep practicing - wrong questions will appear here automatically.</div>';
+    return;
+  }
+  let html = `<div style="margin-bottom:14px"><button class="primary" id="clozeWrongPracticeAll">🔄 Practice All Wrong Questions</button> <button id="clozeWrongClearAll" class="ghost">Clear Wrong Book</button></div>`;
+  html += list.map(w => {
+    const num = Number(w.blankNum);
+    const opts = (w.blankData?.options||[]).map(o => {
+      const k = String(o.key||'').toUpperCase();
+      const cls = k===String(w.correct||'').toUpperCase() ? ' correct' : (k===String(w.your||'').toUpperCase() ? ' wrong' : '');
+      return `<div class="clozeOption${cls}" style="cursor:default"><b style="display:inline-block;min-width:22px">${escapeHtml(k)}.</b> ${escapeHtml(String(o.text||o.value||''))}</div>`;
+    }).join('');
+    const analysis = w.analysis?.explanation ? `<div class="clozeSubSection"><h4>💡 Explanation</h4><p style="font-size:13px;line-height:1.6;margin:4px 0 0">${escapeHtml(w.analysis.explanation)}</p></div>` : '';
+    return `<div class="paperCard" data-wid="${escapeHtml(w.id)}">
+      <h3 style="margin:0 0 6px">Q${num} · ${escapeHtml(w.paperTitle||'')}</h3>
+      <div class="paperMeta" style="margin-bottom:8px">
+        <span>Your Answer</span><b><span class="clozeQaBadge wrong">${escapeHtml(w.your||'Unanswered')}</span></b>
+        <span>Correct</span><b><span class="clozeQaBadge correct">${escapeHtml(w.correct||'')}</span></b>
+        <span>Wrong times</span><b>${Number(w.wrongCount)||1}</b>
+      </div>
+      ${opts}
+      ${analysis}
+      <div class="paperActions" style="margin-top:10px">
+        <button data-wact="remove">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+  body.innerHTML = html;
+  body.querySelectorAll('[data-wact="remove"]').forEach(b => b.onclick = e => {
+    const card = e.target.closest('.paperCard'); const id = card.dataset.wid;
+    clozeSaveWrongBook(clozeGetWrongBook().filter(x=>x.id!==id));
+    clozeRenderWrongBook();
+  });
+  $('clozeWrongClearAll')?.addEventListener('click', () => {
+    if(confirm('Clear all cloze wrong book entries?')){ clozeSaveWrongBook([]); clozeRenderWrongBook(); }
+  });
+  $('clozeWrongPracticeAll')?.addEventListener('click', clozePracticeWrongBook);
+}
+function clozePracticeWrongBook(){
+  const wb = clozeGetWrongBook();
+  if(!wb.length) return showHint('Wrong book is empty');
+  // Build a synthetic cloze paper from wrong book entries (merge all unique passages or use first passage style)
+  // Simplest: group by passage OR create one passage with blanks + questions
+  const blanks = [];
+  const answers = {};
+  const analysis = {};
+  const vocab = []; const collocs = []; const grams = [];
+  let passageText = '';
+  wb.forEach((w, idx) => {
+    const n = idx + 1;
+    passageText += ` [Wrong Q${w.blankNum}] (${w.paperTitle||''}) [[${n}]] — `;
+    // Create minimal sentence context: show surrounding of [[blankNum]] in original passage if possible, else placeholder
+    const orig = w.passage || '';
+    const placeholder = new RegExp(`\\[\\[\\s*${Number(w.blankNum)}\\s*\\]\\]`);
+    const m = orig.match(placeholder);
+    if(m){
+      const i = orig.indexOf(m[0]);
+      const slice = orig.slice(Math.max(0,i-60), Math.min(orig.length, i+80));
+      passageText += '… ' + slice.replace(placeholder, `[[${n}]]`) + ' …';
+    } else {
+      passageText += `Context: Question ${Number(w.blankNum)}. Choose the correct option [[${n}]].`;
+    }
+    passageText += '\n\n';
+    blanks.push({
+      num: n,
+      options: (w.blankData?.options || []).map(o => ({key: String(o.key||'').toUpperCase(), text: o.text||o.value||''}))
+    });
+    answers[n] = String(w.correct||'').toUpperCase();
+    if(w.analysis) analysis[n] = w.analysis;
+  });
+  const synthetic = {
+    title: `Wrong Book Practice · ${new Date().toLocaleDateString()}`,
+    difficulty: 'Review',
+    estimatedTime: Math.max(5, Math.round(wb.length * 0.6)),
+    source: 'Wrong Book',
+    totalBlanks: wb.length,
+    passage: passageText.trim(),
+    blanks, answers, analysis,
+    chineseTranslation: '',
+    summary: `包含 ${wb.length} 道错题的综合练习，由历史错题自动生成。`
+  };
+  const p = clozeCreatePaper(synthetic, { folderName: 'Wrong Book', displayName: `Wrong Book · ${new Date().toLocaleDateString()} (${wb.length})`, shortTitle: `Wrong Book Practice (${wb.length})`});
+  clozeStartPaper(p.id);
+}
+
+// ===== Cloze Favorites =====
+function clozeIsFav(type, key){
+  const favs = clozeGetFavorites();
+  const list = favs[type] || [];
+  return list.some(x => x._key === key);
+}
+function clozeToggleFav(type, key, payload){
+  const favs = clozeGetFavorites();
+  const list = favs[type] || [];
+  const i = list.findIndex(x => x._key === key);
+  if(i>=0) list.splice(i,1);
+  else list.unshift({_key: key, _addedAt: new Date().toISOString(), ...payload});
+  favs[type] = list;
+  clozeSaveFavorites(favs);
+}
+function clozeFavBtnHtml(type, key, payload, label=''){
+  const active = clozeIsFav(type, key) ? ' active' : '';
+  const data = encodeURIComponent(JSON.stringify({t:type,k:key,p:payload}));
+  return `<button class="clozeFavBtn${active}" data-cfav="${data}" title="收藏 / 取消收藏">⭐</button>`;
+}
+function clozeBindFavButtons(root=document){
+  root.querySelectorAll('[data-cfav]').forEach(b => b.onclick = () => {
+    try{
+      const obj = JSON.parse(decodeURIComponent(b.dataset.cfav));
+      clozeToggleFav(obj.t, obj.k, obj.p||{});
+      clozeBindFavButtons(root);
+      // re-render all to refresh state on screen if possible
+      if($('clozeReviewPageContent')) clozeShowReviewPage(clozeReviewPagePaperId);
+      if($('clozeFavoritesScreen') && $('clozeFavoritesScreen').style.display === 'block') clozeRenderFavorites();
+    }catch(e){}
+  });
+}
+function clozeOpenFavorites(){
+  $('importScreen').style.display='none';
+  $('clozeApp').style.display='none';
+  $('clozeImportPanel').style.display='none';
+  $('clozeRecordsScreen').style.display='none';
+  $('clozeReviewScreen').style.display='none';
+  $('clozeWrongBookScreen').style.display='none';
+  $('clozeFavoritesScreen').style.display='block';
+  setExamBarVisible(false);
+  clozeRenderFavorites();
+}
+function clozeRenderFavorites(){
+  const favs = clozeGetFavorites();
+  const vbox = $('clozeFavVocabList'); const cbox = $('clozeFavCollocList'); const gbox = $('clozeFavGrammarList');
+  const renderV = (favs.vocab||[]).length ? (favs.vocab||[]).map(v => {
+    const key = v._key;
+    return `<div class="clozeVocabItem"><div><span class="clozeVocabWord">${escapeHtml(v.word||'')}</span>${v.pos?`<span class="clozeVocabPos">${escapeHtml(v.pos)}</span>`:''} <button class="clozeFavBtn active" data-cfav="${encodeURIComponent(JSON.stringify({t:'vocab',k:key,p:{...v}}))}">⭐</button></div><div class="clozeVocabCn">${escapeHtml(v.cn||'')}</div><div class="clozeVocabMeaning">${escapeHtml(v.meaning||'')}</div></div>`;
+  }).join('') : '<div class="emptyPapers">No favorite vocabulary yet. Click ⭐ on the review page.</div>';
+  const renderC = (favs.colloc||[]).length ? (favs.colloc||[]).map(c => {
+    const key = c._key;
+    return `<div class="clozeCollocItem"><div><span class="clozeCollocPhrase">${escapeHtml(c.en||c.phrase||'')}</span> <button class="clozeFavBtn active" data-cfav="${encodeURIComponent(JSON.stringify({t:'colloc',k:key,p:{...c}}))}">⭐</button></div><div class="clozeVocabCn">${escapeHtml(c.cn||'')}</div><div class="clozeVocabMeaning">${escapeHtml(c.usage||'')}</div></div>`;
+  }).join('') : '<div class="emptyPapers">No favorite collocations yet.</div>';
+  const renderG = (favs.grammar||[]).length ? (favs.grammar||[]).map(g => {
+    const key = g._key;
+    return `<div class="clozeGrammarItem"><div><b style="font-size:14px">${escapeHtml(g.title||g.topic||'Grammar Note')}</b> <button class="clozeFavBtn active" data-cfav="${encodeURIComponent(JSON.stringify({t:'grammar',k:key,p:{...g}}))}">⭐</button></div><div class="clozeVocabMeaning" style="grid-column:2;line-height:1.65">${escapeHtml(g.content||g.note||g.text||'')}</div></div>`;
+  }).join('') : '<div class="emptyPapers">No favorite grammar notes yet.</div>';
+  if(vbox) vbox.innerHTML = renderV;
+  if(cbox) cbox.innerHTML = renderC;
+  if(gbox) gbox.innerHTML = renderG;
+  clozeBindFavButtons();
+}
+
+// ===== Cloze Full Analysis / Review Page =====
+function clozeShowReviewPage(id){
+  const paper = clozeFindPaper(id); if(!paper) return showHint('Cloze paper not found');
+  clozeReviewPagePaperId = id;
+  const draft = clozeNormalizeDraft(paper.draft);
+  const d = clozeNormalizeData(paper.data);
+  // Temporary load state to build grade & render
+  const prevId = currentClozePaperId;
+  const prevData = clozeClozeData;
+  const prevSub = clozeSubmitted;
+  const prevAns = {...clozeAnswerState};
+  const prevGrade = {...clozeGradeState};
+  const prevSum = clozeLastSummary;
+  clozeClozeData = d;
+  clozeAnswerState = {...draft.userAnswers};
+  clozeSubmitted = !!draft.submitted;
+  const s = draft.submitted ? clozeBuildGrade() : null;
+  clozeLastSummary = s;
+  // Hide all screens
+  $('importScreen').style.display='none';
+  $('importPanel').style.display='none';
+  $('recordsScreen').style.display='none';
+  $('reviewScreen').style.display='none';
+  $('app').style.display='none';
+  $('clozeApp').style.display='none';
+  $('clozeImportPanel').style.display='none';
+  $('clozeRecordsScreen').style.display='none';
+  $('clozeWrongBookScreen').style.display='none';
+  $('clozeFavoritesScreen').style.display='none';
+  $('clozeReviewScreen').style.display='block';
+  setExamBarVisible(false);
+  $('settingsPanel').classList.remove('show');
+  $('reviewPanel').classList.remove('show');
+  hideToolbar();
+  $('clozeReviewPageTitle').textContent = paper.status==='submitted' ? clozeAttemptTitle(paper) : clozeMainTitle(paper);
+  const total = Number(d.totalBlanks||0);
+  const acc = s && total>0 ? Math.round((s.correct/total)*1000)/10 : 0;
+  $('clozeReviewPageMeta').textContent = `${clozeStatusText(paper.status)} · No. ${paper.paperNo||paper.paperId||'-'} · Created ${new Date(paper.createdAt).toLocaleString()}${s?` · Accuracy: ${acc}%`:''}`;
+  const box = $('clozeReviewPageContent'); if(!box) return;
+  // Build per-blank analysis
+  const totalBlanks = Number(d.totalBlanks || d.blanks?.length || 0);
+  const blankCards = [];
+  for(let i=1;i<=totalBlanks;i++){
+    const gs = clozeGradeState[i];
+    const status = gs?.status || (clozeAnswerState[i] ? 'pending' : 'unanswered');
+    const right = String(d.answers?.[i]||'').toUpperCase();
+    const yours = (clozeAnswerState[i]||'Unanswered').toUpperCase();
+    const blankData = (d.blanks||[]).find(b => Number(b.num)===i);
+    const optsHtml = (blankData?.options||[]).map(o => {
+      const k = String(o.key||'').toUpperCase();
+      let cls = 'clozeOption';
+      if(k===right) cls += ' correct';
+      if(k===yours && k!==right) cls += ' wrong';
+      return `<div class="${cls}" style="cursor:default"><b style="display:inline-block;min-width:22px">${escapeHtml(k)}.</b> ${escapeHtml(String(o.text||o.value||''))}</div>`;
+    }).join('');
+    const an = d.analysis?.[i];
+    // Explanation
+    let explHtml = '';
+    if(an?.explanation){
+      explHtml += `<div class="clozeSubSection"><h4>💡 Explanation</h4><p style="font-size:13px;line-height:1.65;margin:0">${escapeHtml(an.explanation)}</p></div>`;
+    }
+    if(an?.whyCorrect || an?.whyWrong){
+      explHtml += `<div class="clozeSubSection"><h4>✅ Why Correct / ❌ Why Wrong</h4>`;
+      if(an.whyCorrect) explHtml += `<p style="font-size:13px;line-height:1.6;margin:4px 0"><b>Correct:</b> ${escapeHtml(an.whyCorrect)}</p>`;
+      if(an.whyWrong){
+        if(typeof an.whyWrong === 'string') explHtml += `<p style="font-size:13px;line-height:1.6;margin:4px 0"><b>Wrong options:</b> ${escapeHtml(an.whyWrong)}</p>`;
+        else if(an.whyWrong && typeof an.whyWrong === 'object'){
+          explHtml += Object.entries(an.whyWrong).map(([k,v]) => `<p style="font-size:13px;line-height:1.6;margin:4px 0"><b>Option ${escapeHtml(k)}:</b> ${escapeHtml(String(v))}</p>`).join('');
+        }
+      }
+      explHtml += `</div>`;
+    }
+    // Vocabulary
+    let vocabHtml = '';
+    if(Array.isArray(an?.vocabulary) && an.vocabulary.length){
+      vocabHtml = `<div class="clozeSubSection"><h4>📝 Vocabulary</h4>` + an.vocabulary.map((v,vi) => {
+        const payload = { word: v.word||'', pos: v.pos||'', cn: v.cn||'', meaning: v.meaning||'' };
+        const key = `voc_${i}_${vi}_${v.word||''}`;
+        return `<div class="clozeVocabItem"><div><span class="clozeVocabWord">${escapeHtml(v.word||'')}</span>${v.pos?`<span class="clozeVocabPos">${escapeHtml(v.pos)}</span>`:''} ${clozeFavBtnHtml('vocab', key, payload)}</div><div class="clozeVocabCn">${escapeHtml(v.cn||'')}</div><div class="clozeVocabMeaning">${escapeHtml(v.meaning||'')}</div></div>`;
+      }).join('') + `</div>`;
+    }
+    // Collocations
+    let collocHtml = '';
+    if(Array.isArray(an?.collocations) && an.collocations.length){
+      collocHtml = `<div class="clozeSubSection"><h4>🔗 Collocations</h4>` + an.collocations.map((c,ci) => {
+        const payload = { en: c.en||c.phrase||'', cn: c.cn||'', usage: c.usage||c.meaning||'' };
+        const key = `col_${i}_${ci}_${c.en||c.phrase||''}`;
+        return `<div class="clozeCollocItem"><div><span class="clozeCollocPhrase">${escapeHtml(c.en||c.phrase||'')}</span> ${clozeFavBtnHtml('colloc', key, payload)}</div><div class="clozeVocabCn">${escapeHtml(c.cn||'')}</div><div class="clozeVocabMeaning">${escapeHtml(c.usage||c.meaning||'')}</div></div>`;
+      }).join('') + `</div>`;
+    }
+    // Grammar
+    let gramHtml = '';
+    if(an?.grammar){
+      const text = typeof an.grammar === 'object' ? (an.grammar.content||an.grammar.note||an.grammar.text||JSON.stringify(an.grammar)) : String(an.grammar);
+      const title = typeof an.grammar === 'object' ? (an.grammar.title||an.grammar.topic||'Grammar') : 'Grammar Note';
+      const payload = { title, content: text };
+      const key = `gra_${i}_${title}`;
+      gramHtml = `<div class="clozeSubSection"><h4>📘 Grammar</h4>
+        <div class="clozeGrammarItem">
+          <div><b style="font-size:14px">${escapeHtml(title)}</b> ${clozeFavBtnHtml('grammar', key, payload)}</div>
+          <div class="clozeVocabMeaning" style="grid-column:2;line-height:1.65">${escapeHtml(text)}</div>
+        </div></div>`;
+    }
+    const badgeLabel = status==='right'?'Correct':status==='wrong'?'Wrong':status==='unanswered'?'Unanswered':'Pending';
+    blankCards.push(`<section class="miniSection">
+      <div class="clozeQaHeader" style="margin-bottom:8px">
+        <h3 style="margin:0;font-size:16px">Question ${i}</h3>
+        <span class="clozeQaBadge ${status==='right'?'correct':status==='wrong'?'wrong':'unanswered'}">${badgeLabel}</span>
+      </div>
+      <div class="paperMeta" style="margin-bottom:10px">
+        <span>Correct Answer</span><b style="color:var(--green)">${escapeHtml(right)}</b>
+        <span>Your Answer</span><b class="${status==='right'?'correct':status==='wrong'?'wrong':''}">${escapeHtml(yours)}</b>
+      </div>
+      ${optsHtml}
+      ${explHtml}
+      ${vocabHtml}
+      ${collocHtml}
+      ${gramHtml}
+    </section>`);
+  }
+  // Summary card
+  let summaryCard = '';
+  if(s){
+    summaryCard = `<section class="miniSection">
+      <h3>📊 Overall Score</h3>
+      <div class="clozeResultSummary">
+        <div class="scoreCard"><small>Correct</small><b>${s.correct} / ${s.totalQuestions}</b></div>
+        <div class="scoreCard"><small>Accuracy</small><b>${acc}%</b></div>
+        <div class="scoreCard"><small>Wrong</small><b>${s.wrong}</b></div>
+        <div class="scoreCard"><small>Unanswered</small><b>${s.unanswered}</b></div>
+        <div class="scoreCard"><small>Time Used</small><b>${fmtTime(s.timeUsed||0)}</b></div>
+        <div class="scoreCard"><small>Difficulty</small><b>${escapeHtml(d.difficulty||'-')}</b></div>
+      </div>
+    </section>`;
+  }
+  // Article with Chinese translation + summary
+  let passWithBlanks = d.passage || '';
+  passWithBlanks = escapeHtml(passWithBlanks).replace(/\[\[(\d+)\]\]/g, (m,n) => {
+    const num = Number(n);
+    const right = String(d.answers?.[num]||'').toUpperCase();
+    const ans = clozeAnswerState[num];
+    const txt = d.blanks?.find(b=>Number(b.num)===num)?.options?.find(o=>String(o.key||'').toUpperCase()===right)?.text || right;
+    const cls = clozeGradeState[num]?.status || 'pending';
+    return `<span class="clozeBlank answered ${cls==='right'?'correct':cls==='wrong'?'wrong':''}" style="background:${cls==='right'?'var(--green-bg)':cls==='wrong'?'var(--bad-bg)':'var(--soft)'};color:${cls==='right'?'#2d6c45':cls==='wrong'?'#922e2e':'#7e2631'};border-color:${cls==='right'?'#a6d1b5':cls==='wrong'?'#d09090':'var(--line)'};padding:1px 6px" title="Q${num}: correct=${right}, yours=${ans||'Unanswered'}">${escapeHtml(String(txt))}</span>`;
+  });
+  const passageSection = `<section class="miniSection">
+    <h3>📖 Passage (Filled with Correct Answers)</h3>
+    <div style="border:1px solid var(--line);border-radius:10px;padding:16px;background:#fff;line-height:1.85;font-size:15px">
+      ${passWithBlanks.split('\n').map(p => p.trim()?`<p style="margin:0 0 14px">${p}</p>`:'<p style="margin:0">&nbsp;</p>').join('')}
+    </div>
+  </section>`;
+  const translationSection = d.chineseTranslation ? `<section class="miniSection">
+    <h3>🌐 Chinese Translation</h3>
+    <div class="clozeTranslationBox">
+      ${escapeHtml(d.chineseTranslation).split('\n').map(p => p.trim()?`<p style="margin:0 0 14px">${p}</p>`:'<p style="margin:0">&nbsp;</p>').join('')}
+    </div>
+  </section>` : '';
+  const summarySection = d.summary ? `<section class="miniSection">
+    <h3>🎯 Summary</h3>
+    <div class="clozeSummaryBox">${escapeHtml(d.summary)}</div>
+  </section>` : '';
+  box.innerHTML = [summaryCard, passageSection, ...blankCards, translationSection, summarySection].filter(Boolean).join('');
+  clozeBindFavButtons(box);
+  // Restore engine state
+  clozeClozeData = prevData;
+  clozeSubmitted = prevSub;
+  clozeAnswerState = prevAns;
+  clozeGradeState = prevGrade;
+  clozeLastSummary = prevSum;
+  currentClozePaperId = prevId;
+}
+
+// ===== Cloze Import =====
+function clozeShowImportPanel(){
+  $('importScreen').style.display='none';
+  $('clozeApp').style.display='none';
+  $('clozeRecordsScreen').style.display='none';
+  $('clozeReviewScreen').style.display='none';
+  $('clozeWrongBookScreen').style.display='none';
+  $('clozeFavoritesScreen').style.display='none';
+  $('clozeImportPanel').style.display='block';
+  setExamBarVisible(false);
+  clozeInitSchemaBox();
+}
+function clozeSchemaTemplateText(){ return JSON.stringify(CLOZE_JSON_TEMPLATE, null, 2); }
+function clozeInitSchemaBox(){
+  const box = $('clozeSchemaTemplateText'); if(!box) return;
+  box.value = clozeSchemaTemplateText();
+}
+async function clozeCopySchemaTemplate(){
+  try{ await navigator.clipboard.writeText(clozeSchemaTemplateText()); showHint('Cloze template copied'); }
+  catch(e){ const b=$('clozeSchemaTemplateText'); if(b){b.focus();b.select();} showHint('Template selected, copy manually'); }
+}
+function clozeDownloadSchemaTemplate(){ downloadFile('brand9-cloze-json-template.json', clozeSchemaTemplateText(), 'application/json;charset=utf-8'); }
+function clozeShowImportDialog(data){
+  try{
+    pendingClozeImportData = clozeNormalizeData({...data});
+  }catch(e){ alert('Cloze JSON format error: ' + e.message); return; }
+  // Re-use Reading's importDialog but customize labels slightly
+  const title = clozeCleanTitle(pendingClozeImportData);
+  $('importPaperName').value = title;
+  const sel = $('importSectionSelect'); const newRow = $('importNewSectionRow');
+  let lib = clozeGetLibrary();
+  if(!lib.length){
+    clozeCreateSection('CET4 Cloze');
+    clozeCreateSection('CET6 Cloze');
+    clozeCreateSection('TEM4 Cloze');
+    clozeCreateSection('Practice');
+    clozeCreateSection('Wrong Book');
+    lib = clozeGetLibrary();
+  }
+  sel.innerHTML = lib.map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)} (${s.papers.length})</option>`).join('') + '<option value="__new__">+ Create New Section</option>';
+  newRow.classList.toggle('hidden', sel.value !== '__new__');
+  sel.onchange = () => {
+    newRow.classList.toggle('hidden', sel.value !== '__new__');
+    if(sel.value === '__new__') $('importNewSectionName').focus();
+  };
+  $('importDialog').classList.add('show');
+  setTimeout(()=>$('importPaperName').focus(), 50);
+}
+// Override the import dialog confirm / cancel to route correctly
+const origImportConfirm = $('importDialogConfirm').onclick;
+$('importDialogConfirm').onclick = () => {
+  if(pendingClozeImportData){
+    if(!pendingClozeImportData) return;
+    const sel = $('importSectionSelect'); let sectionName = sel.value;
+    if(sectionName==='__new__'){ sectionName = $('importNewSectionName').value.trim(); if(!sectionName) return; clozeCreateSection(sectionName); }
+    if(!sectionName) sectionName = 'Practice';
+    const paperName = $('importPaperName').value.trim() || clozeCleanTitle(pendingClozeImportData);
+    clozeCreatePaper(pendingClozeImportData, { folderName: sectionName, displayName: paperName, shortTitle: paperName });
+    $('importDialog').classList.remove('show');
+    pendingClozeImportData = null;
+    clozeShowWorkspace();
+  } else if(pendingImportData){
+    confirmImport();
+  }
+};
+const origImportCancel = $('importDialogCancel').onclick;
+$('importDialogCancel').onclick = () => {
+  if(pendingClozeImportData){ $('importDialog').classList.remove('show'); pendingClozeImportData = null; }
+  else if(pendingImportData) hideImportDialog();
+};
+$('importDialog').onclick = (e) => {
+  if(e.target === $('importDialog')){
+    if(pendingClozeImportData){ $('importDialog').classList.remove('show'); pendingClozeImportData = null; }
+    else hideImportDialog();
+  }
+};
+
+// ===== Cloze Records =====
+function clozeShowRecords(){
+  $('importScreen').style.display='none';
+  $('clozeApp').style.display='none';
+  $('clozeImportPanel').style.display='none';
+  $('clozeReviewScreen').style.display='none';
+  $('clozeWrongBookScreen').style.display='none';
+  $('clozeFavoritesScreen').style.display='none';
+  $('clozeRecordsScreen').style.display='block';
+  setExamBarVisible(false);
+  clozeRenderRecords();
+}
+function clozeAccuracyPct(r){
+  const total = Number(r.totalQuestions)||20;
+  const c = Number(r.correct||0);
+  return total>0 ? Math.round((c/total)*1000)/10 : 0;
+}
+function clozeRenderRecordsTrend(list){
+  const box = $('clozeRecordsTrend'); if(!box) return;
+  if(!list || !list.length){ box.innerHTML=''; return; }
+  const chron = [...list].reverse();
+  const pts = chron.map(clozeAccuracyPct);
+  const latest = pts[pts.length-1];
+  const avg = Math.round(pts.reduce((a,b)=>a+b,0)/pts.length*10)/10;
+  const best = Math.max(...pts);
+  box.innerHTML = `<div class="trendHead">
+      <span class="trendStat"><small>Latest Accuracy</small><b>${latest}%</b></span>
+      <span class="trendStat"><small>Average Accuracy</small><b>${avg}%</b></span>
+      <span class="trendStat"><small>Best Accuracy</small><b>${best}%</b></span>
+      <span class="trendStat"><small>Attempts</small><b>${pts.length}</b></span>
+    </div>
+    <div class="trendChart">${sparklineSvg(chron.map(r=>({...r,date:r.date,title:r.title})))}</div>
+    <p class="subtle">Cloze accuracy trend. Click dots for details.</p>`;
+  box.querySelectorAll('.trendDot').forEach(d => d.onclick = () => clozeRenderRecordDetail(d.dataset.recId));
+}
+function clozeRenderRecords(){
+  const list = clozeGetRecords();
+  clozeRenderRecordsTrend(list);
+  const body = $('clozeRecordsBody');
+  body.innerHTML = list.length ? list.map(r=>`<tr class="recordRow" data-id="${r.id}" style="cursor:pointer"><td>${new Date(r.date).toLocaleString()}</td><td>${escapeHtml(r.title||'')}</td><td>${r.correct||0} / ${r.totalQuestions||0}</td><td><b>${clozeAccuracyPct(r)}%</b></td><td>${r.wrong||0}</td><td>${r.unanswered||0}</td><td>${fmtTime(r.timeUsed||0)}</td><td><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">Delete</button></td></tr>`).join('') : '<tr><td colspan="8">No cloze records yet.</td></tr>';
+  body.querySelectorAll('.recordRow').forEach(r => r.onclick = () => clozeRenderRecordDetail(r.dataset.id));
+  body.querySelectorAll('.recordDelBtn').forEach(b => b.onclick = e => { e.stopPropagation(); clozeDeleteRecord(b.dataset.delId); });
+  $('clozeRecordDetail').classList.add('hidden');
+}
+function clozeDeleteRecord(id){
+  const r = clozeGetRecords().find(x=>x.id===id); if(!r) return;
+  if(!confirm(`Delete this cloze record?\n${r.title||''} (${r.correct||0} / ${r.totalQuestions||0})`)) return;
+  clozeSaveRecords(clozeGetRecords().filter(x=>x.id!==id));
+  clozeRenderRecords();
+}
+function clozeRenderRecordDetail(id){
+  const r = clozeGetRecords().find(x=>x.id===id); if(!r) return;
+  $('clozeRecordDetail').classList.remove('hidden');
+  const acc = clozeAccuracyPct(r);
+  $('clozeRecordDetail').innerHTML = `<h3 style="font-size:15px;margin:0 0 8px">${escapeHtml(r.title)}</h3>
+    <p><span class="badge">Score: ${r.correct||0} / ${r.totalQuestions||0}</span><span class="badge">Accuracy: ${acc}%</span><span class="badge">Wrong: ${r.wrong||0}</span><span class="badge">Unanswered: ${r.unanswered||0}</span><span class="badge">Time: ${fmtTime(r.timeUsed||0)}</span><span class="badge">Difficulty: ${escapeHtml(r.difficulty||'-')}</span></p>
+    <p class="subtle">Wrong questions: ${escapeHtml((r.issueRows||[]).map(x=>`Q${x.blank}(${x.your}→${x.correct})`).join(', ')||'none')}</p>
+    <p><button class="ghost recordDelBtn" data-del-id="${escapeHtml(r.id)}">Delete</button></p>`;
+  $('clozeRecordDetail').querySelector('.recordDelBtn')?.addEventListener('click', () => clozeDeleteRecord(r.id));
+}
+
+// ===== Cloze AI Prompt =====
+const CLOZE_IMPORT_PROMPT = `You are an expert English test designer for CET4 / CET6 / TEM4 / IELTS general cloze (完形填空).
+
+Create one complete cloze test. Output a JSON object ONLY (no markdown code blocks, no surrounding text).
+
+Follow the JSON schema exactly. Populate every field carefully.
+
+Rules:
+1. Passage length: 250–400 words. Topic: education, technology, environment, health, society, culture, economy, psychology, history.
+2. Number of blanks: exactly 20 (or 15 for short tests). Mark blanks in the passage with [[1]] [[2]] ... [[N]] at precise grammatical positions.
+3. Each blank has exactly 4 options. Options should be grammatically plausible (so the question tests vocabulary / collocation / logic rather than trivial grammar). Include 1 correct, 3 distractors.
+4. Provide detailed analysis for EVERY blank:
+   - explanation: one paragraph explaining why the correct answer is correct, in the context of the passage
+   - whyCorrect: short sentence explaining the correct choice
+   - whyWrong: object with keys A/B/C/D (exclude correct) explaining why each distractor is wrong (collocation, meaning, grammar, logic)
+   - grammar: optional grammar note (tense, non-finite verb, clause, conjunction, pronoun reference, etc.)
+   - vocabulary: array of key words, each with {word, pos, cn, meaning}
+   - collocations: array of fixed phrases, each with {en, cn, usage}
+5. Provide a natural flowing Chinese translation at the end (not word-by-word).
+6. Provide a 1-sentence summary of the passage theme.
+7. Mark difficulty: Easy / Medium / Hard / CET4 / CET6 / TEM4.
+8. Source: e.g. "CET4 · 2022 June · Part III Cloze" or "Practice"
+
+JSON schema (copy the outer structure and fill in):
+{
+  "_schemaVersion": "brand9-cloze-structured-v1",
+  "title": "CET4 Cloze · The Future of Remote Work",
+  "difficulty": "CET4",
+  "estimatedTime": 15,
+  "source": "CET4 / Practice",
+  "totalBlanks": 20,
+  "passage": "Full passage text with [[1]] [[2]] ... [[20]] blanks inserted.",
+  "blanks": [
+    { "num": 1, "options": [ {"key":"A","text":"optionA"}, {"key":"B","text":"optionB"}, {"key":"C","text":"optionC"}, {"key":"D","text":"optionD"} ] }
+  ],
+  "answers": { "1": "A", "2": "B" },
+  "analysis": {
+    "1": {
+      "explanation": "Detailed explanation for Q1...",
+      "whyCorrect": "Correct option collocates with...",
+      "whyWrong": { "B": "...", "C": "...", "D": "..." },
+      "grammar": "Optional note on tense / conjunction / non-finite / clause etc.",
+      "vocabulary": [ {"word":"example","pos":"v.","cn":"例子","meaning":"a representative case"} ],
+      "collocations": [ {"en":"take advantage of","cn":"利用","usage":"verb phrase meaning to make use of an opportunity"} ]
+    }
+  },
+  "chineseTranslation": "Full natural Chinese translation of the passage.",
+  "summary": "One sentence summarizing the passage."
+}
+
+Produce the complete JSON for one test now.`;
+
+function clozeInitAIPrompt(){ const b = $('aiPromptBox'); if(b) b.value = CLOZE_IMPORT_PROMPT; }
+function clozeShowAITools(){ clozeInitAIPrompt(); $('aiToolsModal').classList.add('show'); }
+function clozeHideAITools(){ $('aiToolsModal').classList.remove('show'); }
+async function clozeCopyAIPrompt(){
+  try{ await navigator.clipboard.writeText(CLOZE_IMPORT_PROMPT); showHint('Cloze Import Prompt copied'); }
+  catch(e){ const b = $('aiPromptBox'); if(b){b.focus();b.select();} showHint('Prompt selected, copy manually'); }
+}
+
+// ===== Cloze Timer =====
+function clozeUpdateTimerUI(){
+  if(!$('timer')) return;
+  $('timer').textContent = clozeTimerPaused ? `Paused ${fmtTime(Math.max(0,clozeTimerSeconds))}` : fmtTime(Math.max(0,clozeTimerSeconds));
+  $('timer').classList.toggle('paused', clozeTimerPaused);
+}
+setInterval(() => {
+  if($('clozeApp').style.display !== 'block') return;
+  if(!clozeTimerPaused && !clozeSubmitted) clozeTimerSeconds = Math.max(0, clozeTimerSeconds - 1);
+  clozeUpdateTimerUI();
+  clozeSaveTick++;
+  if(clozeSaveTick >= 5){ clozeSaveTick = 0; clozeSaveDraft(); }
+}, 1000);
+$('timer').addEventListener('click', () => {
+  if($('clozeApp').style.display === 'block'){
+    clozeTimerPaused = !clozeTimerPaused;
+    clozeUpdateTimerUI();
+    clozeSaveDraft();
+  }
+});
+
+// ===== Cloze Divider Dragging =====
+let clozeDragging = false;
+$('clozeDivider')?.addEventListener('mousedown', () => clozeDragging = true);
+window.addEventListener('mousemove', e => {
+  if(!clozeDragging) return;
+  const rect = $('clozeLayout').getBoundingClientRect();
+  const pct = Math.min(70, Math.max(35, ((e.clientX-rect.left)/rect.width)*100));
+  document.documentElement.style.setProperty('--leftWidth', pct + '%');
+});
+
+// ===== Cloze Event Bindings =====
+$('clozeBackHomeFromImport').onclick = () => clozeShowWorkspace();
+$('clozeOpenImport').onclick = () => clozeShowImportPanel();
+$('clozeOpenRecords').onclick = () => clozeShowRecords();
+$('clozeOpenWrongBook').onclick = () => clozeOpenWrongBook();
+$('clozeOpenFavorites').onclick = () => clozeOpenFavorites();
+$('aiToolsBtn').onclick = () => clozeShowAITools();
+$('clozeLoadJson').onclick = () => {
+  const f = $('clozeJsonFile').files[0]; if(!f) return alert('Select a JSON file first');
+  const r = new FileReader(); r.onload = () => { try{ clozeShowImportDialog(JSON.parse(r.result)); $('clozeJsonFile').value=''; }catch(e){ alert('Cloze JSON format error: '+e.message);} }; r.readAsText(f);
+};
+$('clozeLoadPastedJson').onclick = () => { try{ clozeShowImportDialog(JSON.parse($('clozeJsonPaste').value)); $('clozeJsonPaste').value=''; }catch(e){ alert('Cloze JSON format error: '+e.message);} };
+$('clozeCopySchemaTemplate').onclick = () => clozeCopySchemaTemplate();
+$('clozeDownloadSchemaTemplate').onclick = () => clozeDownloadSchemaTemplate();
+$('clozeBackFromRecords').onclick = () => clozeShowWorkspace();
+$('clozeClearRecords').onclick = () => { if(confirm('Clear all cloze records?')){ clozeSaveRecords([]); clozeRenderRecords(); }};
+$('clozeExportRecords').onclick = () => {
+  const list = clozeGetRecords();
+  if(!list.length){ alert('No cloze records to export.'); return; }
+  const header=['Date','Paper','Correct','Total','Accuracy%','Wrong','Unanswered','Time','Difficulty'];
+  const rows = list.map(r=>[new Date(r.date).toLocaleString(),r.title||'',r.correct||0,r.totalQuestions||0,clozeAccuracyPct(r),r.wrong||0,r.unanswered||0,fmtTime(r.timeUsed||0),r.difficulty||'']);
+  downloadFile(`brand9-cloze-records-${new Date().toISOString().slice(0,10)}.csv`, toCsv(header, rows));
+};
+$('clozeWrongBackHome').onclick = () => clozeShowWorkspace();
+$('clozeFavBackHome').onclick = () => clozeShowWorkspace();
+$('clozeFavClearAll').onclick = () => { if(confirm('Clear all cloze favorites (vocab / collocations / grammar notes)?')){ clozeSaveFavorites({vocab:[],colloc:[],grammar:[]}); clozeRenderFavorites(); }};
+$('clozeFavExport').onclick = () => {
+  const favs = clozeGetFavorites();
+  const parts = ['# ⭐ Cloze Favorites\n\n'];
+  parts.push('## 📝 Vocabulary\n');
+  (favs.vocab||[]).forEach(v => parts.push(`- **${v.word||''}**${v.pos?` (${v.pos})`:''}: ${v.cn||''} — ${v.meaning||''}\n`));
+  parts.push('\n## 🔗 Collocations\n');
+  (favs.colloc||[]).forEach(c => parts.push(`- **${c.en||c.phrase||''}**: ${c.cn||''} — ${c.usage||c.meaning||''}\n`));
+  parts.push('\n## 📘 Grammar Notes\n');
+  (favs.grammar||[]).forEach(g => parts.push(`- **${g.title||g.topic||''}**: ${g.content||g.note||g.text||''}\n`));
+  downloadFile(`brand9-cloze-favorites-${new Date().toISOString().slice(0,10)}.md`, parts.join(''), 'text/markdown;charset=utf-8');
+};
+$('clozeReviewBackHome').onclick = () => clozeShowWorkspace();
+$('clozeReviewOpenExam').onclick = () => { if(clozeReviewPagePaperId) clozeStartPaper(clozeReviewPagePaperId); };
+$('aiToolsClose').onclick = () => clozeHideAITools();
+$('aiToolsCopy').onclick = () => clozeCopyAIPrompt();
+$('aiToolsModal').onclick = (e) => { if(e.target === $('aiToolsModal')) clozeHideAITools(); };
+
+// ===== Init Cloze =====
+clozeInitSchemaBox?.();
+clozeInitAIPrompt?.();
 
 // ===== Init =====
 migratePaperStorage();
