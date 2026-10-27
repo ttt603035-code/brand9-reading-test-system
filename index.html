@@ -335,6 +335,116 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 @media(max-width:900px){
   .clozeLayout{grid-template-columns:1fr;height:auto}
 }
+/* === v2: Cloze book library / detail / wrong-book review === */
+.clozeBookScreen,.clozeReviewFlowScreen{padding:26px;max-width:1120px;margin:0 auto}
+.clozeHomeTop{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.bookGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:8px}
+.bookCard{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:box-shadow .15s ease}
+.bookCard:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.bookCardHead{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.bookCard h3{font-size:15px;margin:0;line-height:1.35;word-break:break-word}
+.bookCount{font-size:12px;color:var(--muted);border:1px solid var(--line-soft);border-radius:999px;padding:2px 8px;white-space:nowrap;flex-shrink:0}
+.bookStats{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.bookStats b{color:#333}
+.bookCardActions{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto}
+.bookCardActions button{font-size:11px;padding:4px 9px}
+.bookDetailTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.bookCrumb{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.bookCrumb .crumbLink{border:none;background:none;padding:0;color:#111;text-decoration:underline;cursor:pointer;font-size:13px}
+.bookCrumb h2{font-size:17px;margin:0;color:#111}
+.bookToolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.articleGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.articleCard{position:relative;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;cursor:pointer;transition:box-shadow .15s ease}
+.articleCard:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.articleCard.selected{border-color:#111;box-shadow:0 0 0 2px rgba(17,17,17,.08)}
+.articleCard h3{font-size:14px;margin:0 26px 8px 0;line-height:1.4;word-break:break-word}
+.articleCheck{position:absolute;top:10px;right:10px;width:20px;height:20px;cursor:pointer;accent-color:#111}
+.articleMeta{display:flex;gap:7px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:8px;align-items:center}
+.articleCardActions{display:flex;gap:4px;flex-wrap:wrap}
+.articleCardActions button{font-size:11px;padding:4px 8px}
+.todayReviewCard{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;margin:0 0 18px}
+.todayReviewHead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.todayReviewHead h2{font-size:16px;margin:0}
+.todayReviewGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:12px}
+.todayReviewStat{border:1px solid var(--line-soft);border-radius:10px;padding:10px;background:var(--soft)}
+.todayReviewStat small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.todayReviewStat b{font-size:19px}
+.wrongStats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0}
+.wrongStat{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.wrongStat small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.wrongStat b{font-size:19px}
+.segTabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.segTab{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#111;font-size:13px;cursor:pointer}
+.segTab.active{background:#111;color:#fff;border-color:#111}
+.wrongFilters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:0 0 12px}
+.wrongFilters select{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:13px;color:#111}
+.wrongCard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;margin-bottom:10px;cursor:pointer;transition:box-shadow .15s ease}
+.wrongCard:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.wrongCardHead{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.wrongCardHead .source{font-size:12px;color:var(--muted)}
+.wrongSentence{font-size:13px;line-height:1.75;color:#222;background:var(--soft);border:1px solid var(--line-soft);border-radius:8px;padding:10px;margin:0 0 8px;word-break:break-word}
+.gapFaint{color:#a0a0a0;font-size:12px}
+.wrongSentence .gap,.rfContext .gap{display:inline-block;min-width:46px;text-align:center;font-weight:700;color:#7e2631;border-bottom:2px solid #7e2631;padding:0 4px}
+.wrongMetaRow{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:8px}
+.wrongMetaRow b{color:#333}
+.reviewFlowWrap{max-width:820px;margin:0 auto}
+.rfCard{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff;margin-bottom:14px}
+.rfContext{font-size:14px;line-height:1.85;background:var(--soft);border:1px solid var(--line-soft);border-radius:10px;padding:12px;margin-bottom:14px;word-break:break-word}
+.rfOptions{display:grid;gap:8px;margin:12px 0}
+.rfOption{padding:12px;border:1px solid var(--line-soft);border-radius:10px;cursor:pointer;font-size:14px;line-height:1.5;background:#fff}
+.rfOption:hover{background:var(--soft)}
+.rfOption.selected{background:#111;color:#fff;border-color:#111}
+.rfOption.correct{background:var(--green-bg);border-color:#a6d1b5;color:#2d6c45;font-weight:600}
+.rfOption.wrong{background:var(--bad-bg);border-color:#d09090;color:#922e2e;font-weight:600}
+.rfOption.correct.selected{background:var(--green);color:#fff}
+.rfOption.wrong.selected{background:var(--bad);color:#fff}
+.rfActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.rfTypeChips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.rfTypeChip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12px;cursor:pointer;color:#111}
+.rfTypeChip.active{background:#111;color:#fff;border-color:#111}
+.rfTypeChip.suggested{border-color:#7e2631;color:#7e2631;border-style:dashed}
+.rfTypeChip.suggested.active{background:#7e2631;color:#fff}
+.rfNoteInput{width:100%;min-height:72px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px;line-height:1.6}
+.rfResultRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.summaryGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0}
+.batchList{max-height:220px;overflow:auto;border:1px solid var(--line-soft);border-radius:8px;padding:8px;margin:8px 0;font-size:13px}
+.batchList div{padding:3px 0;border-bottom:1px solid var(--line-soft)}
+.batchList div:last-child{border-bottom:0}
+.batchWarn{color:#922e2e;font-size:12px}
+.appToast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:#111;color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;line-height:1.4;max-width:min(90vw,420px);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;z-index:400}
+.appToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.importHint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0}
+@media(max-width:760px){
+  .topbar{height:auto;min-height:48px;flex-wrap:wrap;padding:6px 10px;gap:6px;align-items:center;padding-top:max(6px,env(safe-area-inset-top,0px));padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+  .topbar .tabs{height:auto;flex:1 1 100%;order:2;padding-bottom:2px}
+  .topbar .actions{flex:1 1 100%;order:1;flex-wrap:wrap;justify-content:flex-start;gap:6px}
+  .topbar button,.topbar .timer{font-size:12px;padding:6px 10px;min-height:32px}
+  .importScreen,.importPanel,.recordsScreen,.reviewScreen,.clozeImportPanel,.clozeRecordsScreen,.clozeReviewScreen,.clozeWrongBookScreen,.clozeFavoritesScreen,.clozeBookScreen,.clozeReviewFlowScreen{padding:14px max(14px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px))}
+  .moduleTabs{padding:10px 14px 0}
+  .moduleTab{padding:8px 14px;font-size:13px}
+  .workspaceTitle{font-size:21px}
+  .bookGrid,.articleGrid{grid-template-columns:1fr}
+  .clozeStatGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wrongFilters{grid-template-columns:1fr 1fr}
+  .clozeNavRow{flex-wrap:wrap;gap:8px}
+  .clozeNavRow>div:nth-child(2){order:-1;flex:1 1 100%}
+  .clozeNavRow>div:last-child{flex-direction:row !important;align-items:center;gap:6px;margin-left:auto}
+  .clozeNavRow>button{flex:0 0 auto}
+  .reviewTop{flex-direction:column;align-items:flex-start}
+  .reviewActions{justify-content:flex-start}
+  .recordsTop{flex-wrap:wrap;gap:8px}
+  .paperGrid{grid-template-columns:1fr}
+  .bookCardActions button,.articleCardActions button{font-size:12px;padding:6px 10px}
+  button{min-height:32px}
+  .articleCheck{width:22px;height:22px}
+}
+@media(max-width:420px){
+  .wrongFilters{grid-template-columns:1fr}
+  .rfActions button{flex:1 1 100%}
+  .bookCardActions,.articleCardActions{gap:5px}
+  .bookCardActions button,.articleCardActions button{font-size:11px;padding:5px 8px;min-height:28px}
+  .bookToolbar button{font-size:12px;padding:6px 10px}
+}
 </style>
 <script>document.documentElement.setAttribute('data-trae-theme', "light");window.__TRAE_DISABLE_LEGACY_ADD_TO_CHAT__=true;</script><style data-trae-edit-ui="true" id="trae-previewer-tools-styles">:root,
 [data-trae-theme='dark'] {
@@ -978,7 +1088,7 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
     <button id="settingsBtn">Settings</button>
     <button class="primary" id="finishPassageBtn" style="display:none">Finish Passage</button>
     <button class="primary" id="submitBtn" style="display:none">View Summary</button>
-    <button id="backHomeExam" class="homeExamBtn hidden">Home</button>
+    <button id="backHomeExam" class="homeExamBtn" title="Back to Home">🏠 Home</button>
     <button id="backImport" class="ghost hidden">Import</button>
     <button id="reviewBtn" class="hidden">Review <span id="reviewCount">0</span></button>
     <span class="lockHint" id="lockHint"></span>
@@ -1047,106 +1157,32 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
     </div>
   </div>
   <div id="clozeHomeContent" style="display: none;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+    <div class="clozeHomeTop">
       <h1 class="workspaceTitle" style="margin:0">Cloze Practice</h1>
-      <div>
-        <button id="aiToolsBtn">✨ AI Tools</button>
-      </div>
+      <div><button id="aiToolsBtn">✨ AI Tools</button></div>
     </div>
-    <p class="homeLead">Import Cloze tests and practice. Data is saved to your browser's LocalStorage.</p>
-    <div id="clozeStatsGrid" class="clozeStatGrid" style="margin-bottom:18px">
-    <div class="clozeStatCard"><small>Progress (In Progress)</small><b>0</b></div>
-    <div class="clozeStatCard"><small>Accuracy</small><b>0%</b></div>
-    <div class="clozeStatCard"><small>Completed</small><b>0</b></div>
-    <div class="clozeStatCard"><small>Total Tests</small><b>0</b></div>
-  </div>
+    <p class="homeLead">Import Cloze tests and practice. All data is saved in your browser's LocalStorage.</p>
+    <div id="clozeStatsGrid" class="clozeStatGrid" style="margin-bottom:14px">
+      <div class="clozeStatCard"><small>Progress (In Progress)</small><b>0</b></div>
+      <div class="clozeStatCard"><small>Accuracy</small><b>0%</b></div>
+      <div class="clozeStatCard"><small>Completed</small><b>0</b></div>
+      <div class="clozeStatCard"><small>Total Tests</small><b>0</b></div>
+    </div>
+    <div id="clozeTodayReviewArea"></div>
     <div class="homeActions">
       <button class="primary" id="clozeOpenImport">Import Cloze</button>
       <button id="clozeOpenRecords">Statistics</button>
       <button id="clozeOpenWrongBook">Wrong Book</button>
       <button id="clozeOpenFavorites">Favorites</button>
+      <button id="clozeExportAllBtn">Export Library</button>
     </div>
     <div id="continueClozeArea"></div>
     <div class="workspaceSection">
       <div class="workspaceHead">
         <h2>Cloze Library</h2>
+        <span class="subtle" style="font-size:12px">Tap a book to open it</span>
       </div>
-      <div id="clozeFolderTree" class="folderList"><div class="folderItem">
-      <div class="folderHeader" data-cfolder-id="cloze_f_1785137277164_804784">
-        <span class="folder-arrow">▶</span>
-        <span class="folder-name">CET4 Cloze</span>
-        <span class="folder-count">(0)</span>
-        <span class="sectionActions">
-          
-          <button data-csact="down" title="Move down">▼</button>
-          <button data-csact="rename" title="Rename">✎</button>
-          <button data-csact="delete" title="Delete">✕</button>
-        </span>
-      </div>
-      <div class="folderPapers" data-cfolder-papers="cloze_f_1785137277164_804784">
-        
-      </div>
-    </div><div class="folderItem">
-      <div class="folderHeader" data-cfolder-id="cloze_f_1785137277164_602533">
-        <span class="folder-arrow">▶</span>
-        <span class="folder-name">CET6 Cloze</span>
-        <span class="folder-count">(0)</span>
-        <span class="sectionActions">
-          <button data-csact="up" title="Move up">▲</button>
-          <button data-csact="down" title="Move down">▼</button>
-          <button data-csact="rename" title="Rename">✎</button>
-          <button data-csact="delete" title="Delete">✕</button>
-        </span>
-      </div>
-      <div class="folderPapers" data-cfolder-papers="cloze_f_1785137277164_602533">
-        
-      </div>
-    </div><div class="folderItem">
-      <div class="folderHeader" data-cfolder-id="cloze_f_1785137277164_32127">
-        <span class="folder-arrow">▶</span>
-        <span class="folder-name">TEM4 Cloze</span>
-        <span class="folder-count">(0)</span>
-        <span class="sectionActions">
-          <button data-csact="up" title="Move up">▲</button>
-          <button data-csact="down" title="Move down">▼</button>
-          <button data-csact="rename" title="Rename">✎</button>
-          <button data-csact="delete" title="Delete">✕</button>
-        </span>
-      </div>
-      <div class="folderPapers" data-cfolder-papers="cloze_f_1785137277164_32127">
-        
-      </div>
-    </div><div class="folderItem">
-      <div class="folderHeader" data-cfolder-id="cloze_f_1785137277164_453682">
-        <span class="folder-arrow">▶</span>
-        <span class="folder-name">Practice</span>
-        <span class="folder-count">(0)</span>
-        <span class="sectionActions">
-          <button data-csact="up" title="Move up">▲</button>
-          <button data-csact="down" title="Move down">▼</button>
-          <button data-csact="rename" title="Rename">✎</button>
-          <button data-csact="delete" title="Delete">✕</button>
-        </span>
-      </div>
-      <div class="folderPapers" data-cfolder-papers="cloze_f_1785137277164_453682">
-        
-      </div>
-    </div><div class="folderItem">
-      <div class="folderHeader" data-cfolder-id="cloze_f_1785137277164_308057">
-        <span class="folder-arrow">▶</span>
-        <span class="folder-name">Wrong Book</span>
-        <span class="folder-count">(0)</span>
-        <span class="sectionActions">
-          <button data-csact="up" title="Move up">▲</button>
-          
-          <button data-csact="rename" title="Rename">✎</button>
-          <button data-csact="delete" title="Delete">✕</button>
-        </span>
-      </div>
-      <div class="folderPapers" data-cfolder-papers="cloze_f_1785137277164_308057">
-        
-      </div>
-    </div><button class="addSectionBtn" id="clozeAddSectionBtn">+ New Section</button></div>
+      <div id="clozeFolderTree" class="bookGrid"></div>
     </div>
     <div class="workspaceSection">
       <div class="workspaceHead">
@@ -1236,7 +1272,7 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
         <h3>Paste JSON</h3>
         <textarea id="clozeJsonPaste" placeholder="Paste your AI-generated Cloze JSON here, then click &quot;Import Pasted JSON&quot;."></textarea>
         <button id="clozeLoadPastedJson">Import Pasted JSON</button>
-        <p class="subtle">Supported fields: title / difficulty / estimatedTime / passage / blanks / answers / analysis.</p>
+        <p class="subtle">Supported: one article, an array of articles, or a whole exported library. Required fields: passage / blanks / answers.</p>
       </div>
     </div>
     <div class="schemaTemplateBox">
@@ -1266,7 +1302,8 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
     <h2>Cloze Statistics</h2>
     <div>
       <button id="clozeBackFromRecords">Home</button>
-      <button id="clozeExportRecords">Export Records</button>
+      <button id="clozeExportRecords">Export Records (CSV)</button>
+      <button id="clozeExportRecordsJson">Export History (JSON)</button>
       <button id="clozeClearRecords" class="ghost">Clear Records</button>
     </div>
   </div>
@@ -1293,10 +1330,25 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 <!-- === Cloze Wrong Book Screen === -->
 <section class="clozeWrongBookScreen" id="clozeWrongBookScreen" style="display:none">
   <div class="recordsTop">
-    <h2>Cloze Wrong Book</h2>
-    <button id="clozeWrongBackHome">Home</button>
+    <h2>Cloze Wrong Book · 错题本</h2>
+    <div>
+      <button id="clozeWrongBackHome">Home</button>
+      <button id="clozeWrongExport">Export Wrong Book</button>
+      <button id="clozeWrongExportPlan">Export Review Plan</button>
+    </div>
   </div>
   <p class="subtle" id="clozeWrongBookMeta"></p>
+  <div id="clozeWrongStats" class="wrongStats"></div>
+  <div class="segTabs" id="clozeWrongTabs">
+    <button class="segTab active" data-wtab="due">待复习 (0)</button>
+    <button class="segTab" data-wtab="all">全部错题 (0)</button>
+    <button class="segTab" data-wtab="mastered">已掌握 (0)</button>
+  </div>
+  <div class="wrongFilters" id="clozeWrongFilters"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="primary" id="clozeWrongReviewDue">开始复习</button>
+    <button id="clozeWrongPracticeAll">复习全部未掌握</button>
+  </div>
   <div id="clozeWrongBookContent"></div>
 </section>
 
@@ -1323,6 +1375,70 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
     <div id="clozeFavGrammarList"></div>
   </div>
 </section>
+
+<!-- === Cloze Book Detail Screen === -->
+<section class="clozeBookScreen" id="clozeBookScreen" style="display:none">
+  <div class="bookDetailTop">
+    <div>
+      <div class="bookCrumb">
+        <button class="crumbLink" id="clozeBookBack">‹ Cloze Library</button>
+        <span>/</span>
+        <h2 id="clozeBookName">Book</h2>
+      </div>
+      <p class="subtle" id="clozeBookMeta" style="margin:6px 0 0"></p>
+    </div>
+    <div class="reviewActions">
+      <button id="clozeBookHome">Home</button>
+      <button class="primary" id="clozeBookImport">Import into this book</button>
+    </div>
+  </div>
+  <div class="bookToolbar">
+    <button id="clozeBookSelectAll">Select All</button>
+    <button id="clozeBookExportSelected" disabled>Export Selected (0)</button>
+    <button id="clozeBookExport">Export this book</button>
+    <button id="clozeBookNewSection">+ New Book</button>
+  </div>
+  <div id="clozeBookGrid" class="paperGrid articleGrid"></div>
+</section>
+
+<!-- === Cloze Wrong-Book Review Flow === -->
+<section class="clozeReviewFlowScreen" id="clozeReviewFlowScreen" style="display:none">
+  <div class="reviewFlowWrap">
+    <div class="reviewTop">
+      <div class="reviewTitleBlock">
+        <h2 id="clozeRfTitle">错题复习 · Wrong Book Review</h2>
+        <p class="subtle" id="clozeRfMeta"></p>
+      </div>
+      <div class="reviewActions">
+        <button id="clozeRfHome">Home</button>
+        <button id="clozeRfExit">Back to Wrong Book</button>
+      </div>
+    </div>
+    <div id="clozeRfProgress" class="subtle" style="margin-bottom:10px"></div>
+    <div id="clozeRfContent"></div>
+  </div>
+</section>
+
+<!-- === Cloze Batch Import Dialog === -->
+<div class="importDialog" id="clozeBatchImportDialog">
+  <div class="importDialogBox" style="width:540px;max-height:88vh;overflow:auto">
+    <h3 id="clozeBatchTitle">Import Cloze Articles</h3>
+    <p class="subtle" id="clozeBatchSummary" style="margin:0 0 6px;line-height:1.55"></p>
+    <div id="clozeBatchList" class="batchList"></div>
+    <label>Target book / section</label>
+    <select class="importSectionSelect" id="clozeBatchBookSelect"></select>
+    <div class="importNewSectionRow hidden" id="clozeBatchNewBookRow">
+      <input type="text" id="clozeBatchNewBookName" placeholder="New book name">
+    </div>
+    <label style="display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13px;color:#333">
+      <input type="checkbox" id="clozeBatchIncludeDup" style="width:auto;margin:0"> Import duplicates as copies
+    </label>
+    <div class="importDialogActions">
+      <button class="ghost" id="clozeBatchCancel">Cancel</button>
+      <button class="primary" id="clozeBatchConfirm">Import</button>
+    </div>
+  </div>
+</div>
 
 <!-- === AI Tools Modal === -->
 <div class="aiToolsModal" id="aiToolsModal">
@@ -1371,6 +1487,7 @@ span.qExplainBlock .qExplainBtn{margin-left:6px}
 <footer class="monitor" id="monitor"></footer>
 
 <script>
+// Legacy storage keys - kept unchanged so existing Reading user data is preserved.
 const RECORDS_KEY = 'brand9_reading_mock_score_records_v1';
 const PAPERS_KEY = 'brand9_reading_mock_papers_v1';
 const LIBRARY_KEY = 'brand9_reading_mock_library_v1';
@@ -1451,7 +1568,19 @@ function qToPassageIndex(q){q=Number(q); return q<=13?0:q<=26?1:2}
 function rangeNums(key){if(String(key).includes('-')){const [a,b]=String(key).split('-').map(Number);return Array.from({length:b-a+1},(_,i)=>String(a+i))} return [String(key)]}
 function getWeights(){return {...DEFAULT_WEIGHTS,...(DATA.questionWeights||{})}}
 function getDifficulty(){return {...DEFAULT_DIFFICULTY,...(DATA.difficultyAnalysis||{})}}
-function showHint(text){const el=$('lockHint'); if(!el) return; el.textContent=text; el.classList.add('show'); clearTimeout(showHint.t); showHint.t=setTimeout(()=>el.classList.remove('show'),1800)}
+function showHint(text){
+  const el=$('lockHint');
+  if(el){ el.textContent=text; el.classList.add('show'); clearTimeout(showHint.t); showHint.t=setTimeout(()=>el.classList.remove('show'),1800); }
+  // The exam bar is hidden on library / wrong-book / review screens, so mirror the hint as a toast.
+  const barVisible = $('examBar') && $('examBar').classList.contains('show');
+  if(barVisible) return;
+  let toast = $('appToast');
+  if(!toast){ toast = document.createElement('div'); toast.id='appToast'; toast.className='appToast'; document.body.appendChild(toast); }
+  toast.textContent = text;
+  toast.classList.add('show');
+  clearTimeout(showHint.tt);
+  showHint.tt = setTimeout(()=>toast.classList.remove('show'), 2000);
+}
 function requestExamFullscreen(){
   if(!document.fullscreenEnabled) return false;
   if(!document.fullscreenElement){
@@ -2294,34 +2423,14 @@ function bindFolderPaperActions(root, allPapers){
 
 function showWorkspace(){
   saveDraft();
-  currentPaperId=null;
-  $('app').style.display='none';
-  $('importPanel').style.display='none';
-  $('recordsScreen').style.display='none';
-  $('reviewScreen').style.display='none';
-  $('importScreen').style.display='block';
-  setExamBarVisible(false);
-  $('monitor').style.display='none';
-  $('reviewPanel').classList.remove('show');
-  $('settingsPanel').classList.remove('show');
-  $('lockHint').classList.remove('show');
-  $('lockHint').textContent='';
-  hideToolbar();
+  currentPaperId = null;
+  showHomeScreen('reading');
   renderWorkspace();
 }
 function showImportPanel(){
   saveDraft();
-  currentPaperId=null;
-  $('app').style.display='none';
-  $('importScreen').style.display='none';
-  $('recordsScreen').style.display='none';
-  $('reviewScreen').style.display='none';
-  $('importPanel').style.display='block';
-  setExamBarVisible(false);
-  $('monitor').style.display='none';
-  $('reviewPanel').classList.remove('show');
-  $('settingsPanel').classList.remove('show');
-  hideToolbar();
+  currentPaperId = null;
+  showScreen('importPanel');
 }
 function renderWorkspace(){
   migratePaperStorage();
@@ -2402,10 +2511,11 @@ function startApp(data){
   $('app').style.display='block';
   $('monitor').style.display='flex';
   setExamBarVisible(true);
+  setModuleTabsVisible(false);
   $('backImport').classList.add('hidden');
   $('submitBtn').style.display='none';
   $('finishPassageBtn').style.display='none';
-  $('backHomeExam').classList.add('hidden');
+  $('backHomeExam').classList.remove('hidden');
   submitted=false; savedCurrentRecord=false; reviewMarks=[]; evidenceSources={}; questionEvidenceMap={}; pendingEvidenceSource=null; currentPassage=0; timerSeconds=60*60; timerPaused=false;
   passageLocked={}; passageGrades={};
   hideToolbar();
@@ -2426,9 +2536,10 @@ function startPaper(id, reviewJump=null){
   $('app').style.display='block';
   $('monitor').style.display='flex';
   setExamBarVisible(true);
+  setModuleTabsVisible(false);
   $('backImport').classList.add('hidden');
   $('reviewBtn').classList.add('hidden');
-  $('backHomeExam').classList.toggle('hidden', !draft.submitted);
+  $('backHomeExam').classList.remove('hidden');
   submitted=!!draft.submitted;
   savedCurrentRecord=!!draft.submitted;
   reviewMarks=draft.reviewMarks || draft.reviewItems || [];
@@ -3440,7 +3551,7 @@ function saveScoreRecord(s){
 }
 function getRecords(){try{return JSON.parse(localStorage.getItem(RECORDS_KEY)||'[]')}catch(e){return []}}
 const STRUCTURED_JSON_TEMPLATE = {
-  "_schemaVersion": "brand9-reading-structured-v1",
+  "_schemaVersion": "reading-structured-v1",
   "_aiInstructions": [
     "Only output a complete JSON object, no Markdown code blocks.",
     "Do not write questionsHtml or HTML; question layout is rendered by the system.",
@@ -3628,7 +3739,7 @@ async function copySchemaTemplate(){
   }
 }
 function downloadSchemaTemplate(){
-  downloadFile('brand9-reading-structured-json-template.json', schemaTemplateText(), 'application/json;charset=utf-8');
+  downloadFile('reading-json-template.json', schemaTemplateText(), 'application/json;charset=utf-8');
 }
 function showRecordsScreen(){
   saveCurrentMarkup();
@@ -3750,12 +3861,12 @@ function buildReviewMarksCsv(){
 function exportRecordsCsv(){
   const csv=buildRecordsCsv();
   if(!csv){ alert('No records to export.'); return; }
-  downloadFile(`brand9-records-${new Date().toISOString().slice(0,10)}.csv`, csv);
+  downloadFile(`reading-records-${new Date().toISOString().slice(0,10)}.csv`, csv);
 }
 function exportReviewMarksCsv(){
   const csv=buildReviewMarksCsv();
   if(!csv){ alert('No review marks to export.'); return; }
-  downloadFile(`brand9-review-marks-${new Date().toISOString().slice(0,10)}.csv`, csv);
+  downloadFile(`reading-review-marks-${new Date().toISOString().slice(0,10)}.csv`, csv);
 }
 function renderRecordDetail(id){
   const r=getRecords().find(x=>x.id===id); if(!r) return;
@@ -3871,7 +3982,9 @@ function confirmImport(){
 $('submitBtn').onclick=submitTest;
 $('finishPassageBtn').onclick=finishPassage;
 $('backHomeExam').onclick=()=>{
-  if($('clozeApp') && $('clozeApp').style.display === 'block') clozeShowWorkspace();
+  const inCloze = $('clozeApp') && $('clozeApp').style.display === 'block';
+  if(!confirmLeavePractice()) return;
+  if(inCloze) clozeShowWorkspace();
   else showWorkspace();
 };
 $('settingsBtn').onclick=()=>$('settingsPanel').classList.toggle('show');
@@ -3929,6 +4042,9 @@ window.addEventListener('mousemove',e=>{
 // ============================================================
 // ===== Cloze Practice Engine (独立数据，独立逻辑) ============
 // ============================================================
+// NOTE: these localStorage keys are legacy identifiers. They intentionally keep their
+// original prefix so existing user data (library / records / wrong book / favorites)
+// stays readable. Do not rename them.
 const CLOZE_PAPERS_KEY    = 'brand9_cloze_papers_v1';
 const CLOZE_LIBRARY_KEY   = 'brand9_cloze_library_v1';
 const CLOZE_RECORDS_KEY   = 'brand9_cloze_records_v1';
@@ -4010,7 +4126,7 @@ function clozeStatusText(s){
 }
 
 const CLOZE_JSON_TEMPLATE = {
-  "_schemaVersion": "brand9-cloze-structured-v1",
+  "_schemaVersion": "cloze-structured-v1",
   "_aiInstructions": [
     "Only output a complete JSON object, no Markdown code blocks.",
     "Generate a high-quality cloze (完形填空) test with detailed analysis.",
@@ -4112,7 +4228,7 @@ function clozeCreatePaper(data, opts={}){
   list.unshift(paper);
   clozeSavePapers(list);
   clozeUpdateLibraryForPaper(paper);
-  clozeRenderWorkspace();
+  if(!opts.silent) clozeRenderWorkspace();
   return paper;
 }
 function clozeUpdateLibraryForPaper(paper){
@@ -4170,6 +4286,7 @@ function clozeDeleteSection(id){
   clozeSaveLibrary(lib.filter(f=>f.id!==id));
   const cr = clozeGetContinue();
   if(cr && s.papers.some(fp=>fp.id===cr.paperId)) clozeSaveContinue(null);
+  if(clozeBookCurrentId === id) clozeBookCurrentId = null;
   clozeRenderWorkspace();
 }
 function clozeReorderSection(id, dir){
@@ -4193,10 +4310,12 @@ function clozeDeletePaper(id){
   clozeSavePapers(clozeGetPapers().filter(x=>x.id!==id));
   const lib = clozeGetLibrary();
   lib.forEach(f => { f.papers = f.papers.filter(fp=>fp.id!==id); });
-  clozeSaveLibrary(lib.filter(f=>f.papers.length>0));
+  // Keep the (now possibly empty) book so the user does not lose a book they created.
+  clozeSaveLibrary(lib);
   const cr = clozeGetContinue();
   if(cr && cr.paperId === id) clozeSaveContinue(null);
   clozeRenderWorkspace();
+  if($('clozeBookScreen').style.display === 'block') clozeRenderBookDetail();
 }
 function clozeRenamePaper(id){
   const p = clozeFindPaper(id); if(!p) return;
@@ -4206,6 +4325,7 @@ function clozeRenamePaper(id){
   clozeUpdatePaper(id, pp => { pp.displayName = n; pp.shortTitle = n; pp.title = `${pp.paperNo||pp.paperId} │ ${n}`; });
   clozeUpdateLibraryForPaper({...clozeFindPaper(id)});
   clozeRenderWorkspace();
+  if($('clozeBookScreen').style.display === 'block') clozeRenderBookDetail();
 }
 function clozeRedoPaper(paperId){
   const list = clozeGetPapers();
@@ -4241,9 +4361,10 @@ function switchModule(mod){
   document.querySelectorAll('.moduleTab').forEach(b => b.classList.toggle('active', b.dataset.module===mod));
   const rh = $('readingHomeContent'), ch = $('clozeHomeContent');
   if(!rh || !ch) return;
-  if(mod==='reading'){ rh.style.display=''; ch.style.display='none'; }
+  if(mod==='reading'){ rh.style.display=''; ch.style.display='none'; renderWorkspace(); }
   else { rh.style.display='none'; ch.style.display=''; clozeRenderWorkspace(); clozeRenderStats(); }
 }
+document.querySelectorAll('.moduleTab').forEach(b => b.onclick = () => switchModule(b.dataset.module));
 document.querySelectorAll('.moduleTab').forEach(b => b.onclick = () => switchModule(b.dataset.module));
 
 // ===== Cloze Workspace Rendering =====
@@ -4282,77 +4403,71 @@ function clozeRenderContinue(){
 }
 function clozeRenderClozeFolderTree(){
   const box = $('clozeFolderTree'); if(!box) return;
-  let lib = clozeGetLibrary();
-  // Ensure default sections exist (CET4/CET6/TEM4/Practice/Wrong Book) - only if empty
-  if(lib.length === 0){
-    clozeCreateSection('CET4 Cloze');
-    clozeCreateSection('CET6 Cloze');
-    clozeCreateSection('TEM4 Cloze');
-    clozeCreateSection('Practice');
-    clozeCreateSection('Wrong Book');
-    lib = clozeGetLibrary();
-  }
+  let lib = clozeEnsureDefaultSections();
   const allPapers = clozeGetPapers();
   if(!lib.length){
-    box.innerHTML = '<div class="emptyPapers">No cloze tests yet. Click "Import Cloze" to import.</div><button class="addSectionBtn" id="clozeAddFirstSectionBtn">+ New Section</button>';
-    $('clozeAddFirstSectionBtn').onclick = () => {
-      const n = prompt('Section name:'); if(n && n.trim()){ clozeCreateSection(n.trim()); clozeRenderClozeFolderTree(); }
-    };
+    box.innerHTML = '<div class="emptyPapers">No cloze tests yet. Click "Import Cloze" to import.</div><button class="addSectionBtn" id="clozeAddFirstSectionBtn">+ New Book / Section</button>';
+    const b = $('clozeAddFirstSectionBtn'); if(b) b.onclick = () => clozePromptCreateSection();
     return;
   }
-  let html = lib.map((f,idx)=>{
-    const hasInProgress = f.papers.some(fp => { const p = allPapers.find(ap=>ap.id===fp.id); return p && p.status==='in_progress'; });
-    const open = hasInProgress ? ' open' : '';
-    return `<div class="folderItem">
-      <div class="folderHeader" data-cfolder-id="${escapeHtml(f.id)}">
-        <span class="folder-arrow${open}">▶</span>
-        <span class="folder-name">${escapeHtml(f.name)}</span>
-        <span class="folder-count">(${f.papers.length})</span>
-        <span class="sectionActions">
-          ${idx>0?'<button data-csact="up" title="Move up">▲</button>':''}
-          ${idx<lib.length-1?'<button data-csact="down" title="Move down">▼</button>':''}
-          <button data-csact="rename" title="Rename">✎</button>
-          <button data-csact="delete" title="Delete">✕</button>
-        </span>
-      </div>
-      <div class="folderPapers${open}" data-cfolder-papers="${escapeHtml(f.id)}">
-        ${clozeRenderFolderPapers(f.papers, allPapers)}
-      </div>
-    </div>`;
-  }).join('');
-  html += '<button class="addSectionBtn" id="clozeAddSectionBtn">+ New Section</button>';
-  box.innerHTML = html;
-  box.querySelectorAll('.folderHeader').forEach(h => {
-    h.querySelector('.folder-arrow, .folder-name').onclick = (e) => {
-      const a = h.querySelector('.folder-arrow'); const p = box.querySelector(`[data-cfolder-papers="${h.dataset.cfolderId}"]`);
-      a.classList.toggle('open'); p.classList.toggle('open');
+  box.innerHTML = lib.map((f, idx) => {
+    const papers = f.papers || [];
+    let inProgress = 0, completed = 0, notStarted = 0;
+    papers.forEach(fp => {
+      const st = clozePaperStatus(fp, allPapers);
+      if(st === 'in_progress') inProgress++;
+      else if(st === 'submitted') completed++;
+      else notStarted++;
+    });
+    return '<article class="bookCard" data-book-id="' + escapeHtml(f.id) + '">'
+      + '<div class="bookCardHead"><h3>' + escapeHtml(f.name) + '</h3>'
+      + '<span class="bookCount">' + papers.length + ' article' + (papers.length===1?'':'s') + '</span></div>'
+      + '<div class="bookStats"><span>In progress <b>' + inProgress + '</b></span>'
+      + '<span>Completed <b>' + completed + '</b></span>'
+      + '<span>Not started <b>' + notStarted + '</b></span></div>'
+      + '<div class="bookCardActions">'
+      + '<button class="primary" data-bact="open">Open</button>'
+      + (idx>0 ? '<button data-bact="up" title="Move up">↑</button>' : '')
+      + (idx<lib.length-1 ? '<button data-bact="down" title="Move down">↓</button>' : '')
+      + '<button data-bact="rename">Rename</button>'
+      + '<button data-bact="export">Export</button>'
+      + '<button data-bact="delete" class="ghost">Delete</button>'
+      + '</div></article>';
+  }).join('') + '<button class="addSectionBtn" id="clozeAddSectionBtn">+ New Book / Section</button>';
+  box.querySelectorAll('.bookCard').forEach(card => {
+    card.onclick = (e) => {
+      if(e.target.closest('button')) return;
+      clozeOpenBook(card.dataset.bookId);
     };
   });
-  box.querySelectorAll('[data-csact]').forEach(b => b.onclick = e => {
-    e.stopPropagation();
-    const h = b.closest('.folderHeader'); const id = h.dataset.cfolderId; const act = b.dataset.csact;
-    if(act==='up') clozeReorderSection(id,-1);
-    if(act==='down') clozeReorderSection(id,1);
-    if(act==='rename'){ const l = clozeGetLibrary(); const s = l.find(f=>f.id===id); if(!s) return; const n = prompt('New section name:', s.name); if(n&&n.trim()&&n.trim()!==s.name){ clozeRenameSection(id,n.trim()); clozeRenderClozeFolderTree(); } }
-    if(act==='delete') clozeDeleteSection(id);
+  box.querySelectorAll('[data-bact]').forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.bookCard');
+      const id = card ? card.dataset.bookId : '';
+      const act = btn.dataset.bact;
+      if(act === 'open') return clozeOpenBook(id);
+      if(act === 'up') return clozeReorderSection(id, -1);
+      if(act === 'down') return clozeReorderSection(id, 1);
+      if(act === 'export') return clozeExportBook(id);
+      if(act === 'delete') return clozeDeleteSection(id);
+      if(act === 'rename'){
+        const book = clozeGetLibrary().find(f => f.id === id);
+        if(!book) return;
+        const n = prompt('Rename book / section:', book.name);
+        if(n && n.trim() && n.trim() !== book.name){
+          clozeRenameSection(id, n.trim());
+          clozeRenderClozeFolderTree();
+          if(clozeBookCurrentId === id) clozeRenderBookDetail();
+        }
+      }
+    };
   });
-  $('clozeAddSectionBtn').onclick = () => { const n = prompt('Section name:'); if(n&&n.trim()){ clozeCreateSection(n.trim()); clozeRenderClozeFolderTree(); } };
-  // bind paper actions
-  box.querySelectorAll('.paperCard button[data-cact]').forEach(b => b.onclick = e => {
-    const card = e.target.closest('.paperCard'); const id = card.dataset.id; const act = e.target.dataset.cact;
-    if(act==='start') clozeStartPaper(id);
-    if(act==='review') clozeShowReviewPage(id);
-    if(act==='delete') clozeDeletePaper(id);
-    if(act==='rename') clozeRenamePaper(id);
-    if(act==='duplicate'){
-      const p = clozeFindPaper(id); if(p) clozeCreatePaper(p.data, { folderName: p.folderName||'Practice', displayName: (p.displayName||p.shortTitle||'Paper') + ' (Copy)', shortTitle: (p.shortTitle||'Paper') + ' (Copy)'});
-      showHint('Cloze paper duplicated');
-    }
-    if(act==='move') clozeShowMoveDialog(id);
-  });
+  const add = $('clozeAddSectionBtn'); if(add) add.onclick = () => clozePromptCreateSection();
 }
 function clozeRenderFolderPapers(folderPapers, allPapers){
-  return folderPapers.map(fp => {
+  const selected = clozeSelectedPaperIds || new Set();
+  return (folderPapers||[]).map(fp => {
     const paper = allPapers.find(p => p.id === fp.id);
     const rawStatus = paper ? paper.status : fp.status;
     const status = clozeStatusText(rawStatus);
@@ -4360,27 +4475,33 @@ function clozeRenderFolderPapers(folderPapers, allPapers){
     const startAct = rawStatus==='submitted' ? 'review' : 'start';
     const title = fp.shortTitle || fp.title || 'Cloze Test';
     const diff = fp.difficulty || paper?.data?.difficulty || '-';
-    const blanks = fp.totalBlanks || paper?.data?.totalBlanks || 0;
-    return `<article class="paperCard" data-id="${fp.id}" data-paper-id="${escapeHtml(fp.paperId)}">
-      <h3>${escapeHtml(title)}</h3>
-      <div class="paperMeta">
-        <span>Status</span><b><span class="statusPill">${status}</span></b>
-        <span>Difficulty</span><b>${escapeHtml(diff)}</b>
-        <span>Blanks</span><b>${blanks}</b>
-      </div>
-      <div class="paperActions paperCardActions">
-        <button class="primary" data-cact="${startAct}">${startText}</button>
-        <button data-cact="rename">Rename</button>
-        <button data-cact="duplicate">Duplicate</button>
-        <button data-cact="move">Move</button>
-        <button data-cact="delete">Delete</button>
-      </div>
-    </article>`;
+    const blanks = fp.totalBlanks || paper?.data?.totalBlanks || paper?.data?.blanks?.length || 0;
+    const src = paper?.data?.source || '';
+    const isSel = selected.has(fp.id);
+    return '<article class="paperCard articleCard' + (isSel ? ' selected' : '') + '" data-id="' + escapeHtml(fp.id) + '" data-paper-id="' + escapeHtml(fp.paperId || '') + '">'
+      + '<input type="checkbox" class="articleCheck" data-select="' + escapeHtml(fp.id) + '"' + (isSel ? ' checked' : '') + ' title="Select for export" aria-label="Select article">'
+      + '<h3>' + escapeHtml(title) + '</h3>'
+      + '<div class="articleMeta">'
+      + '<span class="statusPill">' + status + '</span>'
+      + '<span>' + escapeHtml(String(diff)) + '</span>'
+      + '<span>' + blanks + ' blanks</span>'
+      + ((src && String(src).indexOf(String(diff)) < 0) ? '<span>' + escapeHtml(String(src)) + '</span>' : '')
+      + '</div>'
+      + '<div class="articleCardActions paperActions">'
+      + '<button class="primary" data-cact="' + startAct + '">' + startText + '</button>'
+      + (rawStatus === 'submitted' ? '<button data-cact="redo">Redo</button>' : '')
+      + '<button data-cact="export">Export</button>'
+      + '<button data-cact="rename">Rename</button>'
+      + '<button data-cact="duplicate">Duplicate</button>'
+      + '<button data-cact="move">Move</button>'
+      + '<button data-cact="delete" class="ghost">Delete</button>'
+      + '</div></article>';
   }).join('');
 }
 function clozeRenderWorkspace(){
   clozeRenderContinue();
   clozeRenderClozeFolderTree();
+  clozeRenderTodayReview();
   const list = clozeGetPapers();
   const box = $('clozeAttemptList');
   const submitted = list.filter(p=>p.status==='submitted').sort((a,b)=>clozePaperSortTime(b)-clozePaperSortTime(a));
@@ -4405,12 +4526,11 @@ function clozeRenderWorkspace(){
       </article>`;
     }).join('') : '<div class="emptyPapers">No submitted cloze records yet.</div>';
     box.querySelectorAll('button[data-cact]').forEach(b => b.onclick = e => {
-      const card = e.target.closest('.paperCard'); const id = card.dataset.id; const paperId = card.dataset.paperId || clozeFindPaper(id)?.paperId; const act = e.target.dataset.cact;
-      if(act==='review') clozeShowReviewPage(id);
-      if(act==='redo') clozeRedoPaper(paperId);
-      if(act==='delete') clozeDeletePaper(id);
+      const card = e.target.closest('.paperCard');
+      if(card) clozePaperAction(e.target.dataset.cact, card.dataset.id);
     });
   }
+  if($('clozeBookScreen') && $('clozeBookScreen').style.display === 'block') clozeRenderBookDetail();
 }
 function clozePaperSortTime(p){ return new Date(p?.draft?.submittedAt || p?.updatedAt || p?.createdAt || 0).getTime() || 0; }
 
@@ -4448,6 +4568,7 @@ function clozeConfirmMove(){
   $('moveDialog').classList.remove('show');
   pendingClozeMoveId = null;
   clozeRenderWorkspace();
+  if($('clozeBookScreen').style.display === 'block') clozeRenderBookDetail();
   showHint('Cloze paper moved');
 }
 // Override move confirm/cancel so they work for both modules when applicable
@@ -4500,24 +4621,17 @@ function clozeStartPaper(id){
   clozeClozeData = clozeNormalizeData(paper.data);
   const d = clozeNormalizeDraft(paper.draft);
   // Hide all screens, show cloze app
-  $('importScreen').style.display = 'none';
-  $('importPanel').style.display = 'none';
-  $('recordsScreen').style.display = 'none';
-  $('reviewScreen').style.display = 'none';
-  $('app').style.display = 'none';
-  $('clozeImportPanel').style.display = 'none';
-  $('clozeRecordsScreen').style.display = 'none';
-  $('clozeReviewScreen').style.display = 'none';
-  $('clozeWrongBookScreen').style.display = 'none';
-  $('clozeFavoritesScreen').style.display = 'none';
+  hideAllScreens();
+  setModuleTabsVisible(false);
   $('clozeApp').style.display = 'block';
   setExamBarVisible(true);
   $('monitor').style.display = 'none'; // Cloze uses own bottom monitor inside questions area
-  $('backHomeExam').classList.toggle('hidden', !d.submitted);
+  $('backHomeExam').classList.remove('hidden');
   $('reviewBtn').classList.add('hidden');
   $('backImport').classList.add('hidden');
   $('submitBtn').style.display = 'none';
   $('finishPassageBtn').style.display = 'none';
+  $('aiToolsModal').classList.remove('show');
   clozeSubmitted = !!d.submitted;
   clozeTimerSeconds = Number.isFinite(Number(d.timerSeconds)) ? Number(d.timerSeconds) : (Number(clozeClozeData.estimatedTime||15) * 60);
   clozeTimerPaused = !!d.timerPaused;
@@ -4539,18 +4653,12 @@ function clozeStartPaper(id){
 function clozeShowWorkspace(){
   clozeSaveDraft();
   currentClozePaperId = null;
-  $('clozeApp').style.display = 'none';
-  $('clozeImportPanel').style.display = 'none';
-  $('clozeRecordsScreen').style.display = 'none';
-  $('clozeReviewScreen').style.display = 'none';
-  $('clozeWrongBookScreen').style.display = 'none';
-  $('clozeFavoritesScreen').style.display = 'none';
-  setExamBarVisible(false);
-  $('settingsPanel').classList.remove('show');
-  $('reviewPanel').classList.remove('show');
-  hideToolbar();
-  $('importScreen').style.display = 'block';
-  switchModule('cloze');
+  clozeImportPreferredBook = '';
+  clozeSelectedPaperIds = new Set();
+  clozeRfState = null;
+  showHomeScreen('cloze');
+  clozeRenderWorkspace();
+  clozeRenderStats();
 }
 function clozeRenderTabsOrTitle(){
   // Instead of Reading's Passage tabs, show a single title tab with the cloze title
@@ -4638,6 +4746,7 @@ function clozeRenderQuestionsArea(){
       </div>
       <p class="subtle" style="margin:0 0 10px">Choose the best option for blank <b style="color:#7e2631">#${cur}</b>.</p>
       ${optionsHtml}
+      ${(clozeSubmitted && clozeGradeState[cur]?.status === 'right') ? '<div style="margin-top:10px"><button id="clozeMarkNeedReview">➕ Add to Wrong Book / needs review</button></div>' : ''}
     </div>`;
   } else {
     questionBody = `<div class="clozeQuestion"><h3>Question ${cur} / ${total}</h3><p class="subtle">No option data for this blank.</p></div>`;
@@ -4696,6 +4805,10 @@ function clozeRenderQuestionsArea(){
   $('clozeRestartBtn')?.addEventListener('click', () => clozeRestart());
   $('clozeRestartBtn2')?.addEventListener('click', () => clozeRestart());
   $('clozeGoReviewBtn')?.addEventListener('click', () => { if(currentClozePaperId) clozeShowReviewPage(currentClozePaperId); });
+  $('clozeMarkNeedReview')?.addEventListener('click', () => {
+    const paper = clozeFindPaper(currentClozePaperId);
+    if(paper && clozeClozeData) clozeAddManualWrongFromData(paper, clozeClozeData, cur);
+  });
   // Render question monitor dots
   const mon = $('clozeQMonitor');
   if(mon){
@@ -4810,138 +4923,10 @@ function clozeSaveRecord(s){
 }
 
 // ===== Cloze Wrong Book =====
-function clozeAddToWrongBook(summary){
-  const d = clozeClozeData || {};
-  const paper = clozeFindPaper(currentClozePaperId);
-  const wrongBook = clozeGetWrongBook();
-  (summary.issueRows||[]).forEach(row => {
-    if(row.status !== 'wrong') return; // only actual wrong go to wrong book; unanswered not
-    const num = Number(row.blank);
-    // Check if already exists for this question & paperId
-    const existing = wrongBook.find(w => w.paperId === (paper?.paperId||'') && Number(w.blankNum) === num);
-    const blankData = (d.blanks||[]).find(b => Number(b.num)===num);
-    const entry = {
-      id: existing?.id || ('cw_' + Date.now() + '_' + Math.floor(Math.random()*999999)),
-      paperId: paper?.paperId || '',
-      paperTitle: paper?.displayName || d.title || 'Cloze Test',
-      paperNo: paper?.paperNo || '',
-      blankNum: num,
-      your: row.your,
-      correct: row.correct,
-      passage: d.passage || '',
-      blankData: blankData || null,
-      analysis: d.analysis?.[num] || null,
-      lastAttemptAt: new Date().toISOString(),
-      wrongCount: (existing?.wrongCount||0) + 1
-    };
-    if(existing){
-      const i = wrongBook.indexOf(existing); wrongBook[i] = entry;
-    } else {
-      wrongBook.unshift(entry);
-    }
-  });
-  clozeSaveWrongBook(wrongBook);
-}
+
 function clozeOpenWrongBook(){
-  $('importScreen').style.display = 'none';
-  $('clozeApp').style.display = 'none';
-  $('clozeImportPanel').style.display = 'none';
-  $('clozeRecordsScreen').style.display = 'none';
-  $('clozeReviewScreen').style.display = 'none';
-  $('clozeFavoritesScreen').style.display = 'none';
-  $('clozeWrongBookScreen').style.display = 'block';
-  setExamBarVisible(false);
+  showScreen('clozeWrongBookScreen');
   clozeRenderWrongBook();
-}
-function clozeRenderWrongBook(){
-  const list = clozeGetWrongBook();
-  const meta = $('clozeWrongBookMeta');
-  const body = $('clozeWrongBookContent');
-  if(meta) meta.textContent = `Total wrong questions: ${list.length}. Click "Practice Wrong Book" to generate a practice paper from all wrong questions.`;
-  if(!body) return;
-  if(!list.length){
-    body.innerHTML = '<div class="emptyPapers">Wrong book is empty. Keep practicing - wrong questions will appear here automatically.</div>';
-    return;
-  }
-  let html = `<div style="margin-bottom:14px"><button class="primary" id="clozeWrongPracticeAll">🔄 Practice All Wrong Questions</button> <button id="clozeWrongClearAll" class="ghost">Clear Wrong Book</button></div>`;
-  html += list.map(w => {
-    const num = Number(w.blankNum);
-    const opts = (w.blankData?.options||[]).map(o => {
-      const k = String(o.key||'').toUpperCase();
-      const cls = k===String(w.correct||'').toUpperCase() ? ' correct' : (k===String(w.your||'').toUpperCase() ? ' wrong' : '');
-      return `<div class="clozeOption${cls}" style="cursor:default"><b style="display:inline-block;min-width:22px">${escapeHtml(k)}.</b> ${escapeHtml(String(o.text||o.value||''))}</div>`;
-    }).join('');
-    const analysis = w.analysis?.explanation ? `<div class="clozeSubSection"><h4>💡 Explanation</h4><p style="font-size:13px;line-height:1.6;margin:4px 0 0">${escapeHtml(w.analysis.explanation)}</p></div>` : '';
-    return `<div class="paperCard" data-wid="${escapeHtml(w.id)}">
-      <h3 style="margin:0 0 6px">Q${num} · ${escapeHtml(w.paperTitle||'')}</h3>
-      <div class="paperMeta" style="margin-bottom:8px">
-        <span>Your Answer</span><b><span class="clozeQaBadge wrong">${escapeHtml(w.your||'Unanswered')}</span></b>
-        <span>Correct</span><b><span class="clozeQaBadge correct">${escapeHtml(w.correct||'')}</span></b>
-        <span>Wrong times</span><b>${Number(w.wrongCount)||1}</b>
-      </div>
-      ${opts}
-      ${analysis}
-      <div class="paperActions" style="margin-top:10px">
-        <button data-wact="remove">Remove</button>
-      </div>
-    </div>`;
-  }).join('');
-  body.innerHTML = html;
-  body.querySelectorAll('[data-wact="remove"]').forEach(b => b.onclick = e => {
-    const card = e.target.closest('.paperCard'); const id = card.dataset.wid;
-    clozeSaveWrongBook(clozeGetWrongBook().filter(x=>x.id!==id));
-    clozeRenderWrongBook();
-  });
-  $('clozeWrongClearAll')?.addEventListener('click', () => {
-    if(confirm('Clear all cloze wrong book entries?')){ clozeSaveWrongBook([]); clozeRenderWrongBook(); }
-  });
-  $('clozeWrongPracticeAll')?.addEventListener('click', clozePracticeWrongBook);
-}
-function clozePracticeWrongBook(){
-  const wb = clozeGetWrongBook();
-  if(!wb.length) return showHint('Wrong book is empty');
-  // Build a synthetic cloze paper from wrong book entries (merge all unique passages or use first passage style)
-  // Simplest: group by passage OR create one passage with blanks + questions
-  const blanks = [];
-  const answers = {};
-  const analysis = {};
-  const vocab = []; const collocs = []; const grams = [];
-  let passageText = '';
-  wb.forEach((w, idx) => {
-    const n = idx + 1;
-    passageText += ` [Wrong Q${w.blankNum}] (${w.paperTitle||''}) [[${n}]] — `;
-    // Create minimal sentence context: show surrounding of [[blankNum]] in original passage if possible, else placeholder
-    const orig = w.passage || '';
-    const placeholder = new RegExp(`\\[\\[\\s*${Number(w.blankNum)}\\s*\\]\\]`);
-    const m = orig.match(placeholder);
-    if(m){
-      const i = orig.indexOf(m[0]);
-      const slice = orig.slice(Math.max(0,i-60), Math.min(orig.length, i+80));
-      passageText += '… ' + slice.replace(placeholder, `[[${n}]]`) + ' …';
-    } else {
-      passageText += `Context: Question ${Number(w.blankNum)}. Choose the correct option [[${n}]].`;
-    }
-    passageText += '\n\n';
-    blanks.push({
-      num: n,
-      options: (w.blankData?.options || []).map(o => ({key: String(o.key||'').toUpperCase(), text: o.text||o.value||''}))
-    });
-    answers[n] = String(w.correct||'').toUpperCase();
-    if(w.analysis) analysis[n] = w.analysis;
-  });
-  const synthetic = {
-    title: `Wrong Book Practice · ${new Date().toLocaleDateString()}`,
-    difficulty: 'Review',
-    estimatedTime: Math.max(5, Math.round(wb.length * 0.6)),
-    source: 'Wrong Book',
-    totalBlanks: wb.length,
-    passage: passageText.trim(),
-    blanks, answers, analysis,
-    chineseTranslation: '',
-    summary: `包含 ${wb.length} 道错题的综合练习，由历史错题自动生成。`
-  };
-  const p = clozeCreatePaper(synthetic, { folderName: 'Wrong Book', displayName: `Wrong Book · ${new Date().toLocaleDateString()} (${wb.length})`, shortTitle: `Wrong Book Practice (${wb.length})`});
-  clozeStartPaper(p.id);
 }
 
 // ===== Cloze Favorites =====
@@ -4977,14 +4962,7 @@ function clozeBindFavButtons(root=document){
   });
 }
 function clozeOpenFavorites(){
-  $('importScreen').style.display='none';
-  $('clozeApp').style.display='none';
-  $('clozeImportPanel').style.display='none';
-  $('clozeRecordsScreen').style.display='none';
-  $('clozeReviewScreen').style.display='none';
-  $('clozeWrongBookScreen').style.display='none';
-  $('clozeFavoritesScreen').style.display='block';
-  setExamBarVisible(false);
+  showScreen('clozeFavoritesScreen');
   clozeRenderFavorites();
 }
 function clozeRenderFavorites(){
@@ -5026,22 +5004,8 @@ function clozeShowReviewPage(id){
   clozeSubmitted = !!draft.submitted;
   const s = draft.submitted ? clozeBuildGrade() : null;
   clozeLastSummary = s;
-  // Hide all screens
-  $('importScreen').style.display='none';
-  $('importPanel').style.display='none';
-  $('recordsScreen').style.display='none';
-  $('reviewScreen').style.display='none';
-  $('app').style.display='none';
-  $('clozeApp').style.display='none';
-  $('clozeImportPanel').style.display='none';
-  $('clozeRecordsScreen').style.display='none';
-  $('clozeWrongBookScreen').style.display='none';
-  $('clozeFavoritesScreen').style.display='none';
-  $('clozeReviewScreen').style.display='block';
-  setExamBarVisible(false);
-  $('settingsPanel').classList.remove('show');
-  $('reviewPanel').classList.remove('show');
-  hideToolbar();
+  // Show the review page
+  showScreen('clozeReviewScreen');
   $('clozeReviewPageTitle').textContent = paper.status==='submitted' ? clozeAttemptTitle(paper) : clozeMainTitle(paper);
   const total = Number(d.totalBlanks||0);
   const acc = s && total>0 ? Math.round((s.correct/total)*1000)/10 : 0;
@@ -5049,6 +5013,8 @@ function clozeShowReviewPage(id){
   const box = $('clozeReviewPageContent'); if(!box) return;
   // Build per-blank analysis
   const totalBlanks = Number(d.totalBlanks || d.blanks?.length || 0);
+  const wrongKeys = new Set(clozeGetWrongEntries().map(w => w.paperId + '::' + Number(w.blankNum)));
+  const paperIdForWb = paper.paperId || '';
   const blankCards = [];
   for(let i=1;i<=totalBlanks;i++){
     const gs = clozeGradeState[i];
@@ -5122,6 +5088,10 @@ function clozeShowReviewPage(id){
         <span>Your Answer</span><b class="${status==='right'?'correct':status==='wrong'?'wrong':''}">${escapeHtml(yours)}</b>
       </div>
       ${optsHtml}
+      ${(() => {
+        const inWb = wrongKeys.has(paperIdForWb + '::' + i);
+        return `<div style="margin-top:8px"><button class="ghost" data-addwrong="${i}"${inWb?' disabled':''}>${inWb?'已在错题本':'加入错题本 / 需要复习'}</button></div>`;
+      })()}
       ${explHtml}
       ${vocabHtml}
       ${collocHtml}
@@ -5171,6 +5141,13 @@ function clozeShowReviewPage(id){
   </section>` : '';
   box.innerHTML = [summaryCard, passageSection, ...blankCards, translationSection, summarySection].filter(Boolean).join('');
   clozeBindFavButtons(box);
+  box.querySelectorAll('[data-addwrong]').forEach(btn => {
+    btn.onclick = () => {
+      clozeAddManualWrongFromData(paper, d, Number(btn.dataset.addwrong));
+      btn.textContent = '已在错题本';
+      btn.disabled = true;
+    };
+  });
   // Restore engine state
   clozeClozeData = prevData;
   clozeSubmitted = prevSub;
@@ -5182,14 +5159,7 @@ function clozeShowReviewPage(id){
 
 // ===== Cloze Import =====
 function clozeShowImportPanel(){
-  $('importScreen').style.display='none';
-  $('clozeApp').style.display='none';
-  $('clozeRecordsScreen').style.display='none';
-  $('clozeReviewScreen').style.display='none';
-  $('clozeWrongBookScreen').style.display='none';
-  $('clozeFavoritesScreen').style.display='none';
-  $('clozeImportPanel').style.display='block';
-  setExamBarVisible(false);
+  showScreen('clozeImportPanel');
   clozeInitSchemaBox();
 }
 function clozeSchemaTemplateText(){ return JSON.stringify(CLOZE_JSON_TEMPLATE, null, 2); }
@@ -5201,51 +5171,40 @@ async function clozeCopySchemaTemplate(){
   try{ await navigator.clipboard.writeText(clozeSchemaTemplateText()); showHint('Cloze template copied'); }
   catch(e){ const b=$('clozeSchemaTemplateText'); if(b){b.focus();b.select();} showHint('Template selected, copy manually'); }
 }
-function clozeDownloadSchemaTemplate(){ downloadFile('brand9-cloze-json-template.json', clozeSchemaTemplateText(), 'application/json;charset=utf-8'); }
+function clozeDownloadSchemaTemplate(){ downloadFile('cloze-json-template.json', clozeSchemaTemplateText(), 'application/json;charset=utf-8'); }
 function clozeShowImportDialog(data){
-  try{
-    pendingClozeImportData = clozeNormalizeData({...data});
-  }catch(e){ alert('Cloze JSON format error: ' + e.message); return; }
-  // Re-use Reading's importDialog but customize labels slightly
-  const title = clozeCleanTitle(pendingClozeImportData);
-  $('importPaperName').value = title;
-  const sel = $('importSectionSelect'); const newRow = $('importNewSectionRow');
-  let lib = clozeGetLibrary();
-  if(!lib.length){
-    clozeCreateSection('CET4 Cloze');
-    clozeCreateSection('CET6 Cloze');
-    clozeCreateSection('TEM4 Cloze');
-    clozeCreateSection('Practice');
-    clozeCreateSection('Wrong Book');
-    lib = clozeGetLibrary();
-  }
-  sel.innerHTML = lib.map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)} (${s.papers.length})</option>`).join('') + '<option value="__new__">+ Create New Section</option>';
-  newRow.classList.toggle('hidden', sel.value !== '__new__');
-  sel.onchange = () => {
-    newRow.classList.toggle('hidden', sel.value !== '__new__');
-    if(sel.value === '__new__') $('importNewSectionName').focus();
-  };
-  $('importDialog').classList.add('show');
-  setTimeout(()=>$('importPaperName').focus(), 50);
+  clozeHandleImportPayload(data);
 }
-// Override the import dialog confirm / cancel to route correctly
-const origImportConfirm = $('importDialogConfirm').onclick;
+// Route import dialog confirm / cancel to the right module
 $('importDialogConfirm').onclick = () => {
   if(pendingClozeImportData){
-    if(!pendingClozeImportData) return;
-    const sel = $('importSectionSelect'); let sectionName = sel.value;
-    if(sectionName==='__new__'){ sectionName = $('importNewSectionName').value.trim(); if(!sectionName) return; clozeCreateSection(sectionName); }
+    const sel = $('importSectionSelect');
+    let sectionName = sel.value;
+    if(sectionName === '__new__'){
+      sectionName = $('importNewSectionName').value.trim();
+      if(!sectionName) return showHint('Enter a section name');
+      clozeCreateSection(sectionName);
+    }
     if(!sectionName) sectionName = 'Practice';
     const paperName = $('importPaperName').value.trim() || clozeCleanTitle(pendingClozeImportData);
+    const fp = clozeArticleFingerprint(pendingClozeImportData, paperName);
+    const existing = clozeExistingFingerprints().get(fp);
+    if(existing){
+      const ok = confirm('An article with the same title and passage already exists:\n'
+        + (existing.displayName || existing.title || '')
+        + '\n\nImport it again as a separate copy?');
+      if(!ok){ $('importDialog').classList.remove('show'); pendingClozeImportData = null; return; }
+    }
     clozeCreatePaper(pendingClozeImportData, { folderName: sectionName, displayName: paperName, shortTitle: paperName });
     $('importDialog').classList.remove('show');
     pendingClozeImportData = null;
-    clozeShowWorkspace();
+    const pref = clozeImportPreferredBook || sectionName;
+    const target = clozeGetLibrary().find(f => f.name === pref);
+    if(target) clozeOpenBook(target.id); else clozeShowWorkspace();
   } else if(pendingImportData){
     confirmImport();
   }
 };
-const origImportCancel = $('importDialogCancel').onclick;
 $('importDialogCancel').onclick = () => {
   if(pendingClozeImportData){ $('importDialog').classList.remove('show'); pendingClozeImportData = null; }
   else if(pendingImportData) hideImportDialog();
@@ -5259,14 +5218,7 @@ $('importDialog').onclick = (e) => {
 
 // ===== Cloze Records =====
 function clozeShowRecords(){
-  $('importScreen').style.display='none';
-  $('clozeApp').style.display='none';
-  $('clozeImportPanel').style.display='none';
-  $('clozeReviewScreen').style.display='none';
-  $('clozeWrongBookScreen').style.display='none';
-  $('clozeFavoritesScreen').style.display='none';
-  $('clozeRecordsScreen').style.display='block';
-  setExamBarVisible(false);
+  showScreen('clozeRecordsScreen');
   clozeRenderRecords();
 }
 function clozeAccuracyPct(r){
@@ -5343,7 +5295,7 @@ Rules:
 
 JSON schema (copy the outer structure and fill in):
 {
-  "_schemaVersion": "brand9-cloze-structured-v1",
+  "_schemaVersion": "cloze-structured-v1",
   "title": "CET4 Cloze · The Future of Remote Work",
   "difficulty": "CET4",
   "estimatedTime": 15,
@@ -5411,7 +5363,7 @@ window.addEventListener('mousemove', e => {
 
 // ===== Cloze Event Bindings =====
 $('clozeBackHomeFromImport').onclick = () => clozeShowWorkspace();
-$('clozeOpenImport').onclick = () => clozeShowImportPanel();
+$('clozeOpenImport').onclick = () => { clozeImportPreferredBook = ''; clozeShowImportPanel(); };
 $('clozeOpenRecords').onclick = () => clozeShowRecords();
 $('clozeOpenWrongBook').onclick = () => clozeOpenWrongBook();
 $('clozeOpenFavorites').onclick = () => clozeOpenFavorites();
@@ -5430,7 +5382,7 @@ $('clozeExportRecords').onclick = () => {
   if(!list.length){ alert('No cloze records to export.'); return; }
   const header=['Date','Paper','Correct','Total','Accuracy%','Wrong','Unanswered','Time','Difficulty'];
   const rows = list.map(r=>[new Date(r.date).toLocaleString(),r.title||'',r.correct||0,r.totalQuestions||0,clozeAccuracyPct(r),r.wrong||0,r.unanswered||0,fmtTime(r.timeUsed||0),r.difficulty||'']);
-  downloadFile(`brand9-cloze-records-${new Date().toISOString().slice(0,10)}.csv`, toCsv(header, rows));
+  downloadFile(`cloze-records-${new Date().toISOString().slice(0,10)}.csv`, toCsv(header, rows));
 };
 $('clozeWrongBackHome').onclick = () => clozeShowWorkspace();
 $('clozeFavBackHome').onclick = () => clozeShowWorkspace();
@@ -5444,7 +5396,7 @@ $('clozeFavExport').onclick = () => {
   (favs.colloc||[]).forEach(c => parts.push(`- **${c.en||c.phrase||''}**: ${c.cn||''} — ${c.usage||c.meaning||''}\n`));
   parts.push('\n## 📘 Grammar Notes\n');
   (favs.grammar||[]).forEach(g => parts.push(`- **${g.title||g.topic||''}**: ${g.content||g.note||g.text||''}\n`));
-  downloadFile(`brand9-cloze-favorites-${new Date().toISOString().slice(0,10)}.md`, parts.join(''), 'text/markdown;charset=utf-8');
+  downloadFile(`cloze-favorites-${new Date().toISOString().slice(0,10)}.md`, parts.join(''), 'text/markdown;charset=utf-8');
 };
 $('clozeReviewBackHome').onclick = () => clozeShowWorkspace();
 $('clozeReviewOpenExam').onclick = () => { if(clozeReviewPagePaperId) clozeStartPaper(clozeReviewPagePaperId); };
@@ -5456,11 +5408,1302 @@ $('aiToolsModal').onclick = (e) => { if(e.target === $('aiToolsModal')) clozeHid
 clozeInitSchemaBox?.();
 clozeInitAIPrompt?.();
 
+// ============================================================
+// ===== v2: Book library, import/export, wrong-book review =====
+// ============================================================
+
+/* ---------- Screen helpers (single place for page switching) ---------- */
+const ALL_SCREEN_IDS = ['importScreen','importPanel','recordsScreen','reviewScreen','app','clozeImportPanel','clozeApp','clozeRecordsScreen','clozeReviewScreen','clozeWrongBookScreen','clozeFavoritesScreen','clozeBookScreen','clozeReviewFlowScreen'];
+function hideAllScreens(){
+  ALL_SCREEN_IDS.forEach(function(id){ const el = $(id); if(el) el.style.display = 'none'; });
+}
+function setModuleTabsVisible(on){
+  const el = $('moduleTabs');
+  if(el) el.style.display = on ? 'flex' : 'none';
+}
+function resetFloatingLayers(){
+  $('reviewPanel')?.classList.remove('show');
+  $('settingsPanel')?.classList.remove('show');
+  $('aiToolsModal')?.classList.remove('show');
+  $('lockHint')?.classList.remove('show');
+  try{ hideToolbar(); }catch(e){}
+}
+function showScreen(id){
+  hideAllScreens();
+  const el = $(id);
+  if(el) el.style.display = 'block';
+  setExamBarVisible(false);
+  setModuleTabsVisible(false);
+  const mon = $('monitor'); if(mon) mon.style.display = 'none';
+  resetFloatingLayers();
+  if(window.scrollTo) window.scrollTo(0, 0);
+}
+function showHomeScreen(mod){
+  hideAllScreens();
+  const home = $('importScreen'); if(home) home.style.display = 'block';
+  setExamBarVisible(false);
+  setModuleTabsVisible(true);
+  const mon = $('monitor'); if(mon) mon.style.display = 'none';
+  resetFloatingLayers();
+  clozeBookCurrentId = null;
+  clozeRfState = null;
+  switchModule(mod || 'reading');
+  if(window.scrollTo) window.scrollTo(0, 0);
+}
+function confirmLeavePractice(){
+  const inCloze = $('clozeApp') && $('clozeApp').style.display === 'block';
+  const inReading = $('app') && $('app').style.display === 'block';
+  if(!inCloze && !inReading) return true;
+  const isSubmitted = inCloze ? !!clozeSubmitted : !!submitted;
+  if(isSubmitted) return true;
+  return confirm('This practice has not been submitted yet.\nLeave it and return home? Your answers and progress stay saved and you can continue later.');
+}
+
+/* ---------- Cloze book library (level 1 + level 2) ---------- */
+let clozeBookCurrentId = null;
+let clozeSelectedPaperIds = new Set();
+let clozeImportPreferredBook = '';
+
+function clozeBookNameFromId(id){
+  if(!id) return '';
+  const b = clozeGetLibrary().find(f => f.id === id);
+  return b ? b.name : '';
+}
+function clozeCurrentBook(){ return clozeGetLibrary().find(f => f.id === clozeBookCurrentId) || null; }
+function clozePaperStatus(fp, allPapers){
+  const p = (allPapers||clozeGetPapers()).find(ap => ap.id === fp.id);
+  return p ? p.status : (fp.status || 'not_started');
+}
+function clozeOpenBook(sectionId){
+  const book = clozeGetLibrary().find(f => f.id === sectionId);
+  if(!book) return showHint('Book not found');
+  clozeBookCurrentId = sectionId;
+  clozeSelectedPaperIds = new Set();
+  showScreen('clozeBookScreen');
+  clozeRenderBookDetail();
+}
+function clozePromptCreateSection(){
+  const n = prompt('New book / section name:');
+  if(!n || !n.trim()) return;
+  const sec = clozeCreateSection(n.trim());
+  if(!sec){ showHint('A book with this name already exists'); return; }
+  clozeRenderClozeFolderTree();
+  if(sec && sec.id) clozeOpenBook(sec.id);
+}
+function clozeRefreshLibraryViews(){
+  if(!$('clozeBookScreen')) return;
+  if($('clozeFolderTree')) clozeRenderClozeFolderTree();
+  if($('clozeBookScreen').style.display === 'block') clozeRenderBookDetail();
+  if($('clozeWrongBookScreen').style.display === 'block') clozeRenderWrongBook();
+  if($('clozeTodayReviewArea')) clozeRenderTodayReview();
+  if($('clozeStatsGrid')) clozeRenderStats();
+}
+function clozeRenderBookDetail(){
+  const book = clozeCurrentBook();
+  if(!book){ clozeShowWorkspace(); return; }
+  const allPapers = clozeGetPapers();
+  const nameEl = $('clozeBookName'); if(nameEl) nameEl.textContent = book.name;
+  const papers = (book.papers || []).slice();
+  let done = 0, prog = 0;
+  papers.forEach(fp => {
+    const st = clozePaperStatus(fp, allPapers);
+    if(st === 'submitted') done++;
+    else if(st === 'in_progress') prog++;
+  });
+  const metaEl = $('clozeBookMeta');
+  if(metaEl) metaEl.textContent = `${papers.length} article${papers.length===1?'':'s'} · Completed ${done} · In progress ${prog}`;
+  const grid = $('clozeBookGrid');
+  if(!grid) return;
+  grid.innerHTML = papers.length
+    ? clozeRenderFolderPapers(papers, allPapers)
+    : '<div class="emptyPapers">No articles in this book yet. Use "Import into this book" to add Cloze JSON, or create one from another book with "Move".</div>';
+  const selCount = clozeSelectedPaperIds.size;
+  const selBtn = $('clozeBookExportSelected');
+  if(selBtn){ selBtn.textContent = `Export Selected (${selCount})`; selBtn.disabled = selCount === 0; }
+  const selAll = $('clozeBookSelectAll');
+  if(selAll) selAll.textContent = (papers.length && selCount === papers.length) ? 'Clear Selection' : 'Select All';
+  grid.querySelectorAll('[data-select]').forEach(cb => {
+    cb.onclick = (e) => e.stopPropagation();
+    cb.onchange = () => {
+      if(cb.checked) clozeSelectedPaperIds.add(cb.dataset.select);
+      else clozeSelectedPaperIds.delete(cb.dataset.select);
+      clozeRenderBookDetail();
+    };
+  });
+  grid.querySelectorAll('button[data-cact]').forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const card = e.target.closest('.paperCard');
+      if(!card) return;
+      clozePaperAction(btn.dataset.cact, card.dataset.id);
+    };
+  });
+  grid.querySelectorAll('.paperCard').forEach(card => {
+    card.onclick = (e) => {
+      if(e.target.closest('button') || e.target.classList.contains('articleCheck')) return;
+      const p = clozeFindPaper(card.dataset.id);
+      if(p && p.status === 'submitted') clozeShowReviewPage(card.dataset.id);
+      else clozeStartPaper(card.dataset.id);
+    };
+  });
+}
+function clozePaperAction(act, id){
+  if(!id) return;
+  if(act === 'start') return clozeStartPaper(id);
+  if(act === 'review') return clozeShowReviewPage(id);
+  if(act === 'export') return clozeExportPaper(id);
+  if(act === 'redo'){
+    const p = clozeFindPaper(id);
+    if(p) clozeRedoPaper(p.paperId || id);
+    return;
+  }
+  if(act === 'delete'){ clozeDeletePaper(id); return; }
+  if(act === 'rename'){ clozeRenamePaper(id); return; }
+  if(act === 'move'){ clozeShowMoveDialog(id); return; }
+  if(act === 'duplicate'){
+    const p = clozeFindPaper(id);
+    if(!p) return;
+    clozeCreatePaper(p.data, {
+      folderName: p.folderName || 'Practice',
+      displayName: (p.displayName || p.shortTitle || 'Paper') + ' (Copy)',
+      shortTitle: (p.shortTitle || 'Paper') + ' (Copy)'
+    });
+    showHint('Cloze paper duplicated');
+    clozeRefreshLibraryViews();
+  }
+}
+
+/* ---------- Cloze import parsing ---------- */
+function clozeHashText(str){
+  let h = 0;
+  const s = String(str || '');
+  for(let i=0;i<s.length;i++){ h = (h * 31 + s.charCodeAt(i)) | 0; }
+  return (h >>> 0).toString(36);
+}
+function clozeArticleFingerprint(data, name){
+  // Content based fingerprint: catches the same article re-imported with a different title.
+  // The title is intentionally not part of the key; answers keep different exercises apart.
+  const passage = norm(String(data?.passage || '').replace(/\[\[\s*\d+\s*\]\]/g, '[[#]]'));
+  const answers = norm(Object.keys(data?.answers || {}).sort().map(k => k + ':' + String(data.answers[k]).toUpperCase()).join(','));
+  return clozeHashText(passage + '|' + String((data?.blanks || []).length) + '|' + answers);
+}
+function clozeExistingFingerprints(){
+  const map = new Map();
+  clozeGetPapers().forEach(p => {
+    const key = clozeArticleFingerprint(p.data, p.displayName || p.shortTitle || p.title || '');
+    if(!map.has(key)) map.set(key, p);
+  });
+  return map;
+}
+function clozeStripArticleMeta(obj){
+  const out = {...(obj || {})};
+  delete out._exportType;
+  delete out._schemaVersion;
+  delete out._aiInstructions;
+  delete out.exportedAt;
+  delete out.meta;
+  return out;
+}
+function clozeDetectImportPayload(payload){
+  const result = { mode: 'article', items: [], errors: [], recordFile: false };
+  const type = payload && typeof payload === 'object' ? String(payload.type || '') : '';
+  if(type === 'cloze-wrongbook' || type === 'cloze-records' || type === 'cloze-review-plan' || type === 'cloze-favorites'){
+    result.recordFile = true;
+    return result;
+  }
+  const add = (data, bookName, displayName) => {
+    if(!data || typeof data !== 'object'){ result.errors.push('Skipped a non-object entry'); return; }
+    const clean = clozeStripArticleMeta(data);
+    if(!clean.passage || !Array.isArray(clean.blanks) || !clean.answers){
+      result.errors.push('Skipped "' + (displayName || clean.title || 'untitled') + '": needs passage, blanks and answers');
+      return;
+    }
+    try{ clozeNormalizeData({...clean}); }
+    catch(e){ result.errors.push('Skipped "' + (displayName || clean.title || 'untitled') + '": ' + e.message); return; }
+    result.items.push({
+      data: clean,
+      bookName: bookName || '',
+      displayName: displayName || clean.displayName || clean.title || ''
+    });
+  };
+  const addBook = (book) => {
+    if(!book || typeof book !== 'object') return;
+    const name = book.name || book.bookName || book.title || 'Imported';
+    const arr = book.articles || book.papers || book.items || [];
+    if(!Array.isArray(arr)) return;
+    arr.forEach(a => add(a?.data && a?._exportType ? a.data : a, name, a?.meta?.displayName || a?.displayName || a?.title || ''));
+  };
+  if(Array.isArray(payload)){
+    result.mode = 'batch';
+    payload.forEach(a => add(a, '', a?.displayName || a?.title || ''));
+  } else if(payload && typeof payload === 'object'){
+    if(type === 'cloze-library' || Array.isArray(payload.books)){
+      result.mode = 'library';
+      (payload.books || []).forEach(addBook);
+    } else if(!payload.passage && Array.isArray(payload.articles)){
+      result.mode = 'batch';
+      payload.articles.forEach(a => add(a, payload.name || payload.bookName || '', a?.displayName || a?.title || ''));
+    } else if(!payload.passage && Array.isArray(payload.papers)){
+      result.mode = 'batch';
+      payload.papers.forEach(a => add(a, payload.name || payload.bookName || '', a?.displayName || a?.title || ''));
+    } else if(type === 'cloze-article' && payload.data){
+      add(payload.data, payload.meta?.bookName || '', payload.meta?.displayName || '');
+    } else {
+      add(payload, '', payload.displayName || payload.title || '');
+    }
+  } else {
+    result.errors.push('JSON must be an object or an array');
+  }
+  return result;
+}
+function clozeEnsureDefaultSections(){
+  let lib = clozeGetLibrary();
+  if(lib.length) return lib;
+  clozeCreateSection('CET4 Cloze');
+  clozeCreateSection('CET6 Cloze');
+  clozeCreateSection('TEM4 Cloze');
+  clozeCreateSection('Practice');
+  clozeCreateSection('Wrong Book');
+  return clozeGetLibrary();
+}
+function clozeSectionOptionsHtml(selectedName, includeFileOption){
+  const lib = clozeEnsureDefaultSections();
+  let html = includeFileOption ? '<option value="__file__">Use book name from file</option>' : '';
+  html += lib.map(s => `<option value="${escapeHtml(s.name)}"${s.name===selectedName?' selected':''}>${escapeHtml(s.name)} (${(s.papers||[]).length})</option>`).join('');
+  html += '<option value="__new__">+ Create New Section</option>';
+  return html;
+}
+function clozeShowSingleImportDialog(item){
+  let data;
+  try{ data = clozeNormalizeData({...item.data}); }
+  catch(e){ alert('Cloze JSON format error: ' + e.message); return; }
+  pendingClozeImportData = data;
+  pendingClozeBatch = null;
+  const title = item.displayName || clozeCleanTitle(data);
+  $('importPaperName').value = title;
+  const sel = $('importSectionSelect'), newRow = $('importNewSectionRow');
+  const preferred = item.bookName || clozeImportPreferredBook || '';
+  sel.innerHTML = clozeSectionOptionsHtml(preferred, false);
+  sel.onchange = () => {
+    newRow.classList.toggle('hidden', sel.value !== '__new__');
+    if(sel.value === '__new__') $('importNewSectionName').focus();
+  };
+  newRow.classList.add('hidden');
+  $('importNewSectionName').value = '';
+  $('importDialog').classList.add('show');
+  setTimeout(() => $('importPaperName').focus(), 50);
+}
+let pendingClozeBatch = null;
+function clozeShowBatchImportDialog(parsed){
+  pendingClozeImportData = null;
+  pendingClozeBatch = parsed;
+  const dupMap = clozeExistingFingerprints();
+  parsed.items.forEach(it => {
+    it.fingerprint = clozeArticleFingerprint(it.data, it.displayName);
+    it.duplicate = dupMap.has(it.fingerprint);
+  });
+  const dupCount = parsed.items.filter(it => it.duplicate).length;
+  $('clozeBatchTitle').textContent = parsed.mode === 'library' ? 'Import Cloze Library' : 'Import Cloze Articles';
+  $('clozeBatchSummary').innerHTML = `Parsed <b>${parsed.items.length}</b> article(s)`
+    + (dupCount ? `, <b>${dupCount}</b> already exist in your library` : '')
+    + (parsed.errors.length ? `<br><span class="batchWarn">${parsed.errors.length} entry(ies) could not be parsed and will be skipped.</span>` : '');
+  $('clozeBatchList').innerHTML = parsed.items.length
+    ? parsed.items.map(it => `<div>${escapeHtml(it.displayName || clozeCleanTitle(it.data))} <span class="subtle">· ${(it.data.blanks || []).length} blanks${it.bookName?` · ${escapeHtml(it.bookName)}`:''}${it.duplicate?' · <span class="batchWarn">duplicate</span>':''}</span></div>`).join('')
+    : '<div class="batchWarn">No importable articles found.</div>';
+  const sel = $('clozeBatchBookSelect');
+  const preferred = clozeImportPreferredBook || '';
+  sel.innerHTML = clozeSectionOptionsHtml(preferred, parsed.mode === 'library' && parsed.items.some(it => it.bookName));
+  sel.onchange = () => {
+    $('clozeBatchNewBookRow').classList.toggle('hidden', sel.value !== '__new__');
+    if(sel.value === '__new__') $('clozeBatchNewBookName').focus();
+  };
+  $('clozeBatchNewBookRow').classList.add('hidden');
+  $('clozeBatchNewBookName').value = '';
+  $('clozeBatchIncludeDup').checked = false;
+  $('clozeBatchConfirm').disabled = parsed.items.length === 0;
+  $('clozeBatchImportDialog').classList.add('show');
+}
+function clozeHandleImportPayload(payload){
+  if(payload && payload.type === 'cloze-wrongbook'){
+    alert('This file contains wrong-book records, not library articles.\nWrong-book data stays in the Wrong Book screen; it cannot be imported as articles.');
+    return;
+  }
+  if(payload && (payload.type === 'cloze-records' || payload.type === 'cloze-review-plan' || payload.type === 'cloze-favorites')){
+    alert('This file contains learning records, not library articles. Learning-record files are for backup / reference only.');
+    return;
+  }
+  const parsed = clozeDetectImportPayload(payload);
+  if(parsed.recordFile) return;
+  if(!parsed.items.length){
+    alert('Cloze JSON format error: ' + (parsed.errors[0] || 'no valid article found. Each article needs "passage", "blanks" and "answers".'));
+    return;
+  }
+  if(parsed.items.length === 1 && parsed.mode !== 'library'){
+    clozeShowSingleImportDialog(parsed.items[0]);
+    return;
+  }
+  clozeShowBatchImportDialog(parsed);
+}
+function clozeConfirmBatchImport(){
+  if(!pendingClozeBatch) return;
+  const sel = $('clozeBatchBookSelect');
+  let target = sel ? sel.value : '';
+  const includeDup = !!$('clozeBatchIncludeDup')?.checked;
+  if(target === '__new__'){
+    const n = $('clozeBatchNewBookName').value.trim();
+    if(!n) return showHint('Enter a new book name');
+    target = n;
+    clozeCreateSection(n);
+  }
+  const fingerprints = clozeExistingFingerprints();
+  let imported = 0, skipped = 0, failed = 0;
+  const errors = [];
+  pendingClozeBatch.items.forEach(it => {
+    const bookName = target === '__file__' ? (it.bookName || 'Imported') : target;
+    const fp = it.fingerprint || clozeArticleFingerprint(it.data, it.displayName);
+    if(fingerprints.has(fp) && !includeDup){ skipped++; return; }
+    try{
+      const data = clozeNormalizeData({...it.data});
+      const name = (it.displayName || clozeCleanTitle(data)).trim() || clozeCleanTitle(data);
+      const paper = clozeCreatePaper(data, { folderName: bookName, displayName: name, shortTitle: name, silent: true });
+      if(paper) fingerprints.set(fp, paper);
+      imported++;
+    }catch(e){ failed++; errors.push(e.message); }
+  });
+  pendingClozeBatch = null;
+  $('clozeBatchImportDialog').classList.remove('show');
+  clozeRenderWorkspace();
+  let msg = `Imported ${imported} article(s).`;
+  if(skipped) msg += `\nSkipped ${skipped} duplicate(s) (nothing was overwritten).`;
+  if(failed) msg += `\n${failed} article(s) failed: ${errors[0] || ''}`;
+  alert(msg);
+  const pref = clozeImportPreferredBook;
+  if(pref){
+    const b = clozeGetLibrary().find(f => f.name === pref);
+    if(b){ clozeOpenBook(b.id); return; }
+  }
+  clozeShowWorkspace();
+}
+
+/* ---------- Cloze export ---------- */
+function clozeSafeFilename(name){
+  return String(name || 'cloze').replace(/[\\/:*?"<>|]+/g,'_').replace(/\s+/g,' ').trim().slice(0,80) || 'cloze';
+}
+function clozeExportArticlePayload(paper){
+  const data = {...(paper.data || {})};
+  return {
+    _exportType: 'cloze-article',
+    _schemaVersion: 'cloze-structured-v1',
+    exportedAt: new Date().toISOString(),
+    meta: {
+      displayName: paper.displayName || paper.shortTitle || '',
+      paperNo: paper.paperNo || paper.paperId || '',
+      bookName: paper.folderName || '',
+      status: paper.status || 'not_started',
+      difficulty: data.difficulty || '',
+      source: data.source || ''
+    },
+    ...data
+  };
+}
+function clozeExportPaper(id){
+  const p = clozeFindPaper(id);
+  if(!p) return showHint('Article not found');
+  const payload = clozeExportArticlePayload(p);
+  downloadFile(clozeSafeFilename(p.displayName || p.shortTitle || 'cloze-article') + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+}
+function clozeExportSelected(){
+  const ids = Array.from(clozeSelectedPaperIds || []);
+  if(!ids.length) return showHint('Select at least one article');
+  const articles = ids.map(id => clozeFindPaper(id)).filter(Boolean).map(clozeExportArticlePayload);
+  const bookName = clozeCurrentBook()?.name || 'Cloze';
+  const payload = {
+    type: 'cloze-library',
+    schemaVersion: 'cloze-library-v1',
+    exportedAt: new Date().toISOString(),
+    books: [{ name: bookName, articles }]
+  };
+  downloadFile(clozeSafeFilename(bookName + '-selected-' + articles.length) + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+}
+function clozeExportBook(sectionId){
+  const book = clozeGetLibrary().find(f => f.id === sectionId);
+  if(!book) return showHint('Book not found');
+  const allPapers = clozeGetPapers();
+  const articles = (book.papers || []).map(fp => allPapers.find(p => p.id === fp.id)).filter(Boolean).map(clozeExportArticlePayload);
+  if(!articles.length) return showHint('This book has no articles to export');
+  const payload = {
+    type: 'cloze-library',
+    schemaVersion: 'cloze-library-v1',
+    exportedAt: new Date().toISOString(),
+    books: [{ name: book.name, articles }]
+  };
+  downloadFile(clozeSafeFilename(book.name) + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+}
+function clozeExportAllLibrary(){
+  const lib = clozeGetLibrary();
+  const allPapers = clozeGetPapers();
+  const books = lib.map(book => ({
+    name: book.name,
+    articles: (book.papers || []).map(fp => allPapers.find(p => p.id === fp.id)).filter(Boolean).map(clozeExportArticlePayload)
+  }));
+  const orphans = allPapers.filter(p => !lib.some(b => (b.papers||[]).some(fp => fp.id === p.id)));
+  if(orphans.length) books.push({ name: 'Imported', articles: orphans.map(clozeExportArticlePayload) });
+  if(!books.length) return showHint('Cloze library is empty');
+  const payload = {
+    type: 'cloze-library',
+    schemaVersion: 'cloze-library-v1',
+    exportedAt: new Date().toISOString(),
+    books
+  };
+  downloadFile('cloze-library-' + new Date().toISOString().slice(0,10) + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+}
+function clozeExportWrongBook(){
+  const entries = clozeGetWrongBook().map(clozeNormalizeWrongEntry);
+  if(!entries.length) return showHint('Wrong book is empty');
+  const payload = {
+    type: 'cloze-wrongbook',
+    schemaVersion: 'cloze-wrongbook-v1',
+    exportedAt: new Date().toISOString(),
+    total: entries.length,
+    entries
+  };
+  downloadFile('cloze-wrongbook-' + new Date().toISOString().slice(0,10) + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+}
+function clozeExportRecordsJson(){
+  const records = clozeGetRecords();
+  if(!records.length) return showHint('No cloze records to export');
+  const payload = {
+    type: 'cloze-records',
+    schemaVersion: 'cloze-records-v1',
+    exportedAt: new Date().toISOString(),
+    total: records.length,
+    records
+  };
+  downloadFile('cloze-history-' + new Date().toISOString().slice(0,10) + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+}
+function clozeExportReviewPlan(){
+  const entries = clozeGetWrongBook().map(clozeNormalizeWrongEntry);
+  if(!entries.length) return showHint('Wrong book is empty');
+  const payload = {
+    type: 'cloze-review-plan',
+    schemaVersion: 'cloze-review-plan-v1',
+    exportedAt: new Date().toISOString(),
+    generatedFor: clozeTodayStr(),
+    intervals: CLOZE_REVIEW_INTERVALS,
+    plan: entries.map(w => ({
+      id: w.id,
+      questionId: w.questionId,
+      bookName: w.bookName,
+      paperId: w.paperId,
+      paperTitle: w.paperTitle,
+      blankNum: w.blankNum,
+      status: w.status,
+      stage: w.stage,
+      reviewCount: w.reviewCount,
+      correctStreak: w.correctStreak,
+      errorType: w.errorType,
+      errorTypeLabel: clozeErrorTypeLabel(w.errorType),
+      nextReviewAt: w.nextReviewAt,
+      lastReviewAt: w.lastReviewAt,
+      firstWrongAt: w.firstWrongAt,
+      note: w.note
+    }))
+  };
+  downloadFile('cloze-review-plan-' + new Date().toISOString().slice(0,10) + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+}
+
+/* ---------- Wrong book: data model ---------- */
+const CLOZE_ERROR_TYPES = [
+  { id: 'meaning', label: '词义辨析' },
+  { id: 'collocation', label: '固定搭配' },
+  { id: 'logic', label: '上下文逻辑' },
+  { id: 'grammar', label: '语法结构' },
+  { id: 'context', label: '语境理解' },
+  { id: 'careless', label: '粗心或猜测' },
+  { id: 'other', label: '其他' }
+];
+const CLOZE_REVIEW_INTERVALS = [0, 1, 3, 7, 14];
+const CLOZE_MASTERED_INTERVAL = 30;
+
+function clozeErrorTypeLabel(id){
+  const t = CLOZE_ERROR_TYPES.find(x => x.id === id);
+  return t ? t.label : '';
+}
+function clozeParseDateStr(s){
+  const m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(!m) return new Date();
+  return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+}
+function clozeDateStr(d){
+  const x = (d instanceof Date) ? d : new Date(d);
+  if(isNaN(x.getTime())) return '';
+  return x.getFullYear() + '-' + String(x.getMonth()+1).padStart(2,'0') + '-' + String(x.getDate()).padStart(2,'0');
+}
+function clozeTodayStr(){ return clozeDateStr(new Date()); }
+function clozeDisplayDate(value){
+  if(!value) return '—';
+  const str = String(value);
+  if(/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+  const dt = new Date(str);
+  return isNaN(dt.getTime()) ? '—' : clozeDateStr(dt);
+}
+function clozeAddDaysStr(baseStr, days){
+  const d = clozeParseDateStr(baseStr || clozeTodayStr());
+  d.setDate(d.getDate() + Number(days || 0));
+  return clozeDateStr(d);
+}
+function clozeDaysBetween(a, b){
+  const d1 = clozeParseDateStr(a), d2 = clozeParseDateStr(b);
+  return Math.round((d2.getTime() - d1.getTime()) / 86400000);
+}
+function clozeWrongEntryId(paperId, blankNum){
+  const safe = String(paperId || 'unknown').replace(/[^A-Za-z0-9_-]/g, '');
+  return 'cw_' + (safe || 'unknown') + '_' + (Number(blankNum) || 0);
+}
+function clozeBlankContext(passage, num){
+  const text = String(passage || '');
+  const re = new RegExp('\\[\\[\\s*' + Number(num) + '\\s*\\]\\]');
+  const m = text.match(re);
+  if(!m) return { sentence: '', before: '', after: '', found: false };
+  const i = m.index;
+  let start = i;
+  while(start > 0 && !/[.!?\n]/.test(text[start-1])) start--;
+  let end = i + m[0].length;
+  while(end < text.length && !/[.!?\n]/.test(text[end])) end++;
+  if(end < text.length && /[.!?]/.test(text[end])) end++;
+  return {
+    sentence: text.slice(start, end).trim(),
+    before: text.slice(Math.max(0, start-110), start).trim(),
+    after: text.slice(end, Math.min(text.length, end+110)).trim(),
+    found: true
+  };
+}
+function clozeNormalizeWrongEntry(w){
+  const e = {...(w || {})};
+  e.blankNum = Number(e.blankNum) || 0;
+  e.paperId = e.paperId || '';
+  e.questionId = e.questionId || (e.paperId + '::' + e.blankNum);
+  e.id = e.id || clozeWrongEntryId(e.paperId, e.blankNum);
+  e.bookName = e.bookName || e.folderName || '';
+  e.paperTitle = e.paperTitle || e.articleTitle || 'Cloze Test';
+  const optSrc = (Array.isArray(e.options) && e.options.length) ? e.options : (e.blankData?.options || []);
+  e.options = (optSrc || []).map(o => ({
+    key: String(o && o.key !== undefined ? o.key : '').toUpperCase(),
+    text: String(o && o.text !== undefined ? o.text : (o && o.value !== undefined ? o.value : ''))
+  }));
+  e.your = String(e.your || '').toUpperCase();
+  e.correct = String(e.correct || '').toUpperCase();
+  e.passage = e.passage || '';
+  e.context = (e.context && typeof e.context === 'object') ? {...e.context} : clozeBlankContext(e.passage, e.blankNum);
+  e.analysis = e.analysis || null;
+  e.firstWrongAt = e.firstWrongAt || e.lastAttemptAt || new Date().toISOString();
+  e.lastWrongAt = e.lastWrongAt || e.lastAttemptAt || e.firstWrongAt;
+  e.wrongCount = Number(e.wrongCount) || 1;
+  e.reviewCount = Number(e.reviewCount) || 0;
+  e.correctStreak = Number(e.correctStreak) || 0;
+  e.stage = Number.isFinite(Number(e.stage)) ? Math.max(0, Math.min(5, Number(e.stage))) : 0;
+  e.status = e.status === 'mastered' ? 'mastered' : 'reviewing';
+  e.lastReviewAt = e.lastReviewAt || null;
+  e.nextReviewAt = /^\d{4}-\d{2}-\d{2}$/.test(String(e.nextReviewAt || '')) ? e.nextReviewAt : clozeTodayStr();
+  e.errorType = CLOZE_ERROR_TYPES.some(t => t.id === e.errorType) ? e.errorType : '';
+  e.note = e.note || '';
+  e.history = Array.isArray(e.history) ? e.history.slice(-60) : [];
+  e.manual = !!e.manual;
+  return e;
+}
+function clozeWrongIsDue(w, day){
+  if(!w || w.status === 'mastered') return false;
+  return String(w.nextReviewAt || '') <= (day || clozeTodayStr());
+}
+function clozeGetWrongEntries(){
+  return clozeGetWrongBook().map(clozeNormalizeWrongEntry);
+}
+function clozeUpdateWrongEntry(entry){
+  const list = clozeGetWrongBook();
+  const norm = clozeNormalizeWrongEntry(entry);
+  const i = list.findIndex(x => x.id === norm.id || (x.questionId && x.questionId === norm.questionId));
+  if(i >= 0) list[i] = norm; else list.unshift(norm);
+  clozeSaveWrongBook(list);
+  if($('clozeWrongBookScreen') && $('clozeWrongBookScreen').style.display === 'block') clozeRenderWrongBook();
+  if($('clozeTodayReviewArea')) clozeRenderTodayReview();
+  return norm;
+}
+function clozeFindWrongEntry(id){
+  return clozeGetWrongEntries().find(w => w.id === id || w.questionId === id) || null;
+}
+function clozeDeleteWrongEntry(id){
+  const entry = clozeFindWrongEntry(id);
+  if(!entry) return;
+  const msg = 'Delete this wrong-question record only?\n'
+    + `Q${entry.blankNum} · ${entry.paperTitle || ''}\n\n`
+    + 'The original article in the library is NOT affected.';
+  if(!confirm(msg)) return;
+  clozeSaveWrongBook(clozeGetWrongBook().filter(x => {
+    const n = clozeNormalizeWrongEntry(x);
+    return n.id !== entry.id && n.questionId !== entry.questionId;
+  }));
+  clozeRenderWrongBook();
+  clozeRenderTodayReview();
+}
+function clozeWrongSuggestion(entry){
+  const a = entry?.analysis || {};
+  const pool = [a.explanation, a.whyCorrect, typeof a.whyWrong === 'string' ? a.whyWrong : JSON.stringify(a.whyWrong || '')].join(' ').toLowerCase();
+  if(!pool) return '';
+  if(a.grammar && /(grammar|tense|clause|conjunction|preposition|participle|infinitive|syntax)/.test(pool)) return 'grammar';
+  if(Array.isArray(a.collocations) && a.collocations.length && /(collocat|phrase|搭配)/.test(pool)) return 'collocation';
+  if(/(context|logic|however|therefore|contrast|passage)/.test(pool)) return 'logic';
+  if(/(synonym|similar|means|definition|word|vocabulary)/.test(pool)) return 'meaning';
+  return '';
+}
+function clozeSetWrongErrorType(id, type){
+  const entry = clozeFindWrongEntry(id);
+  if(!entry) return;
+  entry.errorType = type === entry.errorType ? '' : type;
+  clozeUpdateWrongEntry(entry);
+}
+function clozeSetWrongNote(id, note){
+  const entry = clozeFindWrongEntry(id);
+  if(!entry) return;
+  entry.note = String(note || '').slice(0, 1000);
+  clozeUpdateWrongEntry(entry);
+  showHint('Note saved');
+}
+function clozeApplyMastered(id, opts){
+  const entry = clozeFindWrongEntry(id);
+  if(!entry) return;
+  const answeredWrong = !!(opts && opts.justAnswered === false);
+  const now = new Date().toISOString();
+  entry.lastReviewAt = entry.lastReviewAt || now;
+  if(answeredWrong){
+    // This round was answered incorrectly: never force a "mastered" state for it.
+    entry.status = 'reviewing';
+    entry.correctStreak = 0;
+    entry.stage = Math.max(0, (Number(entry.stage) || 0) - 1);
+    entry.nextReviewAt = clozeAddDaysStr(clozeTodayStr(), 1);
+    showHint('This answer was incorrect - kept in the review queue');
+  } else {
+    entry.stage = Math.min(5, (Number(entry.stage) || 0) + 1);
+    if((entry.correctStreak || 0) >= 3 || entry.stage >= 5){
+      entry.status = 'mastered';
+      entry.nextReviewAt = clozeAddDaysStr(clozeTodayStr(), CLOZE_MASTERED_INTERVAL);
+      entry.masteredAt = now;
+    } else {
+      entry.status = 'reviewing';
+      const idx = Math.min(entry.stage, CLOZE_REVIEW_INTERVALS.length - 1);
+      entry.nextReviewAt = clozeAddDaysStr(clozeTodayStr(), CLOZE_REVIEW_INTERVALS[idx]);
+    }
+    showHint(entry.status === 'mastered' ? 'Marked as mastered' : 'Moved to the next review stage');
+  }
+  entry.history = [...(entry.history || []), { at: now, action: 'mastered', stage: entry.stage, status: entry.status }].slice(-60);
+  clozeUpdateWrongEntry(entry);
+  return entry;
+}
+function clozeApplyUnsure(id){
+  const entry = clozeFindWrongEntry(id);
+  if(!entry) return;
+  entry.status = 'reviewing';
+  entry.correctStreak = 0;
+  entry.nextReviewAt = clozeAddDaysStr(clozeTodayStr(), 1);
+  entry.history = [...(entry.history || []), { at: new Date().toISOString(), action: 'unsure' }].slice(-60);
+  clozeUpdateWrongEntry(entry);
+  showHint('Kept in the review queue (scheduled for tomorrow)');
+  return entry;
+}
+function clozeTodayStats(){
+  const all = clozeGetWrongEntries();
+  const today = clozeTodayStr();
+  const due = all.filter(w => clozeWrongIsDue(w, today));
+  const newToday = all.filter(w => w.firstWrongAt && clozeDateStr(new Date(w.firstWrongAt)) === today);
+  const mastered = all.filter(w => w.status === 'mastered');
+  const pending = all.filter(w => w.status !== 'mastered');
+  return { all, due, newToday, mastered, pending, today };
+}
+function clozeBuildWrongEntry(paper, data, num, row){
+  const blankData = (data.blanks || []).find(b => Number(b.num) === Number(num)) || null;
+  const now = new Date().toISOString();
+  return clozeNormalizeWrongEntry({
+    id: clozeWrongEntryId(paper?.paperId || data.paperId || '', num),
+    questionId: (paper?.paperId || '') + '::' + Number(num),
+    paperId: paper?.paperId || '',
+    paperNo: paper?.paperNo || '',
+    paperTitle: paper?.displayName || paper?.shortTitle || data.title || 'Cloze Test',
+    articleTitle: data.title || '',
+    bookName: paper?.folderName || '',
+    blankNum: Number(num),
+    your: row?.your || '',
+    correct: row?.correct || String(data.answers?.[num] || '').toUpperCase(),
+    options: (blankData?.options || []).map(o => ({ key: String(o.key || '').toUpperCase(), text: String(o.text ?? o.value ?? '') })),
+    blankData: blankData,
+    passage: data.passage || '',
+    context: clozeBlankContext(data.passage, num),
+    analysis: data.analysis?.[num] || null,
+    difficulty: data.difficulty || '',
+    source: data.source || '',
+    firstWrongAt: now,
+    lastWrongAt: now,
+    wrongCount: 1
+  });
+}
+function clozeAddManualWrongFromData(paper, data, num){
+  if(!data) return;
+  const qid = (paper?.paperId || '') + '::' + Number(num);
+  const exists = clozeGetWrongEntries().find(w => w.questionId === qid);
+  if(exists){ showHint('This question is already in the wrong book'); return; }
+  const entry = clozeBuildWrongEntry(paper, data, num, { your: '', correct: String(data.answers?.[num] || '').toUpperCase() });
+  entry.manual = true;
+  entry.status = 'reviewing';
+  entry.nextReviewAt = clozeTodayStr();
+  clozeUpdateWrongEntry(entry);
+  showHint('Added to the wrong book for review');
+}
+
+/* ---------- Wrong book: schedule + review flow ---------- */
+let clozeWrongTab = 'due';
+let clozeWrongFilter = { book: '', paper: '', type: '', status: '' };
+let clozeWrongTypeEditId = null;
+let clozeWrongNoteEditId = null;
+let clozeRfState = null;
+
+function clozeStartReviewFlow(ids, origin){
+  const queue = (ids || []).filter(Boolean);
+  if(!queue.length) return showHint('No questions to review');
+  clozeRfState = {
+    queue: queue.slice(),
+    sessionIds: queue.slice(),
+    index: 0,
+    phase: 'answer',
+    selected: '',
+    lastResult: null,
+    correct: 0,
+    answered: 0,
+    origin: origin || 'list'
+  };
+  showScreen('clozeReviewFlowScreen');
+  clozeRenderReviewFlow();
+}
+function clozeRfEntry(){
+  if(!clozeRfState) return null;
+  const id = clozeRfState.queue[clozeRfState.index];
+  if(!id) return null;
+  return clozeFindWrongEntry(id);
+}
+function clozeNeutralizeBlanks(text){
+  // Other blanks of the same passage stay visible but must not look like the question itself.
+  return escapeHtml(text || '').replace(/\[\[\s*(\d+)\s*\]\]/g, '<span class="gapFaint">[$1]</span>');
+}
+function clozeContextHtml(entry, showMarker){
+  const ctx = entry.context || {};
+  const raw = String(ctx.sentence || '').trim();
+  if(!raw){
+    return '<span class="subtle">No saved context for this question. The options and the analysis below are still available.</span>';
+  }
+  const body = escapeHtml(raw).replace(/\[\[\s*\d+\s*\]\]/g, `<span class="gap">${showMarker ? 'Q' + entry.blankNum : '____'}</span>`);
+  let html = '';
+  if(ctx.before) html += `<span class="subtle">…${clozeNeutralizeBlanks(ctx.before)}</span> `;
+  html += body;
+  if(ctx.after) html += ` <span class="subtle">${clozeNeutralizeBlanks(ctx.after)}…</span>`;
+  return html;
+}
+function clozeSourceLabel(entry){
+  const book = String(entry?.bookName || '').trim();
+  const paper = String(entry?.paperTitle || '').trim();
+  if(!book) return paper || 'Cloze';
+  if(!paper) return book;
+  if(paper === book || paper.indexOf(book) === 0) return paper;
+  return book + ' · ' + paper;
+}
+function clozeAnalysisBlockHtml(entry){
+  const a = entry.analysis || {};
+  const parts = [];
+  if(a.explanation){
+    parts.push(`<div class="clozeSubSection"><h4>💡 原有详细解析</h4><p style="font-size:13px;line-height:1.75;margin:0">${escapeHtml(a.explanation)}</p></div>`);
+  } else {
+    parts.push('<div class="clozeSubSection"><h4>💡 原有详细解析</h4><p class="subtle" style="margin:0">该题没有保存详细解析。</p></div>');
+  }
+  if(a.whyCorrect){
+    parts.push(`<div class="clozeSubSection"><h4>✅ 正确选项的理由</h4><p style="font-size:13px;line-height:1.7;margin:0">${escapeHtml(a.whyCorrect)}</p></div>`);
+  } else {
+    parts.push('<div class="clozeSubSection"><h4>✅ 正确选项的理由</h4><p class="subtle" style="margin:0">该题没有保存正确选项的理由。</p></div>');
+  }
+  if(a.whyWrong){
+    let inner = '';
+    if(typeof a.whyWrong === 'string'){
+      inner = `<p style="font-size:13px;line-height:1.7;margin:0">${escapeHtml(a.whyWrong)}</p>`;
+    } else if(typeof a.whyWrong === 'object'){
+      inner = Object.entries(a.whyWrong).map(([k, v]) => `<p style="font-size:13px;line-height:1.7;margin:2px 0"><b>Option ${escapeHtml(k)}:</b> ${escapeHtml(String(v))}</p>`).join('');
+    }
+    parts.push(`<div class="clozeSubSection"><h4>❌ 其他选项的区别</h4>${inner || '<p class="subtle" style="margin:0">该题没有保存其他选项的区别说明。</p>'}</div>`);
+  } else {
+    parts.push('<div class="clozeSubSection"><h4>❌ 其他选项的区别</h4><p class="subtle" style="margin:0">该题没有保存其他选项的区别说明。</p></div>');
+  }
+  const vocab = Array.isArray(a.vocabulary) ? a.vocabulary : [];
+  const colloc = Array.isArray(a.collocations) ? a.collocations : [];
+  if(vocab.length){
+    parts.push('<div class="clozeSubSection"><h4>📝 词汇</h4>' + vocab.map(v => `<div class="clozeVocabItem"><div><span class="clozeVocabWord">${escapeHtml(v.word || '')}</span>${v.pos ? `<span class="clozeVocabPos">${escapeHtml(v.pos)}</span>` : ''}</div><div class="clozeVocabCn">${escapeHtml(v.cn || '')}</div><div class="clozeVocabMeaning">${escapeHtml(v.meaning || '')}</div></div>`).join('') + '</div>');
+  }
+  if(colloc.length){
+    parts.push('<div class="clozeSubSection"><h4>🔗 固定搭配</h4>' + colloc.map(c => `<div class="clozeCollocItem"><div><span class="clozeCollocPhrase">${escapeHtml(c.en || c.phrase || '')}</span></div><div class="clozeVocabCn">${escapeHtml(c.cn || '')}</div><div class="clozeVocabMeaning">${escapeHtml(c.usage || c.meaning || '')}</div></div>`).join('') + '</div>');
+  }
+  if(a.grammar){
+    const text = typeof a.grammar === 'object' ? (a.grammar.content || a.grammar.note || a.grammar.text || '') : String(a.grammar);
+    const title = typeof a.grammar === 'object' ? (a.grammar.title || a.grammar.topic || 'Grammar') : 'Grammar';
+    parts.push(`<div class="clozeSubSection"><h4>📘 语法说明</h4><div class="clozeGrammarItem"><div><b style="font-size:14px">${escapeHtml(title)}</b></div><div class="clozeVocabMeaning" style="grid-column:2;line-height:1.65">${escapeHtml(text)}</div></div></div>`);
+  }
+  return parts.join('');
+}
+function clozeErrorChipsHtml(entry){
+  const suggested = clozeWrongSuggestion(entry);
+  let html = CLOZE_ERROR_TYPES.map(t => {
+    const active = entry.errorType === t.id ? ' active' : '';
+    const sug = (!entry.errorType && suggested === t.id) ? ' suggested' : '';
+    return `<button class="rfTypeChip${active}${sug}" data-rftype="${t.id}">${t.label}${sug ? ' · 建议' : ''}</button>`;
+  }).join('');
+  html += `<button class="rfTypeChip${entry.errorType ? '' : ' active'}" data-rftype="">未分类</button>`;
+  return html;
+}
+function clozeRenderReviewFlow(){
+  if(!clozeRfState){ clozeOpenWrongBook(); return; }
+  const box = $('clozeRfContent');
+  if(!box) return;
+  const total = clozeRfState.queue.length;
+  if(clozeRfState.index >= total){ clozeRenderReviewSummary(); return; }
+  const entry = clozeRfEntry();
+  if(!entry){
+    clozeRfState.index++;
+    clozeRenderReviewFlow();
+    return;
+  }
+  const setTxt = (id, txt) => { const el = $(id); if(el) el.textContent = txt; };
+  setTxt('clozeRfTitle', '错题复习 · Wrong Book Review');
+  setTxt('clozeRfMeta', `${clozeSourceLabel(entry)} · Q${entry.blankNum}`);
+  setTxt('clozeRfProgress', `第 ${clozeRfState.index + 1} / ${total} 题 · 已答对 ${clozeRfState.correct}`);
+
+  if(clozeRfState.phase !== 'result'){
+    const opts = entry.options.length
+      ? entry.options.map(o => `<div class="rfOption${String(clozeRfState.selected).toUpperCase() === o.key ? ' selected' : ''}" data-rfopt="${escapeHtml(o.key)}"><b style="display:inline-block;min-width:22px">${escapeHtml(o.key)}.</b> ${escapeHtml(o.text)}</div>`).join('')
+      : '<p class="subtle">该题没有保存选项数据。</p>';
+    box.innerHTML = `<div class="rfCard">
+      <div class="rfContext">${clozeContextHtml(entry, true)}</div>
+      <p class="subtle" style="margin:0 0 4px">重新作答。正确答案与解析会在提交后显示。</p>
+      <div class="rfOptions">${opts}</div>
+      <div class="rfActions">
+        <button class="primary" id="clozeRfSubmit">提交答案</button>
+        <button id="clozeRfSkip">跳过此题</button>
+        <button class="ghost" id="clozeRfBackList">返回待复习列表</button>
+      </div>
+    </div>`;
+    box.querySelectorAll('[data-rfopt]').forEach(el => {
+      el.onclick = () => {
+        clozeRfState.selected = el.dataset.rfopt;
+        box.querySelectorAll('[data-rfopt]').forEach(x => x.classList.toggle('selected', x === el));
+      };
+    });
+    $('clozeRfSubmit').onclick = () => clozeSubmitReviewAnswer();
+    $('clozeRfSkip').onclick = () => { clozeRfState.index++; clozeRfState.phase = 'answer'; clozeRfState.selected = ''; clozeRfState.lastResult = null; clozeRenderReviewFlow(); };
+    $('clozeRfBackList').onclick = () => clozeOpenWrongBook();
+    return;
+  }
+
+  const last = clozeRfState.lastResult || {};
+  const isCorrect = !!last.isCorrect;
+  const yourOpt = entry.options.find(o => o.key === entry.correct);
+  const correctText = yourOpt ? `${entry.correct}. ${yourOpt.text}` : entry.correct;
+  box.innerHTML = `<div class="rfCard">
+    <div class="rfResultRow">
+      <span class="clozeQaBadge ${isCorrect ? 'correct' : 'wrong'}">${isCorrect ? 'Correct' : 'Wrong'}</span>
+      <span class="subtle">本次选择 <b>${escapeHtml(last.selected || '—')}</b> · 正确答案 <b>${escapeHtml(entry.correct)}</b></span>
+    </div>
+    <div class="rfContext">${clozeContextHtml(entry, true)}</div>
+    <div class="clozeSubSection"><h4>1 · 你本次选择的答案</h4><p style="font-size:14px;margin:0">${escapeHtml(last.selected || '—')}</p></div>
+    <div class="clozeSubSection"><h4>2 · 正确答案</h4><p style="font-size:14px;margin:0;color:var(--green);font-weight:600">${escapeHtml(correctText)}</p></div>
+    ${clozeAnalysisBlockHtml(entry)}
+    <div class="clozeSubSection"><h4>🧭 错误类型</h4>
+      <div class="rfTypeChips" id="clozeRfTypeChips">${clozeErrorChipsHtml(entry)}</div>
+      <p class="subtle" style="margin:4px 0 0;font-size:12px">系统只根据已有解析给出建议，是否采用由你决定。</p>
+    </div>
+    <div class="clozeSubSection"><h4>📝 个人备注</h4>
+      <textarea class="rfNoteInput" id="clozeRfNote" placeholder="记录你这次出错的原因…">${escapeHtml(entry.note || '')}</textarea>
+      <div class="rfActions" style="margin-top:8px"><button id="clozeRfSaveNote">保存备注</button></div>
+    </div>
+    <div class="clozeSubSection"><h4>📊 复习记录</h4>
+      <div class="wrongMetaRow" style="margin:0">
+        <span>首次答错 <b>${escapeHtml(clozeDisplayDate(entry.firstWrongAt))}</b></span>
+        <span>最近复习 <b>${escapeHtml(clozeDisplayDate(entry.lastReviewAt))}</b></span>
+        <span>复习次数 <b>${entry.reviewCount}</b></span>
+        <span>连续答对 <b>${entry.correctStreak}</b></span>
+        <span>下次复习 <b>${escapeHtml(entry.nextReviewAt)}</b></span>
+        <span>状态 <b>${entry.status === 'mastered' ? '已掌握' : '待复习'}</b></span>
+      </div>
+      ${entry.note ? `<p class="subtle" style="margin:8px 0 0">上次记录的备注：${escapeHtml(entry.note)}</p>` : ''}
+    </div>
+    <div class="rfActions">
+      <button class="primary" id="clozeRfMastered">已掌握</button>
+      <button id="clozeRfUnsure">仍然不确定</button>
+      <button id="clozeRfNext">${clozeRfState.index + 1 >= total ? '完成并查看小结' : '下一题'}</button>
+      <button class="ghost" id="clozeRfBackList">返回待复习列表</button>
+    </div>
+  </div>`;
+  box.querySelectorAll('[data-rftype]').forEach(b => {
+    b.onclick = () => { clozeSetWrongErrorType(entry.id, b.dataset.rftype); clozeRenderReviewFlow(); };
+  });
+  $('clozeRfSaveNote').onclick = () => { clozeSetWrongNote(entry.id, $('clozeRfNote').value); };
+  $('clozeRfMastered').onclick = () => { clozeApplyMastered(entry.id, { justAnswered: !!clozeRfState.lastResult?.isCorrect }); clozeRfNext(); };
+  $('clozeRfUnsure').onclick = () => { clozeApplyUnsure(entry.id); clozeRfNext(); };
+  $('clozeRfNext').onclick = () => clozeRfNext();
+  $('clozeRfBackList').onclick = () => clozeOpenWrongBook();
+  if(window.scrollTo) window.scrollTo(0, 0);
+}
+function clozeSubmitReviewAnswer(){
+  const entry = clozeRfEntry();
+  if(!entry) return;
+  const selected = String(clozeRfState.selected || '').toUpperCase();
+  if(!selected) return showHint('请先选择一个答案');
+  const isCorrect = selected === entry.correct;
+  const now = new Date().toISOString();
+  entry.reviewCount = (entry.reviewCount || 0) + 1;
+  entry.lastReviewAt = now;
+  entry.lastResult = isCorrect ? 'correct' : 'wrong';
+  entry.lastSelected = selected;
+  if(isCorrect){
+    entry.correctStreak = (entry.correctStreak || 0) + 1;
+    entry.status = 'reviewing';
+    entry.nextReviewAt = clozeAddDaysStr(clozeTodayStr(), 1);
+  } else {
+    entry.correctStreak = 0;
+    entry.stage = Math.max(0, (entry.stage || 0) - 1);
+    entry.status = 'reviewing';
+    entry.nextReviewAt = clozeTodayStr();
+  }
+  entry.history = [...(entry.history || []), { at: now, selected, correct: entry.correct, result: isCorrect ? 'correct' : 'wrong', stage: entry.stage }].slice(-60);
+  clozeUpdateWrongEntry(entry);
+  clozeRfState.phase = 'result';
+  clozeRfState.lastResult = { id: entry.id, selected, isCorrect };
+  clozeRfState.answered++;
+  if(isCorrect) clozeRfState.correct++;
+  clozeRenderReviewFlow();
+}
+function clozeRfNext(){
+  if(!clozeRfState) return;
+  clozeRfState.index++;
+  clozeRfState.phase = 'answer';
+  clozeRfState.selected = '';
+  clozeRfState.lastResult = null;
+  clozeRenderReviewFlow();
+}
+function clozeRenderReviewSummary(){
+  const box = $('clozeRfContent');
+  if(!box) return;
+  const st = clozeRfState;
+  const all = clozeGetWrongEntries();
+  const sessionEntries = (st.sessionIds || []).map(id => all.find(w => w.id === id)).filter(Boolean);
+  const reviewed = st.answered;
+  const correct = st.correct;
+  const acc = reviewed ? Math.round((correct / reviewed) * 1000) / 10 : 0;
+  const still = sessionEntries.filter(w => w.status !== 'mastered');
+  const mastered = sessionEntries.filter(w => w.status === 'mastered');
+  const typeCounts = {};
+  sessionEntries.forEach(w => {
+    const key = w.errorType || '__none__';
+    typeCounts[key] = (typeCounts[key] || 0) + 1;
+  });
+  const typeRows = Object.entries(typeCounts).map(([k, v]) => {
+    const label = k === '__none__' ? '未分类' : clozeErrorTypeLabel(k);
+    return `<div class="wrongMetaRow" style="margin:0 0 4px"><span>${escapeHtml(label || k)}</span><b>${v}</b></div>`;
+  }).join('') || '<p class="subtle" style="margin:0">本次没有产生错误类型记录。</p>';
+  const stillRows = still.length
+    ? still.map(w => `<div class="wrongCard" style="cursor:default;margin-bottom:8px">
+        <div class="wrongCardHead"><span class="source">${escapeHtml(clozeSourceLabel(w))}</span><span class="statusPill">Q${w.blankNum}</span></div>
+        <p class="wrongSentence" style="margin:0">${clozeContextHtml(w)}</p>
+      </div>`).join('')
+    : '<p class="subtle" style="margin:0">本次复习的题目都已掌握。</p>';
+  const setTxt = (id, txt) => { const el = $(id); if(el) el.textContent = txt; };
+  setTxt('clozeRfTitle', '本次复盘小结 · Session Summary');
+  setTxt('clozeRfMeta', `${reviewed} 题已作答 · 正确率 ${acc}%`);
+  setTxt('clozeRfProgress', '');
+  box.innerHTML = `<div class="rfCard">
+    <h3 style="margin:0 0 8px;font-size:17px">本次复习完成</h3>
+    <div class="summaryGrid">
+      <div class="scoreCard"><small>复习题数</small><b>${reviewed}</b></div>
+      <div class="scoreCard"><small>正确题数</small><b>${correct}</b></div>
+      <div class="scoreCard"><small>正确率</small><b>${acc}%</b></div>
+      <div class="scoreCard"><small>仍需复习</small><b>${still.length}</b></div>
+      <div class="scoreCard"><small>本次已掌握</small><b>${mastered.length}</b></div>
+    </div>
+    <div class="clozeSubSection"><h4>错误类型分布</h4>${typeRows}</div>
+    <div class="clozeSubSection"><h4>仍需复习的题目</h4>${stillRows}</div>
+    <div class="rfActions">
+      ${still.length ? '<button class="primary" id="clozeRfRetryWrong">重新复习本次错题</button>' : ''}
+      <button id="clozeRfBackList2">返回错题本</button>
+      <button class="ghost" id="clozeRfHome2">Home</button>
+    </div>
+  </div>`;
+  if($('clozeRfRetryWrong')) $('clozeRfRetryWrong').onclick = () => clozeStartReviewFlow(still.map(w => w.id), 'retry');
+  $('clozeRfBackList2').onclick = () => clozeOpenWrongBook();
+  $('clozeRfHome2').onclick = () => clozeShowWorkspace();
+  if(window.scrollTo) window.scrollTo(0, 0);
+}
+
+/* ---------- Wrong book: page rendering ---------- */
+function clozeRenderTodayReview(){
+  const box = $('clozeTodayReviewArea');
+  if(!box) return;
+  const st = clozeTodayStats();
+  const due = st.due.length;
+  const pending = st.pending.length;
+  box.innerHTML = `<div class="todayReviewCard">
+    <div class="todayReviewHead">
+      <h2>🔁 今日复盘 · Today's Review</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="primary" id="clozeStartTodayReview"${due ? '' : ' disabled'}>${due ? `开始今日复盘 (${due})` : '今日暂无到期错题'}</button>
+        ${pending && !due ? '<button id="clozeReviewAllPending">复习全部待复习</button>' : ''}
+      </div>
+    </div>
+    <div class="todayReviewGrid">
+      <div class="todayReviewStat"><small>今日待复习</small><b>${due}</b></div>
+      <div class="todayReviewStat"><small>今日新增错题</small><b>${st.newToday.length}</b></div>
+      <div class="todayReviewStat"><small>已掌握</small><b>${st.mastered.length}</b></div>
+      <div class="todayReviewStat"><small>待复习总数</small><b>${pending}</b></div>
+    </div>
+    <p class="subtle" style="margin:0;font-size:12px;line-height:1.6">复习计划：当天 → 1 天 → 3 天 → 7 天 → 14 天。答错会回到较早阶段，答对且确认掌握会进入下一阶段。</p>
+  </div>`;
+  if($('clozeStartTodayReview')) $('clozeStartTodayReview').onclick = () => clozeStartTodayReview();
+  if($('clozeReviewAllPending')) $('clozeReviewAllPending').onclick = () => clozeStartReviewFlow(st.pending.map(w => w.id), 'pending');
+}
+function clozeStartTodayReview(){
+  const st = clozeTodayStats();
+  if(!st.due.length) return showHint('No wrong questions due today');
+  clozeStartReviewFlow(st.due.map(w => w.id), 'today');
+}
+function clozeRenderWrongFilters(entries){
+  const box = $('clozeWrongFilters');
+  if(!box) return;
+  const books = Array.from(new Set(entries.map(w => w.bookName).filter(Boolean))).sort();
+  const papersAll = entries.filter(w => !clozeWrongFilter.book || w.bookName === clozeWrongFilter.book);
+  const papers = Array.from(new Set(papersAll.map(w => w.paperTitle).filter(Boolean))).sort();
+  if(clozeWrongFilter.paper && !papers.includes(clozeWrongFilter.paper)) clozeWrongFilter.paper = '';
+  if(clozeWrongFilter.book && !books.includes(clozeWrongFilter.book)) clozeWrongFilter.book = '';
+  box.innerHTML = `
+    <select id="clozeWfBook"><option value="">全部题库</option>${books.map(b => `<option value="${escapeHtml(b)}"${clozeWrongFilter.book===b?' selected':''}>${escapeHtml(b)}</option>`).join('')}</select>
+    <select id="clozeWfPaper"><option value="">全部文章</option>${papers.map(p => `<option value="${escapeHtml(p)}"${clozeWrongFilter.paper===p?' selected':''}>${escapeHtml(p)}</option>`).join('')}</select>
+    <select id="clozeWfType"><option value="">全部错误类型</option>${CLOZE_ERROR_TYPES.map(t => `<option value="${t.id}"${clozeWrongFilter.type===t.id?' selected':''}>${t.label}</option>`).join('')}<option value="__none__"${clozeWrongFilter.type==='__none__'?' selected':''}>未分类</option></select>
+    <select id="clozeWfStatus"><option value="">全部状态</option><option value="due"${clozeWrongFilter.status==='due'?' selected':''}>今日到期</option><option value="reviewing"${clozeWrongFilter.status==='reviewing'?' selected':''}>待复习</option><option value="mastered"${clozeWrongFilter.status==='mastered'?' selected':''}>已掌握</option></select>`;
+  const bind = (id, key) => {
+    const el = $(id);
+    if(!el) return;
+    el.onchange = () => { clozeWrongFilter[key] = el.value; clozeRenderWrongBook(); };
+  };
+  bind('clozeWfBook', 'book');
+  bind('clozeWfPaper', 'paper');
+  bind('clozeWfType', 'type');
+  bind('clozeWfStatus', 'status');
+}
+function clozeWrongCardHtml(w){
+  const statusLabel = w.status === 'mastered' ? '已掌握' : (clozeWrongIsDue(w) ? '今日到期' : '待复习');
+  const dueText = w.status === 'mastered' ? '—' : w.nextReviewAt;
+  const typeLabel = w.errorType ? clozeErrorTypeLabel(w.errorType) : '未分类';
+  const typeEdit = clozeWrongTypeEditId === w.id
+    ? `<div class="rfTypeChips" style="margin:8px 0 0">${clozeErrorChipsHtml(w)}</div>`
+    : '';
+  const noteEdit = clozeWrongNoteEditId === w.id
+    ? `<div style="margin-top:8px"><textarea class="rfNoteInput" id="clozeWnote_${escapeHtml(w.id)}">${escapeHtml(w.note || '')}</textarea>
+        <div class="rfActions" style="margin-top:6px"><button data-wact="savenote">保存备注</button></div></div>`
+    : (w.note ? `<p class="subtle" style="margin:6px 0 0">备注：${escapeHtml(w.note)}</p>` : '');
+  return `<article class="wrongCard" data-wid="${escapeHtml(w.id)}">
+    <div class="wrongCardHead">
+      <span class="source">${escapeHtml(clozeSourceLabel(w))}</span>
+      <span class="statusPill">Q${w.blankNum}</span>
+      <span class="clozeQaBadge ${w.status==='mastered'?'correct':'unanswered'}">${escapeHtml(statusLabel)}</span>
+      <span class="statusPill">${escapeHtml(typeLabel)}</span>
+    </div>
+    <p class="wrongSentence">${clozeContextHtml(w)}</p>
+    <div class="wrongMetaRow">
+      <span>你的答案 <b>${escapeHtml(w.your || '—')}</b></span>
+      <span>正确答案 <b>${escapeHtml(w.correct || '—')}</b></span>
+      <span>答错 <b>${w.wrongCount}</b> 次</span>
+      <span>复习 <b>${w.reviewCount}</b> 次</span>
+      <span>连续答对 <b>${w.correctStreak}</b></span>
+      <span>下次复习 <b>${escapeHtml(dueText)}</b></span>
+    </div>
+    ${typeEdit}
+    ${noteEdit}
+    <div class="paperActions" style="margin-top:10px">
+      <button class="primary" data-wact="review">开始复习</button>
+      <button data-wact="type">错误类型</button>
+      <button data-wact="note">备注</button>
+      <button data-wact="mastered">标记已掌握</button>
+      <button class="ghost" data-wact="remove">删除错题</button>
+    </div>
+  </article>`;
+}
+function clozeRenderWrongBook(){
+  const stats = clozeTodayStats();
+  const meta = $('clozeWrongBookMeta');
+  if(meta){
+    meta.textContent = `共 ${stats.all.length} 道错题 · 待复习 ${stats.pending.length} · 今日到期 ${stats.due.length} · 已掌握 ${stats.mastered.length}. 点击卡片即可开始复习。`;
+  }
+  const statsBox = $('clozeWrongStats');
+  if(statsBox){
+    statsBox.innerHTML = `
+      <div class="wrongStat"><small>今日待复习</small><b>${stats.due.length}</b></div>
+      <div class="wrongStat"><small>今日新增错题</small><b>${stats.newToday.length}</b></div>
+      <div class="wrongStat"><small>待复习总数</small><b>${stats.pending.length}</b></div>
+      <div class="wrongStat"><small>已掌握</small><b>${stats.mastered.length}</b></div>`;
+  }
+  const tabs = $('clozeWrongTabs');
+  if(tabs){
+    tabs.querySelectorAll('[data-wtab]').forEach(b => {
+      b.classList.toggle('active', b.dataset.wtab === clozeWrongTab);
+      if(b.dataset.wtab === 'due') b.textContent = `待复习 (${stats.due.length})`;
+      if(b.dataset.wtab === 'all') b.textContent = `全部错题 (${stats.all.length})`;
+      if(b.dataset.wtab === 'mastered') b.textContent = `已掌握 (${stats.mastered.length})`;
+      b.onclick = () => { clozeWrongTab = b.dataset.wtab; clozeWrongTypeEditId = null; clozeWrongNoteEditId = null; clozeRenderWrongBook(); };
+    });
+  }
+  clozeRenderWrongFilters(stats.all);
+  let list = stats.all.slice();
+  if(clozeWrongTab === 'due') list = list.filter(w => clozeWrongIsDue(w));
+  else if(clozeWrongTab === 'mastered') list = list.filter(w => w.status === 'mastered');
+  if(clozeWrongFilter.book) list = list.filter(w => w.bookName === clozeWrongFilter.book);
+  if(clozeWrongFilter.paper) list = list.filter(w => w.paperTitle === clozeWrongFilter.paper);
+  if(clozeWrongFilter.type) list = list.filter(w => clozeWrongFilter.type === '__none__' ? !w.errorType : w.errorType === clozeWrongFilter.type);
+  if(clozeWrongFilter.status === 'due') list = list.filter(w => clozeWrongIsDue(w));
+  else if(clozeWrongFilter.status === 'reviewing') list = list.filter(w => w.status === 'reviewing');
+  else if(clozeWrongFilter.status === 'mastered') list = list.filter(w => w.status === 'mastered');
+  list.sort((a, b) => String(a.nextReviewAt).localeCompare(String(b.nextReviewAt)) || String(b.lastWrongAt).localeCompare(String(a.lastWrongAt)));
+  const body = $('clozeWrongBookContent');
+  if(body){
+    body.innerHTML = list.length
+      ? list.map(clozeWrongCardHtml).join('')
+      : `<div class="emptyPapers">${stats.all.length ? '当前筛选条件下没有错题。' : '错题本为空。提交 Cloze 练习后，答错的题目会自动出现在这里。'}</div>`;
+    body.querySelectorAll('.wrongCard').forEach(card => {
+      card.onclick = (e) => {
+        if(e.target.closest('button') || e.target.closest('textarea') || e.target.closest('select')) return;
+        clozeStartReviewFlow([card.dataset.wid], 'single');
+      };
+      card.querySelectorAll('[data-wact]').forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const id = card.dataset.wid;
+          const act = btn.dataset.wact;
+          if(act === 'review') clozeStartReviewFlow([id], 'single');
+          if(act === 'mastered'){ clozeApplyMastered(id); clozeRenderWrongBook(); }
+          if(act === 'type'){ clozeWrongTypeEditId = clozeWrongTypeEditId === id ? null : id; clozeWrongNoteEditId = null; clozeRenderWrongBook(); }
+          if(act === 'note'){ clozeWrongNoteEditId = clozeWrongNoteEditId === id ? null : id; clozeWrongTypeEditId = null; clozeRenderWrongBook(); }
+          if(act === 'savenote'){
+            const ta = document.getElementById('clozeWnote_' + id);
+            clozeSetWrongNote(id, ta ? ta.value : '');
+            clozeWrongNoteEditId = null;
+            clozeRenderWrongBook();
+          }
+          if(act === 'remove') clozeDeleteWrongEntry(id);
+        };
+      });
+      card.querySelectorAll('[data-rftype]').forEach(b => {
+        b.onclick = (e) => {
+          e.stopPropagation();
+          clozeSetWrongErrorType(card.dataset.wid, b.dataset.rftype);
+          clozeRenderWrongBook();
+        };
+      });
+    });
+  }
+  const dueBtn = $('clozeWrongReviewDue');
+  if(dueBtn){
+    dueBtn.disabled = !stats.due.length;
+    dueBtn.textContent = stats.due.length ? `开始复习今日到期 (${stats.due.length})` : '今日暂无到期错题';
+    dueBtn.onclick = () => clozeStartTodayReview();
+  }
+  const allBtn = $('clozeWrongPracticeAll');
+  if(allBtn){
+    allBtn.disabled = !stats.pending.length;
+    allBtn.onclick = () => {
+      if(!stats.pending.length) return showHint('No pending wrong questions');
+      clozeStartReviewFlow(stats.pending.map(w => w.id), 'all');
+    };
+  }
+}
+
+
+function clozeAddToWrongBook(summary){
+  const d = clozeClozeData || {};
+  const paper = clozeFindPaper(currentClozePaperId);
+  const paperId = paper?.paperId || d.paperId || '';
+  const now = new Date().toISOString();
+  const wb = clozeGetWrongEntries();
+  (summary?.issueRows || []).forEach(row => {
+    if(row.status !== 'wrong') return;
+    const num = Number(row.blank);
+    const qid = paperId + '::' + num;
+    const idx = wb.findIndex(w => w.questionId === qid || (w.paperId === paperId && Number(w.blankNum) === num));
+    const base = idx >= 0 ? wb[idx] : null;
+    const fresh = clozeBuildWrongEntry(paper, d, num, row);
+    const entry = clozeNormalizeWrongEntry({
+      ...(base || {}),
+      ...fresh,
+      id: base?.id || fresh.id,
+      firstWrongAt: base?.firstWrongAt || fresh.firstWrongAt,
+      wrongCount: (Number(base?.wrongCount) || 0) + 1,
+      reviewCount: base?.reviewCount || 0,
+      correctStreak: 0,
+      stage: 0,
+      status: 'reviewing',
+      nextReviewAt: clozeTodayStr(),
+      lastWrongAt: now,
+      errorType: base?.errorType || '',
+      note: base?.note || '',
+      history: base?.history || []
+    });
+    if(idx >= 0) wb[idx] = entry; else wb.unshift(entry);
+  });
+  clozeSaveWrongBook(wb);
+  clozeRefreshLibraryViews();
+}
+
+function clozePracticeWrongBook(){
+  const stats = clozeTodayStats();
+  if(!stats.all.length) return showHint('Wrong book is empty');
+  const queue = stats.due.length ? stats.due : stats.pending;
+  if(!queue.length) return showHint('No pending wrong questions');
+  clozeStartReviewFlow(queue.map(w => w.id), stats.due.length ? 'due' : 'pending');
+}
+
+function clozeBindV2Events(){
+  const on = (id, fn) => { const el = $(id); if(el) el.onclick = fn; };
+  on('clozeBookBack', () => { clozeBookCurrentId = null; clozeShowWorkspace(); });
+  on('clozeBookHome', () => { clozeBookCurrentId = null; clozeShowWorkspace(); });
+  on('clozeBookImport', () => { clozeImportPreferredBook = clozeCurrentBook()?.name || clozeImportPreferredBook; clozeShowImportPanel(); });
+  on('clozeBookExport', () => clozeExportBook(clozeBookCurrentId));
+  on('clozeBookExportSelected', () => clozeExportSelected());
+  on('clozeBookSelectAll', () => {
+    const book = clozeCurrentBook();
+    if(!book) return;
+    const ids = (book.papers || []).map(fp => fp.id);
+    if(clozeSelectedPaperIds.size === ids.length && ids.length) clozeSelectedPaperIds = new Set();
+    else clozeSelectedPaperIds = new Set(ids);
+    clozeRenderBookDetail();
+  });
+  on('clozeBookNewSection', () => clozePromptCreateSection());
+  on('clozeExportAllBtn', () => clozeExportAllLibrary());
+  on('clozeExportRecordsJson', () => clozeExportRecordsJson());
+  on('clozeWrongExport', () => clozeExportWrongBook());
+  on('clozeWrongExportPlan', () => clozeExportReviewPlan());
+  on('clozeRfExit', () => clozeOpenWrongBook());
+  on('clozeRfHome', () => clozeShowWorkspace());
+  on('clozeBatchCancel', () => { pendingClozeBatch = null; $('clozeBatchImportDialog').classList.remove('show'); });
+  on('clozeBatchConfirm', () => clozeConfirmBatchImport());
+  const bs = $('clozeBatchBookSelect');
+  if(bs) bs.onchange = () => $('clozeBatchNewBookRow').classList.toggle('hidden', bs.value !== '__new__');
+  const bd = $('clozeBatchImportDialog');
+  if(bd) bd.onclick = (e) => { if(e.target === bd){ pendingClozeBatch = null; bd.classList.remove('show'); } };
+}
+
 // ===== Init =====
 migratePaperStorage();
 initSchemaTemplateBox();
 renderWorkspace();
 renderReview();
+clozeBindV2Events();
+setModuleTabsVisible(true);
 </script>
 
-<div data-trae-edit-ui="true"></div></body></html>
+<div data-trae-edit-ui="true"></div><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a50880af0c833e2f',t:'MTc5MzAwNzY1OQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>
